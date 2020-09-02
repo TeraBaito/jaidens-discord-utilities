@@ -6,6 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "jaidens-discord-utilities"
+  },
   "author": "TeraBytes#4878",
   "license": "ISC",
   "dependencies": {
