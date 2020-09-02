@@ -1,0 +1,8 @@
+# Use `npm install` to install all required modules 
+node_modules/*
+
+# Linter
+.eslintrc.json
+
+# ENV file with token
+.env
