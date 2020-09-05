@@ -1,3 +1,10 @@
+/**
+ * `message` event
+ * Triggers each time any user sends any message in any channel the bot can look into
+ * This event will include things to do whenever a command is triggered, a blacklisted word is said, etc.
+ * Honestly mostly everything that has to do with user input goes here
+ */
+
 const Discord = require('discord.js');
 
 module.exports = async(bot, message) => {
@@ -20,12 +27,8 @@ module.exports = async(bot, message) => {
     if (!message.member) message.member = await message.guild.members.fetch(message);
     if (cmd.length === 0) return; // Come on
 
-
-    // Few commands (think i won't need command handler for these tbh)
-    if (message.content === `${prefix}ping`) {
-        const msg = await message.channel.send('Pinging...');
-
-        msg.edit(`Pong!\nLatency: ${Math.floor(msg.createdAt - message.createdAt)}ms\nAPI Latency (Bot): ${bot.ws.ping}ms`);
-
-    } // Ping command
+    // Command handler
+    let command = bot.commands.get(cmd);
+    if(!command) command = bot.commands.get(bot.aliases.get(cmd));
+    if(command) command.run(bot, message, args);
 };

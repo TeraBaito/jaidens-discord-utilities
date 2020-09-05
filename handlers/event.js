@@ -1,3 +1,8 @@
+/**
+ * Event handler
+ * Requires and loads all events in the ./events/ directory with the correct parameters
+ */
+
 const {readdirSync} = require('fs');
 
 module.exports = bot => {

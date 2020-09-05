@@ -1,3 +1,11 @@
+/**
+ * `guildMemberUpdate` event
+ * Triggers every time any user's changes are made
+ * Useful to do different actions when they happen (like logging)
+ * Takes two parameters: oldMember and newMember
+ * You can do a check that searches for a specific type of change that oldMember doesn't have and newMember does
+ */
+
 const Discord = require('discord.js');
 const message = require('./message');
 
