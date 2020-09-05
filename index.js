@@ -15,7 +15,7 @@ const app = express();
 const port = 3000;
 
 app.get('/', (req, res) => res.send('Working'));
-app.listen(port, () => console.log(`Toucan listening at http://localhost:${port}`));
+app.listen(port, () => console.log(`Ari Bot listening at http://localhost:${port}`));
 
 // ENV path
 config({
