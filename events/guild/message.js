@@ -6,6 +6,8 @@
  */
 
 const Discord = require('discord.js');
+const fs = require('fs');
+const { blacklistProcess } = require('../../handlers/functions');
 
 module.exports = async(bot, message) => {
     let prefix = process.env.PREFIX;
@@ -19,11 +21,12 @@ module.exports = async(bot, message) => {
     prefix,? = args (args[0],args[1]) */
 
     let allowedServers = ['386244779752816640', '711301984887636080'];
+    
     // command reading
     if (message.author.bot) return; // Prevent from command loops or maymays from bot answers
     if (!message.guild) return; // No DMs n stuff
+    // if (!message.content.startsWith((process.env.PREFIX || words))) return;
     if (!allowedServers.includes(message.guild.id)) return; 
-    if (!message.content.startsWith(prefix)) return;
     if (!message.member) message.member = await message.guild.members.fetch(message);
     if (cmd.length === 0) return; // Come on
 
@@ -31,4 +34,6 @@ module.exports = async(bot, message) => {
     let command = bot.commands.get(cmd);
     if(!command) command = bot.commands.get(bot.aliases.get(cmd));
     if(command) command.run(bot, message, args);
+
+    blacklistProcess(bot, message, 120);
 };

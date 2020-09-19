@@ -1,3 +1,7 @@
+const Discord = require('discord.js');
+const fs = require('fs');
+const colors = require('../colors.json');
+
 module.exports = {
     // Finds member object by mention, id, name or display name
     getMember: function(message, toFind = '') {
@@ -49,5 +53,37 @@ module.exports = {
     // Gives a random number between 0 and number parameter, use Math.floor(randomizePercentage()) to get natural number
     randomizePercentage: function(number) {
         return Math.random() * number;
-    } 
+    },
+    
+    // Blacklisting words process (put mutetime in seconds)
+    // Deletes the message, DMs the infractor and mutes for a specified time
+    blacklistProcess: function(bot, message, mutetime) {
+
+        const logEmbed = new Discord.MessageEmbed()
+            .setColor(colors.ForestGreen)
+            .setFooter(message.member.displayName)
+            .setDescription('Message Deleted')
+            .addField('Message', message.content);
+
+        const { words } = require('./blacklisted-words');
+        words.forEach(word => {
+            if (message.content.toLowerCase().includes(word)) {
+                if (!message.member.roles.cache.find(r => r.id === '756585204344291409')) message.delete();
+            }
+        });
+        /*
+        await(toTempmute.roles.add(muterole.id));
+        message.channel.send(`${toTempmute} has been muted for ${ms(ms(mutetime))}`)
+            .catch(err => {
+                if(err) return message.channel.send('Well... something went wrong');
+            });
+                
+        logChannel.send(mEmbed);
+        
+
+        setTimeout(() => {
+            toTempmute.roles.remove(muterole.id);
+            logChannel.send(umEmbed);
+        }, mutetime * 1000);*/
+    }
 };
