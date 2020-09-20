@@ -23,7 +23,6 @@ module.exports = async(bot, message) => {
 
     let allowedServers = ['386244779752816640', '711301984887636080', '754451472699228281'];
 
-    console.log(words.some(word => message.content.includes(word)));
     // command reading
     if (message.author.bot) return; // Prevent from command loops or maymays from bot answers
     if (!message.guild) return; // No DMs n stuff
