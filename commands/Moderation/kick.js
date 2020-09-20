@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const { promptMessage } = require('../../handlers/functions.js');
+const colors = require('../../colors.json');
 
 module.exports = {
     name: 'kick',
@@ -52,7 +53,7 @@ module.exports = {
      
 
         const kEmbed = new Discord.MessageEmbed()
-            .setColor('#eb8334')
+            .setColor(colors.Orange)
             .setThumbnail(toKick.user.displayAvatarURL)
             .setFooter(message.member.displayName)
             .setTimestamp()

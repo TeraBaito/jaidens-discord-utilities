@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const { promptMessage } = require('../../handlers/functions.js');
+const colors = require('../../colors.json');
 
 module.exports = {
     name: 'ban',
@@ -55,7 +56,7 @@ module.exports = {
      
         // Log
         const bEmbed = new Discord.MessageEmbed()
-            .setColor('#eb8334')
+            .setColor(colors.Orange)
             .setThumbnail(toBan.user.displayAvatarURL)
             .setFooter(message.member.displayName)
             .setTimestamp()

@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const bot = new Discord.Client();
 const { stripIndents } = require('common-tags');
 const { config } = require('dotenv');
+const colors = require('../../colors.json');
 
 
 config ({
@@ -30,7 +31,7 @@ module.exports = {
 
 function getAll(bot, message) {
     const embed = new Discord.MessageEmbed()
-        .setColor('#eb8334')
+        .setColor(colors.Orange)
         .setFooter('Syntax: () = optional, [] = required, {a, b} = choose between a or b');
     
     const commands = (category) => {

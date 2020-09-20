@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const { getMember } = require('../../handlers/functions.js');
+const colors = require('../../colors.json');
 
 module.exports = {
     name: 'avatar',
@@ -15,7 +16,7 @@ module.exports = {
         const uIcon = member.user.displayAvatarURL();
 
         const aEmbed = new Discord.MessageEmbed()
-            .setColor('228b22')
+            .setColor(colors.ForestGreen)
             .setDescription(`**${member.displayName}'s Avatar**`)
             .setImage(uIcon);
 

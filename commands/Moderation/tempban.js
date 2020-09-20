@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const { promptMessage } = require('../../handlers/functions.js');
 const ms = require('ms');
+const colors = require('../../colors.json');
 
 module.exports = {
     name: 'tempban',
@@ -59,7 +60,7 @@ module.exports = {
      
         // Log
         const bEmbed = new Discord.MessageEmbed()
-            .setColor('#eb8334')
+            .setColor(colors.Orange)
             .setThumbnail(toTempban.user.displayAvatarURL)
             .setFooter(message.member.displayName)
             .setTimestamp()
@@ -70,7 +71,7 @@ module.exports = {
             .addField('Reason', reason);
 
         const ubEmbed = new Discord.MessageEmbed()
-            .setColor('#228b22')
+            .setColor(colors.ForestGreen)
             .setFooter(message.member.displayName)
             .setTimestamp()
             .setDescription('**Unban Action**')

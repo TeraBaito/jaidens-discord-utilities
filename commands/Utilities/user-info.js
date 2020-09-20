@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const { getMember, formatDate } = require('../../handlers/functions.js');
+const colors = require('../../colors.json');
 
 module.exports = {
     name: 'user-info',
@@ -35,7 +36,7 @@ module.exports = {
             .setDescription('**User Information**')
             .setFooter(member.displayName, uIcon)
             .setThumbnail(uIcon)
-            .setColor('#3474eb')
+            .setColor(colors.PaleBlue)
             .addField('Display Name', member.displayName)
             .addField('Username', member.user.tag)
             .addField('User ID', member.user.id)

@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const { promptMessage } = require('../../handlers/functions.js');
+const colors = require('../../colors.json');
 
 module.exports = {
     name: 'mute',
@@ -72,7 +73,7 @@ module.exports = {
         }
 
         const mEmbed = new Discord.MessageEmbed()
-            .setColor('#eb8334')
+            .setColor(colors.Orange)
             .setThumbnail(toMute.user.displayAvatarURL)
             .setFooter(message.member.displayName)
             .setTimestamp()

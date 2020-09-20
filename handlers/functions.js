@@ -57,33 +57,23 @@ module.exports = {
     
     // Blacklisting words process (put mutetime in seconds)
     // Deletes the message, DMs the infractor and mutes for a specified time
-    blacklistProcess: function(bot, message, mutetime) {
+    blacklistProcess: function(bot, message) {
 
         const logEmbed = new Discord.MessageEmbed()
             .setColor(colors.ForestGreen)
             .setFooter(message.member.displayName)
             .setDescription('Message Deleted')
-            .addField('Message', message.content);
+            .addField('Message', message.content)
+            .setTimestamp();
 
         const { words } = require('./blacklisted-words');
         words.forEach(word => {
             if (message.content.toLowerCase().includes(word)) {
-                if (!message.member.roles.cache.find(r => r.id === '756585204344291409')) message.delete();
+                if (!message.member.roles.cache.find(r => r.id === '756585204344291409')) {
+                    message.delete();
+                    message.guild.cache.find(c => c.name === 'ari-bot-logs').send(logEmbed);
+                }
             }
         });
-        /*
-        await(toTempmute.roles.add(muterole.id));
-        message.channel.send(`${toTempmute} has been muted for ${ms(ms(mutetime))}`)
-            .catch(err => {
-                if(err) return message.channel.send('Well... something went wrong');
-            });
-                
-        logChannel.send(mEmbed);
-        
-
-        setTimeout(() => {
-            toTempmute.roles.remove(muterole.id);
-            logChannel.send(umEmbed);
-        }, mutetime * 1000);*/
     }
 };

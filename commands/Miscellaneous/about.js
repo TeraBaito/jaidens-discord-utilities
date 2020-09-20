@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const botInfo = require('../../package.json');
 const fs = require('fs');
 const { formatDate } = require('../../handlers/functions');
+const colors = require('../../colors.json');
 
 module.exports = { 
     name: 'about',
@@ -15,7 +16,7 @@ module.exports = {
         let bIcon = bot.user.displayAvatarURL();
         let botEmbed = new Discord.MessageEmbed()
             .setDescription('**Bot Information**')  
-            .setColor('#eb8334')
+            .setColor(colors.Orange)
             .setThumbnail(bIcon)
             .addField('Bot Name', bot.user.tag)
             .addField('Made By', `${process.env.OWNER} (${process.env.OWNER_ID})`)

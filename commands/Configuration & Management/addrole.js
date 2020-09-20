@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const colors = require('../../colors.json');
 
 module.exports = {
     name: 'addrole',
@@ -17,7 +18,7 @@ module.exports = {
 
         // Putting the embed up here so it doesn't error bc of hoisting
         let rEmbed = new Discord.MessageEmbed()
-            .setColor(role.id.hexColor || '#293749')
+            .setColor(role.id.hexColor || colors.PaleBlue)
             .setDescription('**Added Role to User**')
             .setTimestamp()
             .addField('Added to', `${toGiveRole} (${toGiveRole.id})`)

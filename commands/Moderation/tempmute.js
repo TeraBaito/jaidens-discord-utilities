@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const ms = require('ms');
+const colors = require('../../colors.json');
 
 module.exports = {
     name: 'tempmute',
@@ -80,7 +81,7 @@ module.exports = {
         }
 
         const mEmbed = new Discord.MessageEmbed()
-            .setColor('#eb8334')
+            .setColor(colors.Orange)
             .setThumbnail(toTempmute.user.displayAvatarURL)
             .setFooter(message.member.displayName)
             .setTimestamp()
@@ -93,7 +94,7 @@ module.exports = {
         console.log(reason);
 
         const umEmbed = new Discord.MessageEmbed()
-            .setColor('#eb8334')
+            .setColor(colors.ForestGreen)
             .setThumbnail(toTempmute.user.displayAvatarURL)
             .setFooter(message.member.displayName)
             .setTimestamp()

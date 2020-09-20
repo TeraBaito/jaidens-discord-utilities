@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const { stripIndents } = require('common-tags');
+const colors = require('../../colors.json');
 
 module.exports = {
     name: 'server',
@@ -21,7 +22,7 @@ module.exports = {
         let sIcon = message.guild.iconURL();
         let serverEmbed = new Discord.MessageEmbed()
             .setDescription('**Server Information**')
-            .setColor('#5c34eb')
+            .setColor(colors.Purple)
             .setThumbnail(sIcon)
             .addField('Server Name', message.guild.name)
             .addField('Server ID', message.guild.id)
