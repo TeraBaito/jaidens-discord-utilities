@@ -55,8 +55,8 @@ module.exports = {
         return Math.random() * number;
     },
     
-    // Blacklisting words process (put mutetime in seconds)
-    // Deletes the message, DMs the infractor and mutes for a specified time
+    // Blacklisting words process
+    // Deletes the message
     blacklistProcess: function(bot, message) {
 
         const logEmbed = new Discord.MessageEmbed()

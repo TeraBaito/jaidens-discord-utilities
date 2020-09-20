@@ -1,6 +1,6 @@
 {
   "name": "jaiden-animations-discord-utilities",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Discord bot with utilities for r/JaidenAnimations Discord Server",
   "main": "index.js",
   "scripts": {
@@ -13,6 +13,7 @@
   "author": "TeraBytes#4878",
   "license": "ISC",
   "dependencies": {
+    "ascii-table": "0.0.9",
     "discord.js": "^12.3.1",
     "dotenv": "^8.2.0",
     "eslint": "^7.8.0",
