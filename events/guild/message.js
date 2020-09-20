@@ -7,6 +7,7 @@
 
 const Discord = require('discord.js');
 const fs = require('fs');
+const { words } = require('../../handlers/blacklisted-words');
 const { blacklistProcess } = require('../../handlers/functions');
 
 module.exports = async(bot, message) => {
@@ -20,12 +21,14 @@ module.exports = async(bot, message) => {
     config = cmd
     prefix,? = args (args[0],args[1]) */
 
-    let allowedServers = ['386244779752816640', '711301984887636080'];
-    
+    let allowedServers = ['386244779752816640', '711301984887636080', '754451472699228281'];
+
+    console.log(words.some(word => message.content.includes(word)));
     // command reading
     if (message.author.bot) return; // Prevent from command loops or maymays from bot answers
     if (!message.guild) return; // No DMs n stuff
-    if (!message.content.startsWith(prefix) || words.some(word => message.content.includes(word))) return;
+    if (!message.content.startsWith(prefix) || words.some(word => message.content.includes(word))) return; 
+
     if (!allowedServers.includes(message.guild.id)) return; 
     if (!message.member) message.member = await message.guild.members.fetch(message);
     if (cmd.length === 0) return; // Come on
