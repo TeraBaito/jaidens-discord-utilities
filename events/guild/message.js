@@ -23,10 +23,13 @@ module.exports = async(bot, message) => {
 
     let allowedServers = ['386244779752816640', '711301984887636080', '754451472699228281'];
 
-    // command reading
+    // Blacklisting process
+    blacklistProcess(message);
+
+    // Command reading
     if (message.author.bot) return; // Prevent from command loops or maymays from bot answers
     if (!message.guild) return; // No DMs n stuff
-    if (!message.content.startsWith(prefix) || words.some(word => message.content.includes(word))) return;
+    if (!(message.content.startsWith(prefix) || words.some(word => message.content.includes(word)))) return;
 
     if (!allowedServers.includes(message.guild.id)) return; 
     if (!message.member) message.member = await message.guild.members.fetch(message);
@@ -36,6 +39,4 @@ module.exports = async(bot, message) => {
     let command = bot.commands.get(cmd);
     if(!command) command = bot.commands.get(bot.aliases.get(cmd));
     if(command) command.run(bot, message, args);
-
-    blacklistProcess(bot, message);
 };

@@ -57,23 +57,10 @@ module.exports = {
     
     // Blacklisting words process
     // Deletes the message
-    blacklistProcess: function(bot, message) {
-
-        const logEmbed = new Discord.MessageEmbed()
-            .setColor(colors.ForestGreen)
-            .setFooter(message.member.displayName)
-            .setDescription('Message Deleted')
-            .addField('Message', message.content)
-            .setTimestamp();
-
+    blacklistProcess: function(message) {
         const { words } = require('./blacklisted-words');
-        words.forEach(word => {
-            if (message.content.toLowerCase().includes(word)) {
-                if (!message.member.roles.cache.find(r => r.id === '756585204344291409')) {
-                    message.delete();
-                    message.guild.cache.find(c => c.name === 'ari-bot-logs').send(logEmbed);
-                }
-            }
-        });
+        if(words.some(word => message.content.toLowerCase().includes(word))) {
+            if (message.deletable) message.delete();
+        }
     }
 };
