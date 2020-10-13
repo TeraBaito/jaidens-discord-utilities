@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const colors = require('../../colors.json');
+const { getMember } = require('../../handlers/functions');
 
 module.exports = {
     name: 'addrole',
@@ -11,14 +12,15 @@ module.exports = {
     description: 'Gives a role to a specified member. Be sure that the role exists so it can be granted!',
 
     run: async(bot, message, args) => {
-        let role = message.guild.roles.cache.find(r => r.name.toLowerCase() === args[1]) || message.guild.roles.cache.find(r => r.id === args[1]) || message.mentions.roles.first();
-        let toGiveRole = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
-        let logChannel = message.guild.channels.cache.find(c => c.name.toLowerCase() === 'toucan-logs') || message.channel;
+        let role = message.guild.roles.cache.find(r => r.name.toLowerCase() === args[1].toLowerCase()) || message.guild.roles.cache.find(r => r.id === args[1]) || message.mentions.roles.first();
+        let toGiveRole = getMember(message, args[0]);
+        let logChannel = message.guild.channels.cache.find(c => c.name.toLowerCase() === 'ari-bot-logs') || message.channel;
 
+        if(message.deletable) message.delete();
 
         // Putting the embed up here so it doesn't error bc of hoisting
         let rEmbed = new Discord.MessageEmbed()
-            .setColor(role.id.hexColor || colors.PaleBlue)
+            .setColor(role.hexColor !== colors.Black ? role.hexColor : colors.PaleBlue)
             .setDescription('**Added Role to User**')
             .setTimestamp()
             .addField('Added to', `${toGiveRole} (${toGiveRole.id})`)
@@ -44,14 +46,13 @@ module.exports = {
         }
 
         // User already has role
-        if (toGiveRole.roles.cache.has(role.id)) {
+        if (toGiveRole.roles.cache.find(r => r.id == role.id)) {
             message.channel.send('I\'m not giving a role to someone that already has it...')
                 .then(m => m.delete({timeout: 5000}));
-
-        } else {
-            await toGiveRole.roles.add(role.id);
-            message.channel.send(`Succesfully gave the role ${role} to ${toGiveRole.displayName}!`);
-            logChannel.send(rEmbed);
         }
+        
+        await toGiveRole.roles.add(role.id);
+        message.channel.send(`Succesfully gave the role **${role.name}** to ${toGiveRole.user.username}!`);
+        logChannel.send(rEmbed);
     }
 };

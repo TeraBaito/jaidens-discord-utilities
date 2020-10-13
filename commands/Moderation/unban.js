@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const colors = require('../../colors.json');
 
 module.exports = {
     name: 'unban',
@@ -54,7 +55,7 @@ module.exports = {
      
         // Log
         const ubEmbed = new Discord.MessageEmbed()
-            .setColor('#228b22')
+            .setColor(colors.ForestGreen)
             .setFooter(message.member.displayName)
             .setTimestamp()
             .setDescription('**Unban Action**')

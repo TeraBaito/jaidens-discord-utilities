@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const { promptMessage } = require('../../handlers/functions.js');
 const ms = require('ms');
 const colors = require('../../colors.json');
+const { getMember } = require('../../handlers/functions');
 
 module.exports = {
     name: 'tempban',
@@ -14,7 +15,7 @@ module.exports = {
 
     run: async(bot, message, args) => {
         const logChannel = message.guild.channels.cache.find(c => c.name === 'ari-bot-logs') || message.channel;
-        const toTempban = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
+        const toTempban = getMember(message, args[0]);
         let bantime = args[1];
         let reason = args[3] ? args.slice(2).join(' ') : 'No reason specified';
 

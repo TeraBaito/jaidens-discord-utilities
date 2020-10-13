@@ -1,4 +1,7 @@
 const Discord = require('discord.js');
+const colors = require('../../colors.json');
+const { getMember } = require('../../handlers/functions');
+
 
 module.exports = {
     name: 'unmute',
@@ -11,7 +14,7 @@ module.exports = {
 
     run: async(bot, message, args) => {
         const logChannel = message.guild.channels.cache.find(c => c.name === 'ari-bot-logs') || message.channel;
-        const toUnmute = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
+        const toUnmute = getMember(message, args[0]);
         const muterole = message.guild.roles.cache.find(r => r.name === 'Muted');
 
         // Member doesn't have perms to unmute
@@ -46,7 +49,7 @@ module.exports = {
         }
 
         const umEmbed = new Discord.MessageEmbed()
-            .setColor('#eb8334')
+            .setColor(colors.Orange)
             .setThumbnail(toUnmute.user.displayAvatarURL)
             .setFooter(message.member.displayName)
             .setTimestamp()

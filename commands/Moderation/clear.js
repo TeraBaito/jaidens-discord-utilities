@@ -4,7 +4,7 @@ module.exports = {
     name: 'clear',
     helpName: 'Clear',
     category: 'Moderation',
-    // aliases: [],
+    aliases: ['purge'],
     // cooldown: ,
     usage: 'clear [amount of messages]',
     description: 'Clears a specified amount of messages in the current channel, up to 100 messages',
