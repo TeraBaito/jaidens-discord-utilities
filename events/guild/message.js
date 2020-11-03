@@ -23,6 +23,11 @@ module.exports = async(bot, message) => {
 
     let allowedServers = ['386244779752816640', '711301984887636080', '754451472699228281'];
 
+    if (message.channel.type === 'news') {
+        message.crosspost()
+            .catch(console.error);
+    }
+    
     // Blacklisting process
     blacklistProcess(message);
 
