@@ -1,10 +1,11 @@
+const Discord = require('discord.js');
+const {readdirSync} = require('fs');
+
 /**
  * Event handler
  * Requires and loads all events in the ./events/ directory with the correct parameters
+ * @param {Discord.Client} bot The bot as a Client object
  */
-
-const {readdirSync} = require('fs');
-
 module.exports = bot => {
     const load = dirs => {
         const events = readdirSync(`./events/${dirs}/`).filter(d => d.endsWith('.js'));

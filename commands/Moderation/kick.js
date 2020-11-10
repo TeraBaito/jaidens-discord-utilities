@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const { promptMessage } = require('../../handlers/functions.js');
+const { promptMessage, getMember } = require('../../handlers/functions.js');
 const colors = require('../../colors.json');
 
 module.exports = {
@@ -12,6 +12,7 @@ module.exports = {
 
     run: async(bot, message, args) => {
         const logChannel = message.guild.channels.cache.find(c => c.name === 'ari-bot-logs') || message.channel;
+        const toKick = await getMember(message, args[0]);
 
         // Checks of when using command
         
@@ -32,8 +33,6 @@ module.exports = {
             return await message.reply('I don\'t have permissions to kick members, please enable them').then(m => m.delete({timeout: 5000}));
         }
 
-        const toKick = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
-
         // No member found
         if (!toKick) {
             return message.reply('Couldn\'t find that member, try again').then(m => m.delete({timeout: 5000}));
@@ -47,11 +46,9 @@ module.exports = {
         // User not kickable
         if (!toKick.kickable) {
             return message.reply('I can\'t kick that user due to role hierarchy, I guess').then(m => m.delete({timeout: 5000}));
-        }
-        
-        
-     
+        } 
 
+        // Embed
         const kEmbed = new Discord.MessageEmbed()
             .setColor(colors.Orange)
             .setThumbnail(toKick.user.displayAvatarURL)

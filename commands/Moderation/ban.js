@@ -13,7 +13,7 @@ module.exports = {
 
     run: async(bot, message, args) => {
         const logChannel = message.guild.channels.cache.find(c => c.name === 'ari-bot-logs') || message.channel;
-        const toBan = getMember(message, args[0]);
+        const toBan = await getMember(message, args[0]);
         
         if(message.deletable) message.delete();
 

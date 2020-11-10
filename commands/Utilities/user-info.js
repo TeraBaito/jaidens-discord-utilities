@@ -11,7 +11,7 @@ module.exports = {
     description: 'Sends the general information of a guild member.\n**Attention:** Only @mentions and user IDs work, `;user-info Cookie` doesn\'t work.',
 
     run: async (bot, message, args) => {
-        const member = getMember(message, args.join(' '));
+        const member = await getMember(message, args.join(' '));
 
         // Information Variables
 

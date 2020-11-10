@@ -8,12 +8,12 @@ module.exports = {
     category: 'Configuration & Management',
     aliases: ['grant', 'give-role'],
     // cooldown: ,
-    usage: 'add-role [user] [role]',
+    usage: 'addrole [user] [role]',
     description: 'Gives a role to a specified member. Be sure that the role exists so it can be granted!',
 
     run: async(bot, message, args) => {
         let role = message.guild.roles.cache.find(r => r.name.toLowerCase() === args[1].toLowerCase()) || message.guild.roles.cache.find(r => r.id === args[1]) || message.mentions.roles.first();
-        let toGiveRole = getMember(message, args[0]);
+        let toGiveRole = await getMember(message, args[0]);
         let logChannel = message.guild.channels.cache.find(c => c.name.toLowerCase() === 'ari-bot-logs') || message.channel;
 
         if(message.deletable) message.delete();

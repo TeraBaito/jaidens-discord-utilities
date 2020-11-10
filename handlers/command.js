@@ -1,16 +1,16 @@
-/**
- * Command handler
- * Requires and triggers a command from the ./commands/ directory when it is inputed by a user next to the prefix
- * Not included in this file but in `index.js`, but there also is a collection with all commands at the time of node.
- * If a user inputs a wrong command (incorrect command.name or command.aliases) it will not trigger anything
- */
-
+const Discord = require('discord.js');
 const {readdirSync} = require('fs');
 const ascii = require('ascii-table');
 
 let table = new ascii('Commands');
 table.setHeading('Command', 'Load Status');
 
+/**
+ * Requires and triggers a command from the ./commands/ directory when it is inputed by a user next to the prefix.
+ * Not included in this file but in `index.js`, but there also is a collection with all commands at the time of node.
+ * If a user inputs a wrong command (incorrect command.name or command.aliases) it will not trigger anything.
+ * @param {Discord.Client} bot The bot as a Client object
+ */
 module.exports = bot => {
     readdirSync('./commands/').forEach(dir => {
         const commands = readdirSync(`./commands/${dir}/`).filter(file => file.endsWith('.js'));

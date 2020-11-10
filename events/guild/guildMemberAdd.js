@@ -1,11 +1,15 @@
-/**
- * `guildMemberAdd` event
- * Emitted whenever a user joins a guild
- */
-
 const Discord = require('discord.js');
 
-module.exports = async (bot, member, message) => {
+/**
+ * `guildMemberAdd` event.
+ * 
+ * Emitted whenever a user joins a guild.
+ * 
+ * @param {Discord.GuildMember} member 
+ */
+module.exports = async (member) => {
+    /*
     // Just sends a cool message in chat to welcome the user
     bot.channels.cache.get('755182878635327529').send(`Hello, <@${member.id}>. Welcome to r/JaidenAnimations!`);
+    */
 };

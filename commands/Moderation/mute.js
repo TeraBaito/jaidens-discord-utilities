@@ -15,7 +15,7 @@ module.exports = {
 
     run: async(bot, message, args) => {
         const logChannel = message.guild.channels.cache.find(c => c.name === 'ari-bot-logs') || message.channel;
-        const toMute = getMember(message, args[0]);
+        const toMute = await getMember(message, args[0]);
         const muterole = message.guild.roles.cache.find(r => r.name === 'Muted');
 
         // No muterole, creates a muterole :)
@@ -70,7 +70,7 @@ module.exports = {
         }
 
         // Member to mute has permissions to mute
-        if (toMute.hasPermission('KICK_MEMBERS', 'BAN_MEMBERS', 'MANAGE_ROLES') && !message.member.hasPermission('ADMINISTRATOR')) {
+        if (toMute.hasPermission(['KICK_MEMBERS', 'BAN_MEMBERS', 'MANAGE_ROLES']) && !message.member.hasPermission('ADMINISTRATOR')) {
             return message.channel.send('You can\'t mute a person that can mute you too, don\'t even bother...');
         }
 
