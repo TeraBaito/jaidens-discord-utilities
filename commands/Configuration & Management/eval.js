@@ -12,12 +12,12 @@ module.exports = {
     
     run: async(bot, message, args) => {
         if (message.author.id !== process.env.OWNER_ID) {
-            message.channel.send('No dude. I don\'t want anyone but my master mess with code in the bot...')
+            return message.channel.send('No dude. I don\'t want anyone but my master mess with code in the bot...')
                 .then(m => m.delete({timeout: 5000}));
         }
 
         if (!args[0]) { 
-            message.channel.send('Give me something to evaluate tho')
+            return message.channel.send('Give me something to evaluate tho')
                 .then(m => m.delete({timeout: 5000}));
         }
 
