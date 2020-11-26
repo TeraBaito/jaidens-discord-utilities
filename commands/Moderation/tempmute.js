@@ -1,7 +1,7 @@
-const Discord = require('discord.js');
-const ms = require('ms');
-const colors = require('../../colors.json');
-const { getMember } = require('../../handlers/functions');
+const Discord = require('discord.js'),
+    ms = require('ms'),
+    colors = require('../../colors.json'),
+    { getMember } = require('../../handlers/functions');
 
 
 module.exports = {

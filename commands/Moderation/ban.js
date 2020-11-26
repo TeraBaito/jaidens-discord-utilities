@@ -1,7 +1,6 @@
-const Discord = require('discord.js');
-const { promptMessage } = require('../../handlers/functions.js');
-const colors = require('../../colors.json');
-const { getMember } = require('../../handlers/functions');
+const Discord = require('discord.js'),
+    colors = require('../../colors.json'),
+    { promptMessage, getMember } = require('../../handlers/functions');
 
 module.exports = {
     name: 'ban',

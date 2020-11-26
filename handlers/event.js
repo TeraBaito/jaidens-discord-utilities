@@ -1,5 +1,5 @@
-const Discord = require('discord.js');
-const {readdirSync} = require('fs');
+const Discord = require('discord.js'),
+    { readdirSync } = require('fs');
 
 /**
  * Event handler

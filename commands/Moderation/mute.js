@@ -1,7 +1,7 @@
-const Discord = require('discord.js');
-const { promptMessage } = require('../../handlers/functions.js');
-const colors = require('../../colors.json');
-const { getMember } = require('../../handlers/functions');
+const Discord = require('discord.js'),
+    colors = require('../../colors.json'),
+    { getMember } = require('../../handlers/functions');
+    
 
 
 module.exports = {
@@ -90,11 +90,7 @@ module.exports = {
             mEmbed.addField('Reason', args.slice(1).join(' '));
         }
 
-        const promptEmbed = new Discord.MessageEmbed()
-            .setColor('eb8334')
-            .setFooter('This verification becomes invalid after 30 seconds')
-            .setDescription(`Do you want to mute ${toMute}?`);
-
+        // Mute
         if (toMute.roles.cache.find(r => r.name === 'Muted')) {
             return message.channel.send('This person is already muted')
                 .then(m => m.delete({timeout: 5000}));

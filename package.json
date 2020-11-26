@@ -1,26 +1,38 @@
 {
   "name": "jaiden-animations-discord-utilities",
-  "version": "1.7.1",
+  "version": "1.8.1",
   "description": "Discord bot with utilities for r/JaidenAnimations Discord Server",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "jaidens-discord-utilities"
   },
   "author": "TeraBytes#4878",
   "license": "ISC",
   "dependencies": {
+    "@discordjs/opus": "^0.3.3",
     "ascii-table": "0.0.9",
     "beautify": "0.0.8",
     "common-tags": "^1.8.0",
+    "discord-player": "^3.0.2",
+    "discord-ytdl-core": "^5.0.0",
     "discord.js": "^12.4.1",
-    "dotenv": "^8.2.0",
-    "eslint": "^7.8.0",
     "express": "^4.17.1",
+    "ffmpeg-static": "^4.2.7",
+    "mathjs": "^8.0.1",
+    "merge-options": "^3.0.3",
+    "moment": "^2.29.1",
     "ms": "^2.1.2",
-    "nodemon": "^2.0.4"
+    "node-fetch": "^2.6.1",
+    "soundcloud-scraper": "^4.0.0",
+    "spotify-url-info": "^2.2.0",
+    "youtube-sr": "^2.0.1",
+    "ytpl": "^1.0.1"
+  },
+  "devDependencies": {
+    "chalk": "^4.1.0",
+    "eslint": "^7.14.0",
+    "nodemon": "^2.0.6",
+    "winston": "^3.3.3"
   }
 }

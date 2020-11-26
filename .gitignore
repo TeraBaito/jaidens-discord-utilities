@@ -1,14 +1,21 @@
 # Use `npm install` to install all required modules 
-node_modules/*
+/node_modules/
 
 # Legacy stuff
-legacy/*
+/legacy/
 
 # Linter
 .eslintrc.json
 
-# ENV file with token
-.env
+# Token and other secrets
+config.json
+
+# VS Code
+/.vscode/
 
 # Sensitive language
 handlers/blacklisted-words.js
+
+# Self-aids
+template.txt
+template.config.js

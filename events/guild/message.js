@@ -1,11 +1,6 @@
-/**
- * 
- */
-
-const Discord = require('discord.js');
-const fs = require('fs');
-const { words } = require('../../handlers/blacklisted-words');
-const { blacklistProcess } = require('../../handlers/functions');
+const Discord = require('discord.js'),
+    { prefix } = require('../../config.json'),
+    { blacklistProcess } = require('../../handlers/functions');
 
 /**
  * `message` event.
@@ -20,8 +15,6 @@ const { blacklistProcess } = require('../../handlers/functions');
  * @param {Discord.Message} message The Message object passed with the `message` event.
  */
 module.exports = async(bot, message) => {
-    let prefix = process.env.PREFIX;
-
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
     const cmd = args.shift().toLowerCase();
 

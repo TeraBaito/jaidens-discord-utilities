@@ -1,5 +1,5 @@
-const Discord = require('discord.js');
-
+const Discord = require('discord.js'),
+    chalk = require('chalk');
 /**
  * `ready` event.
  * Triggers once the bot loads all the other events and goes online.
@@ -7,7 +7,7 @@ const Discord = require('discord.js');
  * 
  * @param {Discord.Client} bot 
  */
-module.exports = async bot => {
-    bot.user.setActivity('you', {type:'WATCHING'});
-    console.log(`${bot.user.username} online`);
+module.exports = bot => {
+    bot.user.setActivity('you', { type: 'WATCHING' });
+    console.info(`${chalk.green('[Info]')} - ${bot.user.username} online!`);
 };

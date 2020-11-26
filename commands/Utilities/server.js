@@ -1,6 +1,6 @@
-const Discord = require('discord.js');
-const { stripIndents } = require('common-tags');
-const colors = require('../../colors.json');
+const Discord = require('discord.js'),
+    { stripIndents } = require('common-tags'),
+    colors = require('../../colors.json');
 
 module.exports = {
     name: 'server',

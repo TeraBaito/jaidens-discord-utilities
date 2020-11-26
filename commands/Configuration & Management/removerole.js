@@ -1,6 +1,6 @@
-const Discord = require('discord.js');
-const colors = require('../../colors.json');
-const { getMember } = require('../../handlers/functions');
+const Discord = require('discord.js'),
+    colors = require('../../colors.json'),
+    { getMember } = require('../../handlers/functions');
 
 module.exports = {
     name: 'removerole',
