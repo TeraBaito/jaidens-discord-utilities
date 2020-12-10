@@ -6,7 +6,12 @@ const fs = require('fs');
 const chalk = require('chalk');
 
 // Client
-const bot = new Discord.Client();
+const bot = new Discord.Client({
+    fetchAllMembers: true,
+    ws: {
+        intents: ['GUILDS', 'GUILD_MEMBERS', 'GUILD_MESSAGES']
+    }
+});
 
 // Other bot properties
 bot.commands = new Discord.Collection();
