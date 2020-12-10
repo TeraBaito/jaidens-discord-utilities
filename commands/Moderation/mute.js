@@ -15,7 +15,7 @@ module.exports = {
 
     run: async(bot, message, args) => {
         const logChannel = message.guild.channels.cache.find(c => c.name === 'ari-bot-logs') || message.channel;
-        const toMute = await getMember(message, args[0]);
+        const toMute = getMember(message, args[0]);
         const muterole = message.guild.roles.cache.find(r => r.name === 'Muted');
 
         // No muterole, creates a muterole :)

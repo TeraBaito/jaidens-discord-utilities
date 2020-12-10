@@ -13,7 +13,7 @@ module.exports = {
 
     run: async(bot, message, args) => {
         const logChannel = message.guild.channels.cache.find(c => c.name === 'ari-bot-logs') || message.channel;
-        const toKick = await getMember(message, args[0]);
+        const toKick = getMember(message, args[0]);
 
         // Checks of when using command
         

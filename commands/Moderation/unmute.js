@@ -14,7 +14,7 @@ module.exports = {
 
     run: async(bot, message, args) => {
         const logChannel = message.guild.channels.cache.find(c => c.name === 'ari-bot-logs') || message.channel;
-        const toUnmute = await getMember(message, args[0]);
+        const toUnmute = getMember(message, args[0]);
         const muterole = message.guild.roles.cache.find(r => r.name === 'Muted');
 
         // Member doesn't have perms to unmute

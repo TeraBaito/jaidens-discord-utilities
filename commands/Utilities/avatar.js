@@ -12,7 +12,7 @@ module.exports = {
     description: 'Shows the profile picture of you or a specified user',
 
     run: async(bot, message, args) => {
-        let member = await getMember(message, args.join(' '));
+        let member = getMember(message, args.join(' '));
         const uIcon = member.user.displayAvatarURL();
 
         const aEmbed = new Discord.MessageEmbed()

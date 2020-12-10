@@ -13,7 +13,7 @@ module.exports = {
 
     run: async(bot, message, args) => {
         let role = message.guild.roles.cache.find(r => r.name.toLowerCase() === args[1].toLowerCase()) || message.guild.roles.cache.find(r => r.id === args[1]) || message.mentions.roles.first();
-        let toGiveRole = await getMember(message, args[0]);
+        let toGiveRole = getMember(message, args[0]);
         let logChannel = message.guild.channels.cache.find(c => c.name.toLowerCase() === 'ari-bot-logs') || message.channel;
 
         if(message.deletable) message.delete();

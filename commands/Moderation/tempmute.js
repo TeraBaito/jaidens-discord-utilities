@@ -15,7 +15,7 @@ module.exports = {
 
     run: async(bot, message, args) => {
         const logChannel = message.guild.channels.cache.find(c => c.name === 'ari-bot-logs') || message.channel;
-        const toTempmute = await getMember(message, args[0]);
+        const toTempmute = getMember(message, args[0]);
         const muterole = message.guild.roles.cache.find(r => r.name === 'Muted');
         let mutetime = args[1];
         let reason = args[2] ? args.slice(2).join(' ') : 'No reason specified';
