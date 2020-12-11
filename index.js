@@ -16,7 +16,7 @@ const bot = new Discord.Client({
 // Other bot properties
 bot.commands = new Discord.Collection();
 bot.aliases = new Discord.Collection();
-bot.categories = fs.readdirSync('./commands/');
+bot.categories = fs.readdirSync('./src/commands/');
 
 // Debugging
 //bot.on('debug', m => console.log(`[${chalk.cyan('debug')}] - ${m}`));
