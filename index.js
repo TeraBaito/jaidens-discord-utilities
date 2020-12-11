@@ -84,7 +84,7 @@ bot.player
 // const app = express();
 // const port = 3000;
 
-// app.get('/', (req, res) => res.send('Working'));
+// app.get('/', (req, res) => res.send('<p style="font-family:Segoe UI; color:MediumSeaGreen">[Info] Working!</p>'));
 // app.listen(port, () => console.log(`Ari Bot listening at http://localhost:${port}`));
 
 
