@@ -76,7 +76,7 @@ bot.player
 
 // Handlers' modules
 ['command', 'event'].forEach(handler => {
-    require(`./handlers/${handler}`)(bot);
+    require(`./src/handlers/${handler}`)(bot);
 });
 
 // Connect to VPS
