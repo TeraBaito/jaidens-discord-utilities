@@ -1,5 +1,6 @@
-const Discord = require('discord.js'),
-    chalk = require('chalk');
+const Discord = require('discord.js');
+const chalk = require('chalk');
+
 /**
  * `ready` event.
  * Triggers once the bot loads all the other events and goes online.

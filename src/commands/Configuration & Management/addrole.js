@@ -1,6 +1,6 @@
-const Discord = require('discord.js'),
-    colors = require('../../../colors.json'),
-    { getMember } = require('../../handlers/functions');
+const Discord = require('discord.js');
+const colors = require('../../../colors.json');
+const { getMember } = require('../../handlers/functions');
 
 module.exports = {
     name: 'addrole',
@@ -11,6 +11,11 @@ module.exports = {
     usage: 'addrole [user] [role]',
     description: 'Gives a role to a specified member. Be sure that the role exists so it can be granted!',
 
+    /** 
+     * @param {Discord.Client} bot 
+     * @param {Discord.Message} message 
+     * @param {Array} args 
+     */
     run: async(bot, message, args) => {
         let role = message.guild.roles.cache.find(r => r.name.toLowerCase() === args[1].toLowerCase()) || message.guild.roles.cache.find(r => r.id === args[1]) || message.mentions.roles.first();
         let toGiveRole = getMember(message, args[0]);

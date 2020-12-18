@@ -1,6 +1,6 @@
-const Discord = require('discord.js'),
-    colors = require('../../../colors.json'),
-    { getMember } = require('../../handlers/functions.js');
+const Discord = require('discord.js');
+const colors = require('../../../colors.json');
+const { getMember } = require('../../handlers/functions.js');
 
 module.exports = {
     name: 'avatar',
@@ -11,6 +11,11 @@ module.exports = {
     usage: 'avatar (user)',
     description: 'Shows the profile picture of you or a specified user',
 
+    /** 
+     * @param {Discord.Client} bot 
+     * @param {Discord.Message} message 
+     * @param {Array} args 
+     */
     run: async(bot, message, args) => {
         let member = getMember(message, args.join(' '));
         const uIcon = member.user.displayAvatarURL();

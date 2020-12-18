@@ -1,5 +1,5 @@
-const Discord = require('discord.js'),
-    colors = require('../../../colors.json');
+const Discord = require('discord.js');
+const colors = require('../../../colors.json');
 
 module.exports = {
     name: 'say',
@@ -9,6 +9,11 @@ module.exports = {
     usage: 'say [#channel] (embed) [message]',
     description: 'Echoes the given args',
 
+    /** 
+     * @param {Discord.Client} bot 
+     * @param {Discord.Message} message 
+     * @param {Array} args 
+     */
     run: async(bot, message, args) => {
         let channel = message.mentions.channels.first() ||
         message.guild.channels.cache.find(c => c.id == args[0]) ||

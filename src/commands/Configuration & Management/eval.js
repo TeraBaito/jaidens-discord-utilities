@@ -1,7 +1,7 @@
-const Discord = require('discord.js'),
-    beautify = require('beautify'),
-    { ownerID } = require('../../../config.json'),
-    colors = require('../../../colors.json');
+const Discord = require('discord.js');
+const beautify = require('beautify');
+const { ownerID } = require('../../../config.json');
+const colors = require('../../../colors.json');
 
 
 module.exports = {
@@ -12,6 +12,11 @@ module.exports = {
     usage: 'eval [string]',
     description: 'Evaluates JavaScript code inputed from args.\nOnwer Only Command\nSelfnote: don\'t use this next to many people idk they could take your token i guess lmao',
     
+    /** 
+     * @param {Discord.Client} bot 
+     * @param {Discord.Message} message 
+     * @param {Array} args 
+     */
     run: async(bot, message, args) => {
         if (message.author.id !== ownerID) {
             return message.channel.send('No dude. I don\'t want anyone but my master mess with code in the bot...')

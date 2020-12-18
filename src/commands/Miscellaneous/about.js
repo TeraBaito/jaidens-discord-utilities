@@ -1,10 +1,9 @@
-const Discord = require('discord.js'),
-    fs = require('fs'),
-    { stripIndents } = require('common-tags'),
-    { owner, ownerID } = require('../../../config.json'),
-    { version } = require('../../../package.json'),
-    colors = require('../../../colors.json'),
-    { formatDate } = require('../../handlers/functions');
+const Discord = require('discord.js');
+const { stripIndents } = require('common-tags');
+const { owner, ownerID } = require('../../../config.json');
+const { version } = require('../../../package.json');
+const colors = require('../../../colors.json');
+const { formatDate } = require('../../handlers/functions');
 
 module.exports = { 
     name: 'about',
@@ -14,6 +13,11 @@ module.exports = {
     usage: 'about',
     description: 'General Bot Information',
 
+    /** 
+     * @param {Discord.Client} bot 
+     * @param {Discord.Message} message 
+     * @param {Array} args 
+     */
     run: async (bot, message, args) => {
         let bIcon = bot.user.displayAvatarURL();
         let { heapUsed, heapTotal } = process.memoryUsage();

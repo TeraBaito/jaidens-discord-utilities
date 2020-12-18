@@ -1,6 +1,6 @@
-const Discord = require('discord.js'),
-    { prefix } = require('../../../config.json'),
-    { blacklistProcess } = require('../../handlers/functions');
+const Discord = require('discord.js');
+const { prefix } = require('../../../config.json');
+const { blacklistProcess } = require('../../handlers/functions');
 
 /**
  * `message` event.

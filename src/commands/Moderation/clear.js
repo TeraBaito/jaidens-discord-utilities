@@ -9,7 +9,12 @@ module.exports = {
     usage: 'clear [amount of messages]',
     description: 'Clears a specified amount of messages in the current channel, up to 100 messages',
 
-    run: async(bot, message, args) => {
+    /** 
+     * @param {Discord.Client} bot 
+     * @param {Discord.Message} message 
+     * @param {Array} args 
+     */
+run: async(bot, message, args) => {
         if (message.deletable) message.delete;
 
         // Member doesn't have perms to delete messages

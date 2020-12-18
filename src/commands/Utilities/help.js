@@ -1,7 +1,7 @@
-const Discord = require('discord.js'),
-    { stripIndents } = require('common-tags'),
-    { prefix } = require('../../../config.json'),
-    colors = require('../../../colors.json');
+const Discord = require('discord.js');
+const { stripIndents } = require('common-tags');
+const { prefix } = require('../../../config.json');
+const colors = require('../../../colors.json');
 
 
 
@@ -14,6 +14,11 @@ module.exports = {
     usage: 'help (command)',
     description: 'Shows list of commands',
     
+    /** 
+     * @param {Discord.Client} bot 
+     * @param {Discord.Message} message 
+     * @param {Array} args 
+     */
     run: async (bot, message, args) => {
 
         if (args[0]) {

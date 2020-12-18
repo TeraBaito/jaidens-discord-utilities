@@ -1,6 +1,6 @@
-const Discord = require('discord.js'),
-    colors = require('../../../colors.json'),
-    { getMember } = require('../../handlers/functions');
+const Discord = require('discord.js');
+const colors = require('../../../colors.json');
+const { getMember } = require('../../handlers/functions');
     
 
 
@@ -13,6 +13,11 @@ module.exports = {
     usage: 'mute [user] (reason)',
     description: 'Mutes a member from the guild for an indefinite amount of time.\n**Attention:** The muterole has to be called "Muted", and the log channel #toucan-logs',
 
+    /** 
+     * @param {Discord.Client} bot 
+     * @param {Discord.Message} message 
+     * @param {Array} args 
+     */
     run: async(bot, message, args) => {
         const logChannel = message.guild.channels.cache.find(c => c.name === 'ari-bot-logs') || message.channel;
         const toMute = getMember(message, args[0]);

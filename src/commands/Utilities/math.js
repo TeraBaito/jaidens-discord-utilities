@@ -1,7 +1,6 @@
-const Discord = require('discord.js'),
-    math = require('mathjs'),
-    { stripIndents } = require('common-tags'),
-    colors = require('../../../colors.json');
+const Discord = require('discord.js');
+const math = require('mathjs');
+const colors = require('../../../colors.json');
 
 module.exports = {
     name: 'math',
@@ -10,6 +9,11 @@ module.exports = {
     aliases: ['calc', 'schoolpain'],
     usage: 'math [operation]',
     description: 'Evaluates a math operation. Please no quadratic equations or something lol',
+    /** 
+     * @param {Discord.Client} bot 
+     * @param {Discord.Message} message 
+     * @param {Array} args 
+     */
     run: async(bot, message, args) => {
         if(!args[0]) return message.channel.send('Please ask a math question.');
  

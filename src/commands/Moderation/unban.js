@@ -1,5 +1,5 @@
-const Discord = require('discord.js'),
-    colors = require('../../../colors.json');
+const Discord = require('discord.js');
+const colors = require('../../../colors.json');
 
 module.exports = {
     name: 'unban',
@@ -9,6 +9,11 @@ module.exports = {
     usage: 'unban [ID]',
     description: 'Unbans a member from the current guild',
 
+    /** 
+     * @param {Discord.Client} bot 
+     * @param {Discord.Message} message 
+     * @param {Array} args 
+     */
     run: async(bot, message, args) => {
         const logChannel = message.guild.channels.cache.find(c => c.name === 'ari-bot-logs') || message.channel;
         let reason = args.slice(1).join(' ');

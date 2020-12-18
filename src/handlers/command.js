@@ -1,6 +1,6 @@
-const Discord = require('discord.js'),
-    ascii = require('ascii-table'),
-    { readdirSync } = require('fs');
+const Discord = require('discord.js');
+const ascii = require('ascii-table');
+const { readdirSync } = require('fs');
 
 let table = new ascii('Commands');
 table.setHeading('Command', 'Load Status');

@@ -1,5 +1,5 @@
-const Discord = require('discord.js'),
-    { stripIndents } = require('common-tags');
+const Discord = require('discord.js');
+const { stripIndents } = require('common-tags');
 
 
 module.exports = { 
@@ -10,6 +10,11 @@ module.exports = {
     usage: 'ping',
     description: 'Checks the latency of the bot and message latency, and checks if bot is on',
 
+    /** 
+     * @param {Discord.Client} bot 
+     * @param {Discord.Message} message 
+     * @param {Array} args 
+     */
     run: async (bot, message, args) => {
 
         const msg = await message.channel.send('Pinging...');

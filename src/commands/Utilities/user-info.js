@@ -1,6 +1,6 @@
-const Discord = require('discord.js'),
-    { getMember, formatDate } = require('../../handlers/functions.js'),
-    colors = require('../../../colors.json');
+const Discord = require('discord.js');
+const { getMember, formatDate } = require('../../handlers/functions.js');
+const colors = require('../../../colors.json');
 
 module.exports = {
     name: 'user-info',
@@ -10,6 +10,11 @@ module.exports = {
     usage: 'user-info ({@user, ID})',
     description: 'Sends the general information of a guild member.\n**Attention:** Only @mentions and user IDs work, `;user-info Cookie` doesn\'t work.',
 
+    /** 
+     * @param {Discord.Client} bot 
+     * @param {Discord.Message} message 
+     * @param {Array} args 
+     */
     run: async (bot, message, args) => {
         const member = getMember(message, args.join(' '));
 

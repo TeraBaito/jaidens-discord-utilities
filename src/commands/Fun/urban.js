@@ -1,8 +1,8 @@
-const Discord = require('discord.js'),
-    fetch = require('node-fetch'),
-    querystring = require('querystring'),
-    chalk = require('chalk'),
-    colors = require('../../../colors.json');
+const Discord = require('discord.js');
+const fetch = require('node-fetch');
+const querystring = require('querystring');
+const chalk = require('chalk');
+const colors = require('../../../colors.json');
 
 
 module.exports = {
@@ -12,6 +12,11 @@ module.exports = {
     // aliases: [],
     usage: 'urban [term]',
     description: 'Defines a term using the Urban Dictionary API',
+    /** 
+     * @param {Discord.Client} bot 
+     * @param {Discord.Message} message 
+     * @param {Array} args 
+     */
     run: async(bot, message, args) => {
         if (!args[0]) return message.channel.send('Please provide a term tho');
 

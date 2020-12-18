@@ -1,6 +1,6 @@
-const Discord = require('discord.js'),
-    { stripIndents } = require('common-tags'),
-    colors = require('../../../colors.json');
+const Discord = require('discord.js');
+const { stripIndents } = require('common-tags');
+const colors = require('../../../colors.json');
 
 module.exports = {
     name: 'server',
@@ -10,6 +10,11 @@ module.exports = {
     usage: 'server',
     description: 'Server information',
 
+    /** 
+     * @param {Discord.Client} bot 
+     * @param {Discord.Message} message 
+     * @param {Array} args 
+     */
     run: async (bot, message, args) => {
 
         // Offline and Online member count (integers)

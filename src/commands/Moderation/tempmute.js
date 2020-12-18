@@ -1,7 +1,7 @@
-const Discord = require('discord.js'),
-    ms = require('ms'),
-    colors = require('../../../colors.json'),
-    { getMember } = require('../../handlers/functions');
+const Discord = require('discord.js');
+const ms = require('ms');
+const colors = require('../../../colors.json');
+const { getMember } = require('../../handlers/functions');
 
 
 module.exports = {
@@ -13,6 +13,11 @@ module.exports = {
     usage: 'tempmute [user] [time {s, m, h, d}] (reason)',
     description: 'Mutes a user from the guild temporarily, for a specified amount of time (seconds, minutes, hours, days)',
 
+    /** 
+     * @param {Discord.Client} bot 
+     * @param {Discord.Message} message 
+     * @param {Array} args 
+     */
     run: async(bot, message, args) => {
         const logChannel = message.guild.channels.cache.find(c => c.name === 'ari-bot-logs') || message.channel;
         const toTempmute = getMember(message, args[0]);

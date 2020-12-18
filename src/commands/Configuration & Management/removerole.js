@@ -1,6 +1,6 @@
-const Discord = require('discord.js'),
-    colors = require('../../../colors.json'),
-    { getMember } = require('../../handlers/functions');
+const Discord = require('discord.js');
+const colors = require('../../../colors.json');
+const { getMember } = require('../../handlers/functions');
 
 module.exports = {
     name: 'removerole',
@@ -11,6 +11,11 @@ module.exports = {
     usage: 'removerole [user] [role]',
     description: 'Removes a role from a specified member. Be sure that the role exists so it can be ungranted!',
 
+    /** 
+     * @param {Discord.Client} bot 
+     * @param {Discord.Message} message 
+     * @param {Array} args 
+     */
     run: async(bot, message, args) => {
         let role = message.guild.roles.cache.find(r => r.name.toLowerCase() === args[1]) || message.guild.roles.cache.find(r => r.id === args[1]) || message.mentions.roles.first();
         let toRemoveRole = getMember(message, args[0]);

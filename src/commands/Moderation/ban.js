@@ -1,6 +1,6 @@
-const Discord = require('discord.js'),
-    colors = require('../../../colors.json'),
-    { promptMessage, getMember } = require('../../handlers/functions');
+const Discord = require('discord.js');
+const colors = require('../../../colors.json');
+const { promptMessage, getMember } = require('../../handlers/functions');
 
 module.exports = {
     name: 'ban',
@@ -10,6 +10,11 @@ module.exports = {
     usage: 'ban [user]',
     description: 'Bans a member from the current guild',
 
+    /** 
+     * @param {Discord.Client} bot 
+     * @param {Discord.Message} message 
+     * @param {Array} args 
+     */
     run: async(bot, message, args) => {
         const logChannel = message.guild.channels.cache.find(c => c.name === 'ari-bot-logs') || message.channel;
         const toBan = getMember(message, args[0]);
