@@ -131,7 +131,7 @@ function blacklistProcess(message) {
         return message.channel.send(`${mention}, Please refer to Rule 1 and 9, really offensive words are discouraged in this server`)
             .then(m => m.delete({ timeout: 7000 }));
     }
-    if (message.content.toLowerCase().includes(' ' + jr34) || message.content.endsWith(w) || message.content == jr34) {
+    if (message.content.toLowerCase().includes(' ' + jr34) || message.content.endsWith(jr34) || message.content == jr34) {
         if (checkStaff(message.member)) return;
         if (message.deletable) message.delete();
         return message.channel.send(`${mention} 'Please refer to Rule 6, don't talk about sensitive topics like Jaiden Rule 34'`)
