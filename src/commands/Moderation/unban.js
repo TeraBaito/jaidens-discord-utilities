@@ -24,17 +24,17 @@ module.exports = {
         
         // No args
         if (!args[0]) {
-            return message.reply('Please provide a user to unban').then(m => m.delete({timeout: 5000}));
+            return message.reply('Please provide a user to unban').then(m => setTimeout(() => { m.delete(); }, 5000));
         }       
 
         // No permissions to unban
         if (!message.member.hasPermission('BAN_MEMBERS', 'ADMINISTRATOR')) {
-            return message.reply('You don\'t have permissions to unban members so...').then(m => m.delete({timeout: 5000}));
+            return message.reply('You don\'t have permissions to unban members so...').then(m => setTimeout(() => { m.delete(); }, 5000));
         }
 
         // No bot permissions to ban (it does by default)
         if (!message.guild.me.hasPermission('BAN_MEMBERS', 'ADMINISTRATOR')) {
-            return message.reply('I don\'t have permissions to unban members, please enable them').then(m => m.delete({timeout: 5000}));
+            return message.reply('I don\'t have permissions to unban members, please enable them').then(m => setTimeout(() => { m.delete(); }, 5000));
         }
         
         // Finding Nemo, I mean the banned user
@@ -42,7 +42,7 @@ module.exports = {
         try {
             toUnban = await bot.users.fetch(args[0]);
         } catch(e) {
-            message.channel.send('Couldn\'t find member').then(m => m.delete({timeout: 5000}));
+            message.channel.send('Couldn\'t find member').then(m => setTimeout(() => { m.delete(); }, 5000));
             return;
         }
 

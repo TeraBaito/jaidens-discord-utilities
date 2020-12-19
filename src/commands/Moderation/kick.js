@@ -26,22 +26,22 @@ module.exports = {
 
         // No args
         if (!args[0]) {
-            return await message.reply('Please provide a user to kick').then(m => m.delete({timeout: 5000}));
+            return await message.reply('Please provide a user to kick').then(m => setTimeout(() => { m.delete(); }, 5000));
         }
 
         // No permissions to kick
         if (!message.member.hasPermission('KICK_MEMBERS')) {
-            return await message.reply('You don\'t have permissions to kick members, smh').then(m => m.delete({timeout: 5000}));
+            return await message.reply('You don\'t have permissions to kick members, smh').then(m => setTimeout(() => { m.delete(); }, 5000));
         }
 
         // No bot permissions to kick (it does by default)
         if (!message.guild.me.hasPermission('KICK_MEMBERS')) {
-            return await message.reply('I don\'t have permissions to kick members, please enable them').then(m => m.delete({timeout: 5000}));
+            return await message.reply('I don\'t have permissions to kick members, please enable them').then(m => setTimeout(() => { m.delete(); }, 5000));
         }
 
         // No member found
         if (!toKick) {
-            return message.reply('Couldn\'t find that member, try again').then(m => m.delete({timeout: 5000}));
+            return message.reply('Couldn\'t find that member, try again').then(m => setTimeout(() => { m.delete(); }, 5000));
         }
 
         // Can't kick yourself (bruh moment)
@@ -51,7 +51,7 @@ module.exports = {
 
         // User not kickable
         if (!toKick.kickable) {
-            return message.reply('I can\'t kick that user due to role hierarchy, I guess').then(m => m.delete({timeout: 5000}));
+            return message.reply('I can\'t kick that user due to role hierarchy, I guess').then(m => setTimeout(() => { m.delete(); }, 5000));
         } 
 
         // Embed

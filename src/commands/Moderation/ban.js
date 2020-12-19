@@ -25,23 +25,23 @@ module.exports = {
         
         // No args
         if (!args[0]) {
-            return message.reply('Please provide a user to ban').then(m => m.delete({timeout: 5000}));
+            return message.reply('Please provide a user to ban').then(m => setTimeout(() => { m.delete(); }, 5000));
         }
 
         // No permissions to ban
         if (!message.member.hasPermission('BAN_MEMBERS')) {
-            return message.reply('You don\'t have permissions to ban members, smh').then(m => m.delete({timeout: 5000}));
+            return message.reply('You don\'t have permissions to ban members, smh').then(m => setTimeout(() => { m.delete(); }, 5000));
         }
 
         // No bot permissions to ban (it does by default)
         if (!message.guild.me.hasPermission('BAN_MEMBERS')) {
-            return message.reply('I don\'t have permissions to ban members, please enable them').then(m => m.delete({timeout: 5000}));
+            return message.reply('I don\'t have permissions to ban members, please enable them').then(m => setTimeout(() => { m.delete(); }, 5000));
         }
 
 
         // No member found
         if (!toBan) {
-            return message.reply('Couldn\'t find that member, try again').then(m => m.delete({timeout: 5000}));
+            return message.reply('Couldn\'t find that member, try again').then(m => setTimeout(() => { m.delete(); }, 5000));
         }
 
         // Can't ban yourself (BRUH moment)
@@ -51,7 +51,7 @@ module.exports = {
 
         // User not bannable
         if (!toBan.bannable) {
-            return message.reply('I can\'t ban that user due to role hierarchy, I guess').then(m => m.delete({timeout: 5000}));
+            return message.reply('I can\'t ban that user due to role hierarchy, I guess').then(m => setTimeout(() => { m.delete(); }, 5000));
         }
         
      

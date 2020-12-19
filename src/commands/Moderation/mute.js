@@ -46,27 +46,27 @@ module.exports = {
         // Member doesn't have perms to mute
         if (!message.member.hasPermission('KICK_MEMBERS', 'BAN_MEMBERS', 'MANAGE_ROLES')) {
             return message.channel.send('You don\'t have permissions to mute users, funny man')
-                .then(m => m.delete({timeout: 5000}));
+                .then(m => setTimeout(() => { m.delete(); }, 5000));
         }
 
         // Bot doesn't have perms to mute (it does by default)
         if (!message.guild.me.hasPermission('MANAGE_ROLES')) {
             return message.channel.send('I don\'t have permissions to mute users, please enable the "Manage Roles" permission')
-                .then(m => m.delete({timeout: 5000}));
+                .then(m => setTimeout(() => { m.delete(); }, 5000));
 
         }
 
         // No user provided (no arguments)
         if (!args[0]) {
             return message.channel.send('Please provide a valid user to mute')
-                .then(m => m.delete({timeout: 5000}));
+                .then(m => setTimeout(() => { m.delete(); }, 5000));
 
         }
     
         // Can't find member
         if (!toMute) {
             return message.channel.send('Couldn\'t find that member, try again')
-                .then(m => m.delete({timeout: 5000}));
+                .then(m => setTimeout(() => { m.delete(); }, 5000));
         }
 
         // Can't mute yourself
@@ -98,7 +98,7 @@ module.exports = {
         // Mute
         if (toMute.roles.cache.find(r => r.name === 'Muted')) {
             return message.channel.send('This person is already muted')
-                .then(m => m.delete({timeout: 5000}));
+                .then(m => setTimeout(() => { m.delete(); }, 5000));
         } else {
             toMute.roles.add(muterole.id)
                 .catch(err => {
