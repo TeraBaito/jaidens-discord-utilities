@@ -1,14 +1,8 @@
 {
-  "name": "jaiden-animations-discord-utilities",
+  "name": "jaidens-discord-utilities",
   "version": "1.10.0",
   "description": "Discord bot with utilities for r/JaidenAnimations Discord Server",
   "main": "index.js",
-  "scripts": {
-    "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "TeraBytes#4878",
-  "license": "ISC",
   "dependencies": {
     "@discordjs/opus": "^0.3.3",
     "ascii-table": "0.0.9",
@@ -30,9 +24,21 @@
     "ytpl": "^1.0.1"
   },
   "devDependencies": {
-    "chalk": "^4.1.0",
     "eslint": "^7.14.0",
     "nodemon": "^2.0.6",
     "winston": "^3.3.3"
-  }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TeraBaito/jaidens-discord-utilities.git"
+  },
+  "author": "TeraBytes#4878",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TeraBaito/jaidens-discord-utilities/issues"
+  },
+  "homepage": "https://github.com/TeraBaito/jaidens-discord-utilities#readme"
 }
