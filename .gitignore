@@ -14,7 +14,7 @@ config.json
 /.vscode/
 
 # Sensitive language
-handlers/blacklisted-words.js
+src/handlers/blacklisted-words.json
 
 # Self-aids
 template.txt
