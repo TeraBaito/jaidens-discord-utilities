@@ -6,8 +6,8 @@ const chalk = require('chalk');
 * 
 * @param {Discord.Message} message The Message object to perform actions using message
 * @param {string} toFind String that fetches the user (can be mention, id, tag, or displayName)
-     * @returns {Discord.GuildMember}
-     */
+* @returns {Discord.GuildMember}
+*/
 function getMember(message, toFind) {
     toFind = toFind.toLowerCase();
 
@@ -108,7 +108,6 @@ function checkStaff(member) {
         if (e instanceof TypeError) return;
         console.error(chalk.redBright('[Error]'), e.name);
     }
-    
 }
 
 /**
