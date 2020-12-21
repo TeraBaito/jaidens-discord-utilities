@@ -8,7 +8,7 @@
 .eslintrc.json
 
 # Token and other secrets
-config.json
+.env
 
 # VS Code
 /.vscode/

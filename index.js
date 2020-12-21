@@ -87,5 +87,5 @@ app.get('/', (req, res) => res.send('<p style="font-family:Segoe UI; color:Mediu
 app.listen(port, () => console.log(`Ari Bot listening at http://localhost:${port}`));
 
 
-// Login and turn on
-bot.login(token);
+// Login and turn on (default is DISCORD_TOKEN)
+bot.login();
