@@ -120,21 +120,43 @@ function blacklistProcess(message) {
     const { nsfw, offensive, jr34 } = require('./blacklisted-words.json');
 
     const mention = `<@!${message.author.id}>`;
-    if (nsfw.some(w => message.content.toLowerCase().includes(' ' + w) || message.content.endsWith(w) || message.content == w)) {
+    const { content } = message;
+
+    // NSFW words
+    if (nsfw.some(w => 
+        content.toLowerCase().includes(' ' + w) ||
+        content.toLowerCase().includes(w + ' ') ||
+        content.endsWith(w) || 
+        content == w
+    )) {
         if (message.deletable) message.delete();
         message.channel.send(`${mention} Please refer to Rule 3, don't engage in NSFW conversations on this server`)
-            .then(m => m.delete({ timeout: 7000 }));
+            .then(m => setTimeout(() => m.delete(), 7000));
     }
-    if(offensive.some(w => message.content.toLowerCase().includes(' ' + w) || message.content.endsWith(w) || message.content == w)) {
+
+    // Offensive words
+    if(offensive.some(w =>
+        content.toLowerCase().includes(' ' + w) ||
+        content.toLowerCase().includes(w + ' ') ||
+        content.endsWith(w) || 
+        content == w
+    )) {
         if (message.deletable) message.delete();
         return message.channel.send(`${mention}, Please refer to Rule 1 and 9, really offensive words are discouraged in this server`)
-            .then(m => m.delete({ timeout: 7000 }));
+            .then(m => setTimeout(() => m.delete(), 7000));
     }
-    if (message.content.toLowerCase().includes(' ' + jr34) || message.content.endsWith(jr34) || message.content == jr34) {
+
+    // "jr34"
+    if (jr34.some(w =>
+        content.toLowerCase().includes(' ' + w) ||
+        content.toLowerCase().includes(w + ' ') ||
+        content.endsWith(w) ||
+        content == w
+    )) {
         if (checkStaff(message.member)) return;
         if (message.deletable) message.delete();
         return message.channel.send(`${mention} 'Please refer to Rule 6, don't talk about sensitive topics like Jaiden Rule 34'`)
-            .then(m => m.delete({ timeout: 7000 }));
+            .then(m => setTimeout(() => m.delete(), 7000));
     }
 }
 

@@ -1,6 +1,6 @@
 {
   "name": "jaidens-discord-utilities",
-  "version": "1.10.0",
+  "version": "1.10.1",
   "description": "Discord bot with utilities for r/JaidenAnimations Discord Server",
   "main": "index.js",
   "dependencies": {
@@ -29,7 +29,11 @@
     "winston": "^3.3.3"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint .",
+    "test": "npm run -s lint",
+    "patch": "npm test && npm version -f --no-git-tag-version patch",
+    "minor": "npm test && npm version -f --no-git-tag-version minor",
+    "major": "npm test && npm version -f --no-git-tag-version major"
   },
   "repository": {
     "type": "git",
