@@ -9,7 +9,7 @@ const chalk = require('chalk');
 const bot = new Discord.Client({
     fetchAllMembers: true,
     ws: {
-        intents: ['GUILDS', 'GUILD_MEMBERS', 'GUILD_MESSAGES']
+        intents: ['GUILDS', 'GUILD_MEMBERS', 'GUILD_MESSAGES', 'GUILD_MESSAGE_REACTIONS']
     }
 });
 

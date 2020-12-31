@@ -25,33 +25,33 @@ module.exports = {
         
         // No args
         if (!args[0]) {
-            return message.reply('Please provide a user to ban').then(m => setTimeout(() => { m.delete(); }, 5000));
+            return message.channel.send('Please provide a user to ban').then(m => setTimeout(() => { m.delete(); }, 5000));
         }
 
         // No permissions to ban
         if (!message.member.hasPermission('BAN_MEMBERS')) {
-            return message.reply('You don\'t have permissions to ban members, smh').then(m => setTimeout(() => { m.delete(); }, 5000));
+            return message.channel.send('You don\'t have permissions to ban members, smh').then(m => setTimeout(() => { m.delete(); }, 5000));
         }
 
         // No bot permissions to ban (it does by default)
         if (!message.guild.me.hasPermission('BAN_MEMBERS')) {
-            return message.reply('I don\'t have permissions to ban members, please enable them').then(m => setTimeout(() => { m.delete(); }, 5000));
+            return message.channel.send('I don\'t have permissions to ban members, please enable them').then(m => setTimeout(() => { m.delete(); }, 5000));
         }
 
 
         // No member found
         if (!toBan) {
-            return message.reply('Couldn\'t find that member, try again').then(m => setTimeout(() => { m.delete(); }, 5000));
+            return message.channel.send('Couldn\'t find that member, try again').then(m => setTimeout(() => { m.delete(); }, 5000));
         }
 
         // Can't ban yourself (BRUH moment)
         if (message.author.id === toBan.id) {
-            return message.reply('You can\'t ban yourself, what the actual FUCK are you doing???');
+            return message.channel.send('You can\'t ban yourself, what the actual FUCK are you doing???');
         }
 
         // User not bannable
         if (!toBan.bannable) {
-            return message.reply('I can\'t ban that user due to role hierarchy, I guess').then(m => setTimeout(() => { m.delete(); }, 5000));
+            return message.channel.send('I can\'t ban that user due to role hierarchy, I guess').then(m => setTimeout(() => { m.delete(); }, 5000));
         }
         
      
@@ -95,7 +95,7 @@ module.exports = {
 
             } else if (emoji === '❌') {
                 msg.delete();
-                message.reply('Ban cancelled.');
+                message.channel.send('Ban cancelled.');
             }
         });
     }

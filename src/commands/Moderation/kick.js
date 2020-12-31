@@ -26,32 +26,32 @@ module.exports = {
 
         // No args
         if (!args[0]) {
-            return await message.reply('Please provide a user to kick').then(m => setTimeout(() => { m.delete(); }, 5000));
+            return await message.channel.send('Please provide a user to kick').then(m => setTimeout(() => { m.delete(); }, 5000));
         }
 
         // No permissions to kick
         if (!message.member.hasPermission('KICK_MEMBERS')) {
-            return await message.reply('You don\'t have permissions to kick members, smh').then(m => setTimeout(() => { m.delete(); }, 5000));
+            return await message.channel.send('You don\'t have permissions to kick members, smh').then(m => setTimeout(() => { m.delete(); }, 5000));
         }
 
         // No bot permissions to kick (it does by default)
         if (!message.guild.me.hasPermission('KICK_MEMBERS')) {
-            return await message.reply('I don\'t have permissions to kick members, please enable them').then(m => setTimeout(() => { m.delete(); }, 5000));
+            return await message.channel.send('I don\'t have permissions to kick members, please enable them').then(m => setTimeout(() => { m.delete(); }, 5000));
         }
 
         // No member found
         if (!toKick) {
-            return message.reply('Couldn\'t find that member, try again').then(m => setTimeout(() => { m.delete(); }, 5000));
+            return message.channel.send('Couldn\'t find that member, try again').then(m => setTimeout(() => { m.delete(); }, 5000));
         }
 
         // Can't kick yourself (bruh moment)
         if (message.author.id === toKick.id) {
-            return message.reply('You can\'t kick yourself, bruh moment');
+            return message.channel.send('You can\'t kick yourself, bruh moment');
         }
 
         // User not kickable
         if (!toKick.kickable) {
-            return message.reply('I can\'t kick that user due to role hierarchy, I guess').then(m => setTimeout(() => { m.delete(); }, 5000));
+            return message.channel.send('I can\'t kick that user due to role hierarchy, I guess').then(m => setTimeout(() => { m.delete(); }, 5000));
         } 
 
         // Embed
@@ -95,7 +95,7 @@ module.exports = {
 
             } else if (emoji === '❌') {
                 msg.delete();
-                message.reply('Kick cancelled.');
+                message.channel.send('Kick cancelled.');
             }
         });
     }

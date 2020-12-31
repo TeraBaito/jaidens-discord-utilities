@@ -31,34 +31,34 @@ module.exports = {
         
         // No args
         if (!args[0]) {
-            return message.reply('Please provide a user to tempban').then(m => setTimeout(() => { m.delete(); }, 5000));
+            return message.channel.send('Please provide a user to tempban').then(m => setTimeout(() => { m.delete(); }, 5000));
         }
 
         
 
         // No permissions to tempban
         if (!message.member.hasPermission('BAN_MEMBERS')) {
-            return message.reply('You don\'t have permissions to tempban members, smh').then(m => setTimeout(() => { m.delete(); }, 5000));
+            return message.channel.send('You don\'t have permissions to tempban members, smh').then(m => setTimeout(() => { m.delete(); }, 5000));
         }
 
         // No bot permissions to tempban (it does by default)
         if (!message.guild.me.hasPermission('BAN_MEMBERS')) {
-            return message.reply('I don\'t have permissions to tempban members, please enable them').then(m => setTimeout(() => { m.delete(); }, 5000));
+            return message.channel.send('I don\'t have permissions to tempban members, please enable them').then(m => setTimeout(() => { m.delete(); }, 5000));
         }
 
         // No member found
         if (!toTempban) {
-            return message.reply('Couldn\'t find that member, try again').then(m => setTimeout(() => { m.delete(); }, 5000));
+            return message.channel.send('Couldn\'t find that member, try again').then(m => setTimeout(() => { m.delete(); }, 5000));
         }
 
         // Can't tempban yourself xdd
         if (message.author.id === toTempban.id) {
-            return message.reply('You can\'t tempban yourself, just...no.');
+            return message.channel.send('You can\'t tempban yourself, just...no.');
         }
 
         // User not bannable
         if (!toTempban.bannable) {
-            return message.reply('I can\'t tempban that user due to role hierarchy, I guess').then(m => setTimeout(() => { m.delete(); }, 5000));
+            return message.channel.send('I can\'t tempban that user due to role hierarchy, I guess').then(m => setTimeout(() => { m.delete(); }, 5000));
         }
         
         
@@ -117,7 +117,7 @@ module.exports = {
     
             } else if (emoji === '❌') {
                 msg.delete();
-                message.reply('Tempban cancelled.');
+                message.channel.send('Tempban cancelled.');
             }
         });
     }
