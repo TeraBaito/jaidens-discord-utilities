@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const { prefix } = require('../../../config.json');
+const { prefix, jaidenServerID } = require('../../../config.json');
 const { blacklistProcess } = require('../../handlers/functions');
 
 /**
@@ -23,10 +23,10 @@ module.exports = async (bot, message) => {
     config = cmd
     prefix,? = args (args[0],args[1]) */
 
-    let allowedServers = ['386244779752816640', '711301984887636080', '754451472699228281'];
+    let allowedServers = [jaidenServerID, '386244779752816640', '711301984887636080', '601434467072212993'];
     
 
-    if (message.channel.type === 'news') {
+    if (message.channel.type === 'news' && message.guild.id === jaidenServerID) {
         message.crosspost()
             .catch(console.error);
     }
@@ -36,12 +36,14 @@ module.exports = async (bot, message) => {
     // command reading
     if (message.author.bot) return; // Prevent from command loops or maymays from bot answers
     if (!message.guild) return; // No DMs n stuff
-    if (!allowedServers.includes(message.guild.id)) return; 
     if (!message.member) message.member = await message.guild.members.fetch(message);
     if (cmd.length === 0) return; // Come on
 
     // Command handler
     let command = bot.commands.get(cmd);
     if(!command) command = bot.commands.get(bot.aliases.get(cmd));
-    if(command && message.content.startsWith(prefix)) command.run(bot, message, args);
+    if(command && message.content.startsWith(prefix)) {
+        if (!allowedServers.includes(message.guild.id)) return message.channel.send('Sorry, this bot is private and this server is not included in the allowed servers list.');
+        command.run(bot, message, args);
+    }
 };
