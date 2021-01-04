@@ -126,8 +126,8 @@ function blacklistProcess(message) {
     if (nsfw.some(w => 
         content.toLowerCase().includes(' ' + w) ||
         content.toLowerCase().includes(w + ' ') ||
-        content.endsWith(w) || 
-        content == w
+        content.toLowerCase().endsWith(w) || 
+        content.toLowerCase() == w
     )) {
         if (message.deletable) message.delete();
         message.channel.send(`${mention} Please refer to Rule 3, don't engage in NSFW conversations on this server`)
@@ -138,8 +138,8 @@ function blacklistProcess(message) {
     if(offensive.some(w =>
         content.toLowerCase().includes(' ' + w) ||
         content.toLowerCase().includes(w + ' ') ||
-        content.endsWith(w) || 
-        content == w
+        content.toLowerCase().endsWith(w) || 
+        content.toLowerCase() == w
     )) {
         if (message.deletable) message.delete();
         return message.channel.send(`${mention}, Please refer to Rule 1 and 9, really offensive words are discouraged in this server`)
@@ -150,8 +150,8 @@ function blacklistProcess(message) {
     if (jr34.some(w =>
         content.toLowerCase().includes(' ' + w) ||
         content.toLowerCase().includes(w + ' ') ||
-        content.endsWith(w) ||
-        content == w
+        content.toLowerCase().endsWith(w) ||
+        content.toLowerCase() == w
     )) {
         if (checkStaff(message.member)) return;
         if (message.deletable) message.delete();
