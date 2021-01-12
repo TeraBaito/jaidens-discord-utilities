@@ -19,3 +19,6 @@ src/handlers/blacklisted-words.json
 # Self-aids
 template.txt
 template.config.js
+
+# Hosting files
+.replit

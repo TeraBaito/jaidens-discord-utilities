@@ -1,6 +1,8 @@
 const beautify = require('beautify');
 const Discord = require('discord.js');
 const { checkStaff } = require('../../handlers/functions');
+const fs = require('fs');
+
 
 module.exports = {
     name: 'removeword',
