@@ -120,43 +120,44 @@ function blacklistProcess(message) {
     const { nsfw, offensive, jr34 } = require('./blacklisted-words.json');
 
     const mention = `<@!${message.author.id}>`;
-    const { content } = message;
+    let { content } = message;
+
+    content = content.toLowerCase();
+
+    /**
+     * @param {String} w The word
+     * @returns {Boolean}
+     */
+    let process = (w) => 
+        content.includes(' ' + w + ' ') ||
+        content.endsWith(' ' + w) || 
+        content.startsWith(w + ' ') ||
+        content == w;
+    
+    /**
+     * @param {String} msg The message to send
+     * @returns {void}
+     */
+    let act = (msg) => {
+        if (message.deletable) message.delete();
+        message.channel.send(`${mention}, ${msg}`)
+            .then(m => setTimeout(() => m.delete(), 10000));
+    };
 
     // NSFW words
-    if (nsfw.some(w => 
-        content.toLowerCase().includes(' ' + w) ||
-        content.toLowerCase().includes(w + ' ') ||
-        content.toLowerCase().endsWith(w) || 
-        content.toLowerCase() == w
-    )) {
-        if (message.deletable) message.delete();
-        message.channel.send(`${mention} Please refer to Rule 3, don't engage in NSFW conversations on this server`)
-            .then(m => setTimeout(() => m.delete(), 7000));
+    if (nsfw.some(process)) {
+        act('Please refer to Rule 3, don\'t engage in NSFW conversations on this server');
     }
 
     // Offensive words
-    if(offensive.some(w =>
-        content.toLowerCase().includes(' ' + w) ||
-        content.toLowerCase().includes(w + ' ') ||
-        content.toLowerCase().endsWith(w) || 
-        content.toLowerCase() == w
-    )) {
-        if (message.deletable) message.delete();
-        return message.channel.send(`${mention}, Please refer to Rule 1 and 9, really offensive words are discouraged in this server`)
-            .then(m => setTimeout(() => m.delete(), 7000));
+    if(offensive.some(process)) {
+        act('Please refer to Rule 1 and 9, really offensive words are discouraged in this server');
     }
 
     // "jr34"
-    if (jr34.some(w =>
-        content.toLowerCase().includes(' ' + w) ||
-        content.toLowerCase().includes(w + ' ') ||
-        content.toLowerCase().endsWith(w) ||
-        content.toLowerCase() == w
-    )) {
+    if (jr34.some(process)) {
         if (checkStaff(message.member)) return;
-        if (message.deletable) message.delete();
-        return message.channel.send(`${mention} 'Please refer to Rule 6, don't talk about sensitive topics like Jaiden Rule 34'`)
-            .then(m => setTimeout(() => m.delete(), 7000));
+        act('Please refer to Rule 6, don\'t talk about sensitive topics like Jaiden Rule 34');
     }
 }
 
