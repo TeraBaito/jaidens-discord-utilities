@@ -1,7 +1,6 @@
-const beautify = require('beautify');
 const Discord = require('discord.js');
+const { readJSONSync, writeJSONSync } = require('fs-extra');
 const { checkStaff } = require('../../handlers/functions');
-const fs = require('fs');
 
 
 module.exports = {
@@ -22,9 +21,9 @@ module.exports = {
         if (!args[0] || !args[1]) return message.channel.send('Please input the valid syntax from the help command!');
 
         /** @type {{nsfw: string[], offensive: string[], jr34: string}} */
-        const words = JSON.parse(fs.readFileSync('./src/handlers/blacklisted-words.json', 'utf-8'));
-        const { offensive, nsfw } = words;
-        
+        const words = readJSONSync('./src/handlers/blacklisted-words.json', 'utf-8');
+        let { offensive, nsfw } = words;
+        const restart = '. Please remember that the bot has to be restarted in order for the updates to be shown';
         
         switch(args[0]) {
         case 'offensive':
@@ -40,6 +39,6 @@ module.exports = {
         default:
             return message.channel.send('Invalid word type given! Please check the types in the help command');
         }
-        fs.writeFileSync('./src/handlers/blacklisted-words.json', beautify(JSON.stringify(words), { format: 'json' }));
+        writeJSONSync('./src/handlers/blacklisted-words.json', words, { spaces:4 });
     }
 };

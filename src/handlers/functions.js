@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const chalk = require('chalk');
+const { readJSONSync } = require('fs-extra');
 
 /**
 * Finds and returns member object by ID, mention, displayName, username or tag (respectively)
@@ -117,7 +118,7 @@ function checkStaff(member) {
 * @param {Discord.Message} message The Message object to perform actions using message
 */
 function blacklistProcess(message) {
-    const { nsfw, offensive, jr34 } = require('./blacklisted-words.json');
+    const { nsfw, offensive, jr34 } = readJSONSync('./src/handlers/blacklisted-words.json');
 
     const mention = `<@!${message.author.id}>`;
     let { content } = message;
