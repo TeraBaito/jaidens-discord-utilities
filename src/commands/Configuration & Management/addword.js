@@ -24,10 +24,16 @@ module.exports = {
 
         switch(args[0]) {
         case 'offensive':
+            if (words.nsfw.includes(args[1])) return message.channel.send('The word is in the NSFW words list already!');
+            if (words.offensive.includes(args[1])) return message.channel.send('The word is already in this list!');
+
             words.offensive.push(args[1]);
             message.channel.send('Added the word to the offensive words list');
             break;
         case 'nsfw':
+            if (words.offensive.includes(args[1])) return message.channel.send('The word is in the offensive words list already!');
+            if (words.nsfw.includes(args[1])) return message.channel.send('The word is already in this list!');
+            
             words.nsfw.push(args[1]);
             message.channel.send('Added the word to the NSFW words list');
             break;

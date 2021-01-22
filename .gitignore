@@ -16,6 +16,9 @@
 # Sensitive language
 src/handlers/blacklisted-words.json
 
+# Changing config that shouldn't really be pushed
+botSettings.json
+
 # Self-aids
 template.txt
 template.config.js

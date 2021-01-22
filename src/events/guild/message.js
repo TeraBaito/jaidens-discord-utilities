@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const { prefix, jaidenServerID } = require('../../../config.json');
 const { blacklistProcess } = require('../../handlers/functions');
+const { disabledCommands, blacklisting } = require('../../../botSettings.json');
 
 /**
  * `message` event.
@@ -31,7 +32,7 @@ module.exports = async (bot, message) => {
             .catch(console.error);
     }
 
-    blacklistProcess(message);
+    if (blacklisting && message.guild.id == jaidenServerID) blacklistProcess(message);
 
     // command reading
     if (message.author.bot) return; // Prevent from command loops or maymays from bot answers
@@ -44,6 +45,7 @@ module.exports = async (bot, message) => {
     if(!command) command = bot.commands.get(bot.aliases.get(cmd));
     if(command && message.content.startsWith(prefix)) {
         if (!allowedServers.includes(message.guild.id)) return message.channel.send('Sorry, this bot is private and this server is not included in the allowed servers list.');
+        if (disabledCommands.includes(command.name)) return message.channel.send('Sorry, this command is temporarily disabled. Want some choccy milk instead?', { files: ['https://media.discordapp.net/attachments/601435709261348895/801884062226186310/iu.png?width=461&height=473']});
         command.run(bot, message, args);
     }
 };

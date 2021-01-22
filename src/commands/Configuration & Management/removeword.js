@@ -27,14 +27,14 @@ module.exports = {
         
         switch(args[0]) {
         case 'offensive':
-            if (!offensive.find(w => w == args[1])) return message.channel.send('There\'s no such word as that!');
+            if (!offensive.includes(args[1])) return message.channel.send('There\'s no such word as that!');
             offensive.splice(offensive.indexOf(args[1]), 1);
-            message.channel.send('Deleted the word from the offensive words list');
+            await message.channel.send('Deleted the word from the offensive words list');
             break;
         case 'nsfw':
-            if (!nsfw.find(w => w == args[1])) return message.channel.send('There\'s no such word as that!');
+            if (!nsfw.includes(args[1])) return message.channel.send('There\'s no such word as that!');
             nsfw.splice(nsfw.indexOf(args[1]), 1);
-            message.channel.send('Deleted the word from the NSFW words list');
+            await message.channel.send('Deleted the word from the NSFW words list');
             break;
         default:
             return message.channel.send('Invalid word type given! Please check the types in the help command');

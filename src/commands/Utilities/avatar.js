@@ -18,7 +18,7 @@ module.exports = {
      */
     run: async(bot, message, args) => {
         let member = getMember(message, args.join(' '));
-        const uIcon = member.user.displayAvatarURL();
+        const uIcon = member.user.displayAvatarURL({ format: 'png', size: 4096, dynamic: true });
 
         const aEmbed = new Discord.MessageEmbed()
             .setColor(colors.ForestGreen)
