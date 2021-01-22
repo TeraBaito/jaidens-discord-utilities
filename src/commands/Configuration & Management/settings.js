@@ -9,7 +9,7 @@ module.exports = {
     helpName: 'Bot Core Settings',
     category: 'Configuration & Management',
     aliases: ['botSettings', 'config', 'botConfig'],
-    usage: 'settings {welcomer, blacklisting}\nsettings {enable, disable} [command]',
+    usage: 'settings {welcomer, blacklisting, list, reset}\na+settings {enable, disable} [command]\na+settings enable all',
     description: 'STAFF COMMAND ONLY\nEnables and disables core settings of the bot, such as welcomer or specific commands.',
 
     /**
