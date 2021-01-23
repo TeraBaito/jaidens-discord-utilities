@@ -7,6 +7,7 @@
     "@discordjs/opus": "^0.3.3",
     "ascii-table": "0.0.9",
     "beautify": "0.0.8",
+    "chalk": "^4.1.0",
     "common-tags": "^1.8.0",
     "discord-player": "^3.0.3",
     "discord-ytdl-core": "^5.0.0",
