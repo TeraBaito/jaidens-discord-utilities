@@ -7,17 +7,7 @@ const { type } = require('os');
 let table = new ascii();
 table.setHeading('Command', 'Load Status');
 
-/* module.exports = {
-    name: '',
-    helpName: '',
-    category: '',
-    aliases: [],
-    usage: '',
-    description: '',
-    run: async(bot, message, args) => {
-        
-    }
-}; */
+
 /**
  * Checks if a command has all what's needed for it to have. Return one string if it does, return other if it doesn't
  */
