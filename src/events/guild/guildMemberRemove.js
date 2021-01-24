@@ -23,5 +23,5 @@ module.exports = async (bot, member) => {
 
     // ok cya
     if (member.guild.id != jaidenServerID) return;
-    bot.channels.cache.get('755182878635327529').send(`Welps, guess like **${member.displayName}** couldn't stand to be around us, adiós.`);
+    bot.guilds.cache.get(jaidenServerID).channels.cache.find(ch => ch.name == 'new-members').send(`Welps, guess like **${member.displayName}** couldn't stand to be around us, adiós.`);
 };
