@@ -32,6 +32,6 @@ module.exports = async (bot, member) => {
     
     Please make sure to read <#755180458563600445> and the pinned comments / topics for this and other channels`);
 
-    bot.channels.cache.find(ch => ch.name == 'new-members').send(mEmbed);
+    bot.guilds.cache.get(jaidenServerID).channels.cache.find(ch => ch.name == 'new-members').send(mEmbed);
     unhoistOne(member);
 };
