@@ -1,7 +1,7 @@
 // Modules
 const Discord = require('discord.js');
 const { Player } = require('discord-player');
-const { token } = require('./config.json');
+require('dotenv').config({ path: './.env'});
 const fs = require('fs');
 const chalk = require('chalk');
 
