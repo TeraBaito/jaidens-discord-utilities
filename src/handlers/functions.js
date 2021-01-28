@@ -162,4 +162,34 @@ function blacklistProcess(message) {
     }
 }
 
-module.exports = {getMember, formatDate, promptMessage, randomizePercentage, checkStaff, blacklistProcess};
+/**
+ * Unhoists one member
+ * @param {Discord.GuildMember} member 
+ */
+function unhoistOne(member) {
+    let newNick = member.displayName;
+   
+    const hoistPattern =  /^!|^-/;
+
+    // While the nickname matches the RegExp, slice 1 char and trim
+    while(hoistPattern.test(newNick)) {
+        newNick = newNick.slice(1).trim();
+    }
+
+    // Only change if the newNick was changed (to prevent unnecessary nick changes)
+    if (member.displayName != newNick) member.setNickname(newNick);
+}
+
+/**
+ * Calls unhoistOne() on a collection of members
+ * @param {Discord.Guild} guild 
+ */
+function nicknameProcess(guild) {
+    const hoistPattern =  /^!|^-/;
+    const members = guild.members.cache.filter(m => hoistPattern.test(m.displayName));
+    //console.log(members);
+    members.each(m => unhoistOne(m));
+    return members.size;
+}
+
+module.exports = {getMember, formatDate, promptMessage, randomizePercentage, checkStaff, blacklistProcess, unhoistOne, nicknameProcess};
