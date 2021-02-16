@@ -26,12 +26,18 @@ module.exports = {
         if (message.deletable) message.delete();
         
         if (args[1] == 'embed') {
+            if (!args.slice(2).join(' ')) {
+				return message.reply('All fine and good, but like. What to send. Can\'t you guys do this first try for once?')
+			}
             const embed = new Discord.MessageEmbed()
                 .setColor(colors.ForestGreen)
                 .setDescription(args.slice(2).join(' '));
             
             channel.send(embed);
         } else {
+            if (!args.slice(1).join(' ')) {
+				return message.reply('All fine and good, but like. What to send. Can\'t you guys do this first try for once?');
+			}
             channel.send(args.slice(1).join(' '));
         }
     }
