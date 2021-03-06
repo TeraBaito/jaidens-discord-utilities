@@ -4,6 +4,7 @@ const { formatDate, unhoistOne } = require('../../handlers/functions');
 const { welcomer } = require('../../../botSettings.json');
 const { jaidenServerID, mainChannel } = require('../../../config.json');
 const colors = require('../../../colors.json');
+const eggs = require('../../handlers/eastereggs.json');
 
 /**
  * `guildMemberAdd` event.
@@ -25,13 +26,17 @@ module.exports = async (bot, member) => {
         .addField('Joined Discord', formatDate(member.user.createdAt))
         .setThumbnail(member.user.displayAvatarURL({ format: 'png', dynamic: true }));
 
+    const num = Math.floor(Math.random() * 100);
+    const msg = num <= eggs.length ?
+        `<@${member.id}> ${eggs[num - 1]}` :
+        stripIndents`Hello, <@${member.id}>. Welcome to r/JaidenAnimations!
+    Please make sure to read <#755180458563600445> and the pinned comments / topics for this and other channels.
+    And for the context, Jaiden isn't here :p`;
+
     // Just sends a cool message in chat to welcome the user
     if (member.guild.id != jaidenServerID) return;
-    bot.channels.cache.get(mainChannel).send(
-        stripIndents`Hello, <@${member.id}>. Welcome to r/JaidenAnimations!
-    
-    Please make sure to read <#755180458563600445> and the pinned comments / topics for this and other channels`);
+    bot.channels.cache.get(mainChannel).send(msg);
 
-    bot.guilds.cache.get(jaidenServerID).channels.cache.find(ch => ch.name == 'new-members').send(mEmbed);
+    bot.channels.cache.find(ch => ch.name == 'new-members').send(mEmbed);
     unhoistOne(member);
 };
