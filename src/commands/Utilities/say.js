@@ -19,7 +19,7 @@ module.exports = {
         message.guild.channels.cache.find(c => c.id == args[0]) ||
         message.guild.channels.cache.find(c => c.name == args[0]);
 	    
-	if (message.author.id == '725836730846019644') return message.channel.send('Get F\'ed pent');
+	if (message.author.id == '725836730846019644') return message.channel.send('get trolled <:troll:798638733095075875>');
         
 	if (!channel) return message.channel.send('Couldn\'t find a channel with the arguments provided');
     
