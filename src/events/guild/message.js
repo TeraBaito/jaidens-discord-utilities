@@ -32,7 +32,9 @@ module.exports = async (bot, message) => {
             .catch(console.error);
     }
 
-    if (blacklisting && message.guild.id == jaidenServerID) blacklistProcess(message);
+    if (blacklisting && 
+        (message.guild.id == jaidenServerID ||
+        ['717046261487763516', '734543511529193584'].includes(message.channel.id))) blacklistProcess(message);
 
     // command reading
     if (message.author.bot) return; // Prevent from command loops or maymays from bot answers

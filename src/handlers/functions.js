@@ -115,6 +115,7 @@ function checkStaff(member) {
 * Blacklisting words process
 * 
 * Actions it takes: deletes the message and calls out a rule name for the specific type of word
+* You can't make everyone happy with what is here
 * @param {Discord.Message} message The Message object to perform actions using message
 */
 function blacklistProcess(message) {
@@ -126,15 +127,19 @@ function blacklistProcess(message) {
     content = content.toLowerCase();
 
     /**
-     * @param {String} w The word
-     * @returns {Boolean}
-     */
-    let process = (w) => 
-        content.includes(' ' + w + ' ') ||
-        content.endsWith(' ' + w) || 
-        content.startsWith(w + ' ') ||
-        content == w;
-    
+    * @param {String} w The word
+    * @returns {Boolean}
+    */
+    let process = (w) => {
+        /** Blacklist pattern
+        * Breakdown:
+        *      ^word$ : only word in the message
+        *      |([!-@[-\`\s]+word) : symbols from !-@ and from [-` (ASCII) and/or whitespace, then word
+        *      |(word[!-@\[-\`\s]+) : the same but backwards
+        * @type {RegExp} */  
+        let pattern = new RegExp(`(^${w}$)|([!-@[-\`\\s]+${w})|(${w}[!-@[-\`\\ss]+)`, 'mi');
+        return pattern.test(message.content);
+    };
     /**
      * @param {String} msg The message to send
      * @returns {void}
@@ -169,12 +174,16 @@ function blacklistProcess(message) {
 function unhoistOne(member) {
     let newNick = member.displayName;
    
-    const hoistPattern =  /^!|^-/;
+    const hoistPattern =  /^[!?$-]+/;
 
     // While the nickname matches the RegExp, slice 1 char and trim
     while(hoistPattern.test(newNick)) {
         newNick = newNick.slice(1).trim();
     }
+
+    // Default to generic nick if recursing removes the whole string
+    // aka the user is called something like "!!"
+    if (newNick == '') newNick = 'non-hoistable nickname';
 
     // Only change if the newNick was changed (to prevent unnecessary nick changes)
     if (member.displayName != newNick) member.setNickname(newNick);
