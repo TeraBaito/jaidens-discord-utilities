@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const ascii = require('ascii-table');
 const { readdirSync } = require('fs');
+const { type } = require('os');
 
 
 let table = new ascii();
