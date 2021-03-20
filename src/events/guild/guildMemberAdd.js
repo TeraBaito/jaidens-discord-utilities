@@ -37,6 +37,5 @@ module.exports = async (bot, member) => {
     if (member.guild.id != jaidenServerID) return;
     bot.channels.cache.get(mainChannel).send(msg);
 
-    bot.channels.cache.find(ch => ch.name == 'new-members').send(mEmbed);
-    unhoistOne(member);
+    bot.guilds.cache.get(jaidenServerID).channels.cache.find(ch => ch.name == 'new-members').send(mEmbed);
 };
