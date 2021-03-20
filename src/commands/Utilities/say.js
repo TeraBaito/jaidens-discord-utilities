@@ -27,17 +27,17 @@ module.exports = {
         
         if (args[1] == 'embed') {
             if (!args.slice(2).join(' ')) {
-				return message.reply('All fine and good, but like. What to send. Can\'t you guys do this first try for once?')
-			}
+                return message.reply('what the fuck do i send');
+            }
             const embed = new Discord.MessageEmbed()
                 .setColor(colors.ForestGreen)
                 .setDescription(args.slice(2).join(' '));
             
             channel.send(embed);
         } else {
-            if (!args.slice(1).join(' ')) {
-				return message.reply('All fine and good, but like. What to send. Can\'t you guys do this first try for once?');
-			}
+            if (!args.slice(2).join(' ')) {
+                return message.reply('what the fuck do i send');
+            }
             channel.send(args.slice(1).join(' '));
         }
     }
