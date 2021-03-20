@@ -26,7 +26,7 @@ module.exports = async (bot, member) => {
         .addField('Joined Discord', formatDate(member.user.createdAt))
         .setThumbnail(member.user.displayAvatarURL({ format: 'png', dynamic: true }));
 
-    const num = Math.floor(Math.random() * 100);
+    const num = Math.floor(Math.random() * 50);
     const msg = num <= eggs.length ?
         `<@${member.id}> ${eggs[num - 1]}` :
         stripIndents`Hello, <@${member.id}>. Welcome to r/JaidenAnimations!
