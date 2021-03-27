@@ -32,7 +32,7 @@ module.exports = async (bot, member) => {
     // 11 // 11 < 11 = false // default
     // 10 // 10 < 11 = true // eggs[10]
 
-    const num = Math.floor(Math.random() * 50);
+    const num = Math.floor(Math.random() * 100);
     const msg = num < eggs.length ?
         `<@${member.id}> ${eggs[num]}` :
         stripIndents`Hello, <@${member.id}>. Welcome to r/JaidenAnimations!
