@@ -26,9 +26,13 @@ module.exports = async (bot, member) => {
         .addField('Joined Discord', formatDate(member.user.createdAt))
         .setThumbnail(member.user.displayAvatarURL({ format: 'png', dynamic: true }));
 
+    // 0 // 0 < 11 = true // eggs[0]
+    // 11 // 11 < 11 = false // default
+    // 10 // 10 < 11 = true // eggs[10]
+
     const num = Math.floor(Math.random() * 50);
-    const msg = num <= eggs.length ?
-        `<@${member.id}> ${eggs[num - 1]}` :
+    const msg = num < eggs.length ?
+        `<@${member.id}> ${eggs[num]}` :
         stripIndents`Hello, <@${member.id}>. Welcome to r/JaidenAnimations!
     Please make sure to read <#755180458563600445> and the pinned comments / topics for this and other channels.
     And for the context, Jaiden isn't here :p`;
@@ -38,4 +42,5 @@ module.exports = async (bot, member) => {
     bot.channels.cache.get(mainChannel).send(msg);
 
     bot.guilds.cache.get(jaidenServerID).channels.cache.find(ch => ch.name == 'new-members').send(mEmbed);
+    unhoistOne(member);
 };
