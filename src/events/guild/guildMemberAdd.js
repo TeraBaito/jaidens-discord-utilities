@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const { stripIndents } = require('common-tags');
+const { readJSONSync } = require('fs-extra');
 const { formatDate, unhoistOne } = require('../../handlers/functions');
-const { welcomer } = require('../../../botSettings.json');
 const { jaidenServerID, mainChannel } = require('../../../config.json');
 const colors = require('../../../colors.json');
 const eggs = require('../../handlers/eastereggs.json');
@@ -15,6 +15,8 @@ const eggs = require('../../handlers/eastereggs.json');
  * @param {Discord.GuildMember} member 
  */
 module.exports = async (bot, member) => {
+    const { welcomer } = readJSONSync('./botSettings.json');
+
     if (!welcomer) return;
     
     const mEmbed = new Discord.MessageEmbed()

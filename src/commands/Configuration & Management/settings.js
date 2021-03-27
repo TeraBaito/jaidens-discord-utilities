@@ -26,16 +26,17 @@ module.exports = {
         let { disabledCommands } = data;
         const input = args[1];
 
+        /** @param {boolean} elem */
+        const formatBool = (elem) => elem ? 'Enabled' : 'Disabled';
+
         switch(args[0]) {
 
         case 'welcomer':
         case 'announce':
         case 'welcome': {
-            /** @param {boolean} elem */
-            const formatBool = (elem) => elem ? 'Enabled' : 'Disabled';
-
+            console.log(data);
             data.welcomer = !data.welcomer; // Set
-
+            console.log(data);
             const embed = new Discord.MessageEmbed()
                 .setColor(colors.ForestGreen)
                 .setDescription(`\`${formatBool(data.welcomer)}\` welcomer settings`)
@@ -48,14 +49,12 @@ module.exports = {
 
         case 'blacklisting':
         case 'blacklist': {
-            /** @param {boolean} elem */
-            const formatBool = (elem) => elem ? 'Enabled' : 'Disabled';
-
+            console.log(data);
             data.blacklisting = !data.blacklisting; // Set
-
+            console.log(data);
             const embed = new Discord.MessageEmbed()
                 .setColor(colors.ForestGreen)
-                .setDescription(`\`${formatBool(data.blacklist)}\` blacklisting settings`)
+                .setDescription(`\`${formatBool(data.blacklisting)}\` blacklisting settings`)
                 .setFooter('It might take some time while I restart!');
 
             await message.channel.send(embed);

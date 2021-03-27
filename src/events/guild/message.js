@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
+const { readJSONSync } = require('fs-extra');
 const { prefix, jaidenServerID } = require('../../../config.json');
 const { blacklistProcess } = require('../../handlers/functions');
-const { disabledCommands, blacklisting } = require('../../../botSettings.json');
 
 /**
  * `message` event.
@@ -16,6 +16,8 @@ const { disabledCommands, blacklisting } = require('../../../botSettings.json');
  * @param {Discord.Message} message The Message object passed with the `message` event.
  */
 module.exports = async (bot, message) => {
+    const { disabledCommands, blacklisting } = readJSONSync('./botSettings.json');
+
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
     const cmd = args.shift().toLowerCase();
 
