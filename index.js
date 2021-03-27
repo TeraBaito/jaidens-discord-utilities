@@ -20,7 +20,7 @@ bot.categories = fs.readdirSync('./src/commands/');
 // Debugging
 //bot.on('raw', console.log);
 //bot.on('debug', m => console.log(`${chalk.cyan('[Debug]')} - ${m}`));
-bot.on('rateLimit', console.warn(`${chalk.yellow('[Ratelimit]')} - ${w}`));
+bot.on('rateLimit', w => console.warn(`${chalk.yellow('[Ratelimit]')} - ${w}`));
 bot.on('warn', w => console.warn(`${chalk.yellow('[Warn]')} - ${w}`));
 bot.on('error', e => console.error(`${chalk.redBright('[Error]')} - ${e.stack}`));
 process.on('uncaughtException', e => console.error(`${chalk.redBright('[Error]')} - ${e.stack}`));
