@@ -7,7 +7,9 @@ const chalk = require('chalk');
 // Client
 const bot = new Discord.Client({
     fetchAllMembers: true,
-    intents: ['GUILDS', 'GUILD_MEMBERS', 'GUILD_MESSAGES', 'GUILD_MESSAGE_REACTIONS']
+    ws: {
+        intents: ['GUILDS', 'GUILD_MEMBERS', 'GUILD_MESSAGES', 'GUILD_VOICE_STATES', 'GUILD_MESSAGE_REACTIONS']
+    }
 });
 
 // Other bot properties
@@ -16,7 +18,8 @@ bot.aliases = new Discord.Collection();
 bot.categories = fs.readdirSync('./src/commands/');
 
 // Debugging
-//bot.on('debug', m => console.log(`[${chalk.cyan('debug')}] - ${m}`));
+//bot.on('raw', console.log);
+//bot.on('debug', m => console.log(`${chalk.cyan('[Debug]')} - ${m}`));
 bot.on('rateLimit', console.warn(`${chalk.yellow('[Ratelimit]')} - ${w}`));
 bot.on('warn', w => console.warn(`${chalk.yellow('[Warn]')} - ${w}`));
 bot.on('error', e => console.error(`${chalk.redBright('[Error]')} - ${e.stack}`));
