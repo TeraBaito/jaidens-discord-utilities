@@ -16,7 +16,7 @@ const eggs = require('../../handlers/eastereggs.json');
  */
 module.exports = async (bot, member) => {
     const { welcomer } = readJSONSync('./botSettings.json');
-
+    
     if (!welcomer) return;
     
     const mEmbed = new Discord.MessageEmbed()
