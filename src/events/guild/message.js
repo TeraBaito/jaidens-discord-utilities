@@ -1,7 +1,8 @@
 const Discord = require('discord.js');
-const { readJSONSync } = require('fs-extra');
 const { prefix, jaidenServerID } = require('../../../config.json');
 const { blacklistProcess } = require('../../handlers/functions');
+const { readJSONSync } = require('fs-extra');
+const autoresponders = require('../../handlers/autoresponders.js');
 
 /**
  * `message` event.
@@ -38,12 +39,25 @@ module.exports = async (bot, message) => {
         (message.guild.id == jaidenServerID ||
         ['717046261487763516', '734543511529193584'].includes(message.channel.id))) blacklistProcess(message);
 
-    // command reading
+    // Command reading [1]
     if (message.author.bot) return; // Prevent from command loops or maymays from bot answers
+
+    // Autoresponders
+    autoresponders.forEach(elem => {
+        const { input, output, regexp } = elem;
+        if (regexp) {
+            if (input.test(message.content.toLowerCase())) message.channel.send(output);
+        } else {
+            if (message.content.toLowerCase().includes(input)) message.channel.send(output);
+        }
+    });
+
+    // Command reading [2]
     if (!message.guild) return; // No DMs n stuff
     if (!message.member) message.member = await message.guild.members.fetch(message);
     if (cmd.length === 0) return; // Come on
 
+    
     // Command handler
     let command = bot.commands.get(cmd);
     if(!command) command = bot.commands.get(bot.aliases.get(cmd));
