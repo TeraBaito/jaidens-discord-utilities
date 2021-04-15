@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const chalk = require('chalk');
 const { readJSONSync } = require('fs-extra');
+const { FireBrick } = require('../../colors.json');
 
 /**
 * Finds and returns member object by ID, mention, displayName, username or tag (respectively)
@@ -117,9 +118,12 @@ function checkStaff(member) {
 * Actions it takes: deletes the message and calls out a rule name for the specific type of word
 * You can't make everyone happy with what is here
 * @param {Discord.Message} message The Message object to perform actions using message
+* @param {Discord.Client} bot The Client object
 */
-function blacklistProcess(message) {
-    const { nsfw, offensive, jr34 } = readJSONSync('./src/handlers/blacklisted-words.json');
+function blacklistProcess(message, bot) {
+    const { nsfw, offensive, jr34 } = readJSONSync('./src/handlers/blacklisted-words.json'),
+        { blacklistLogs } = readJSONSync('./botSettings.json'),
+        { logChannel } = require('../../config.json');
 
     const mention = `<@!${message.author.id}>`;
     let { content } = message;
@@ -131,20 +135,46 @@ function blacklistProcess(message) {
     * @returns {Boolean}
     */
     let process = (w) => {
+        const split = message.content.split(/ +/g);
         /** Blacklist pattern
         * Breakdown:
-        *      ^word$ : only word in the message
-        *      |([!-@[-\`\s]+word) : symbols from !-@ and from [-` (ASCII) and/or whitespace, then word
-        *      |(word[!-@\[-\`\s]+) : the same but backwards
+        *      ^word$ : only word
+        *      |([^a-z\s]+word) : anything that's not a-z or whitespace, then word
+        *      |(word[^a-z\s]+) : the same but backwards
         * @type {RegExp} */  
-        let pattern = new RegExp(`(^${w}$)|([!-@[-\`\\s]+${w})|(${w}[!-@[-\`\\ss]+)`, 'mi');
-        return pattern.test(message.content);
+        // eslint-disable-next-line no-useless-escape
+        let pattern = new RegExp(`(^${w}$)|([^a-z\s]+${w})|(${w}[^a-z\s]+)`, 'mi');
+        return split.some(w => pattern.test(w));
     };
     /**
      * @param {String} msg The message to send
      * @returns {void}
      */
     let act = (msg) => {
+        if (blacklistLogs) {
+            let embed = new Discord.MessageEmbed()
+                .setColor(FireBrick) 
+                .setTitle('Blacklisting')
+                .addFields(
+                    {
+                        name: 'Offender',
+                        value: message.author.tag,
+                        inline: true
+                    },
+                    {
+                        name: 'ID',
+                        value: message.author.id,
+                        inline: true
+                    },
+                    {
+                        name: 'Original Message',
+                        value: message.content,
+                        inline: false
+                    }
+                );
+            bot.channels.cache.get(logChannel).send(embed);
+        }
+        
         if (message.deletable) message.delete();
         message.channel.send(`${mention}, ${msg}`)
             .then(m => setTimeout(() => m.delete(), 10000));

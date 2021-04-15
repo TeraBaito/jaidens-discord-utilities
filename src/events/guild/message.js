@@ -37,7 +37,7 @@ module.exports = async (bot, message) => {
 
     if (blacklisting && 
         (message.guild.id == jaidenServerID ||
-        ['717046261487763516', '734543511529193584'].includes(message.channel.id))) blacklistProcess(message);
+        ['717046261487763516', '734543511529193584'].includes(message.channel.id))) blacklistProcess(message, bot);
 
     // Command reading [1]
     if (message.author.bot) return; // Prevent from command loops or maymays from bot answers
@@ -58,6 +58,7 @@ module.exports = async (bot, message) => {
     if (cmd.length === 0) return; // Come on
 
     
+
     // Command handler
     let command = bot.commands.get(cmd);
     if(!command) command = bot.commands.get(bot.aliases.get(cmd));
