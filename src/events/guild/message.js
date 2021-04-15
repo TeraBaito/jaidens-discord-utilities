@@ -17,7 +17,7 @@ const autoresponders = require('../../handlers/autoresponders.js');
  * @param {Discord.Message} message The Message object passed with the `message` event.
  */
 module.exports = async (bot, message) => {
-    const { disabledCommands, blacklisting } = readJSONSync('./botSettings.json');
+    const { disabledCommands, blacklisting, autoresponders: ar } = readJSONSync('./botSettings.json');
 
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
     const cmd = args.shift().toLowerCase();
@@ -43,14 +43,17 @@ module.exports = async (bot, message) => {
     if (message.author.bot) return; // Prevent from command loops or maymays from bot answers
 
     // Autoresponders
-    autoresponders.forEach(elem => {
-        const { input, output, regexp } = elem;
-        if (regexp) {
-            if (input.test(message.content.toLowerCase())) message.channel.send(output);
-        } else {
-            if (message.content.toLowerCase().includes(input)) message.channel.send(output);
-        }
-    });
+    if (ar) {
+        autoresponders.forEach(elem => {
+            const { input, output, regexp } = elem;
+            if (regexp) {
+                if (input.test(message.content.toLowerCase())) message.channel.send(output);
+            } else {
+                if (message.content.toLowerCase().includes(input)) message.channel.send(output);
+            }
+        });
+    }
+    
 
     // Command reading [2]
     if (!message.guild) return; // No DMs n stuff

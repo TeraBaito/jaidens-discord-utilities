@@ -69,6 +69,18 @@ module.exports = {
             writeJSONSync('./botSettings.json', data, { spaces: 4 });
             break;
         }
+        case 'autoresponders':
+        case 'autoresponder': {
+            data.autoresponders = !data.autoresponders; // Set
+            const embed = new Discord.MessageEmbed()
+                .setColor(colors.ForestGreen)
+                .setDescription(`\`${formatBool(data.autoresponders)}\` autoresponders`)
+                .setFooter('It might take some time while changes apply!');
+
+            await message.channel.send(embed);
+            writeJSONSync('./botSettings.json', data, { spaces: 4 });
+            break;
+        }
         case 'enable': {
             if (input == 'all') {
                 disabledCommands.splice(0, disabledCommands.length);
@@ -121,6 +133,7 @@ module.exports = {
                     stripIndents`Welcomer: \`${formatBool(data.welcomer)}\`
                 Blacklisting: \`${formatBool(data.blacklisting)}\`
                 Blacklisting logs: \`${formatBool(data.blacklistLogs)}\`
+                Autoresponders: \`${formatBool(data.autoresponders)}\`
                 Disabled commands: \`${data.disabledCommands.length ? data.disabledCommands.join(', ') : 'None'}\``);
 
             message.channel.send(embed);
