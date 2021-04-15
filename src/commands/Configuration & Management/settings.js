@@ -21,7 +21,7 @@ module.exports = {
         let emot = '<:troll:798638733095075875>';
         if (!checkStaff(message.member)) return message.channel.send('You can\'t use this command; smh get admin lol rekt '+emot+emot+emot);
 
-        /**  @type {{ welcomer: boolean, blacklisting: boolean, disabledCommands: string[] }} */
+        /**  @type {{ welcomer: boolean, blacklisting: boolean, blacklistLogs: boolean disabledCommands: string[] }} */
         const data = readJSONSync('./botSettings.json', 'utf-8');
         let { disabledCommands } = data;
         const input = args[1];
@@ -34,13 +34,11 @@ module.exports = {
         case 'welcomer':
         case 'announce':
         case 'welcome': {
-            console.log(data);
             data.welcomer = !data.welcomer; // Set
-            console.log(data);
             const embed = new Discord.MessageEmbed()
                 .setColor(colors.ForestGreen)
                 .setDescription(`\`${formatBool(data.welcomer)}\` welcomer settings`)
-                .setFooter('It might take some time while I restart!');
+                .setFooter('It might take some time while changes apply!');
 
             await message.channel.send(embed);
             writeJSONSync('./botSettings.json', data, { spaces: 4 });
@@ -49,13 +47,23 @@ module.exports = {
 
         case 'blacklisting':
         case 'blacklist': {
-            console.log(data);
             data.blacklisting = !data.blacklisting; // Set
-            console.log(data);
             const embed = new Discord.MessageEmbed()
                 .setColor(colors.ForestGreen)
                 .setDescription(`\`${formatBool(data.blacklisting)}\` blacklisting settings`)
-                .setFooter('It might take some time while I restart!');
+                .setFooter('It might take some time while changes apply!');
+
+            await message.channel.send(embed);
+            writeJSONSync('./botSettings.json', data, { spaces: 4 });
+            break;
+        }
+        case 'blacklistlogs':
+        case 'blacklistdebug': {
+            data.blacklistLogs = !data.blacklistLogs; // Set
+            const embed = new Discord.MessageEmbed()
+                .setColor(colors.ForestGreen)
+                .setDescription(`\`${formatBool(data.blacklistLogs)}\` blacklisting logs`)
+                .setFooter('It might take some time while changes apply!');
 
             await message.channel.send(embed);
             writeJSONSync('./botSettings.json', data, { spaces: 4 });
@@ -68,7 +76,7 @@ module.exports = {
                     new Discord.MessageEmbed()
                         .setColor(colors.PaleBlue)
                         .setDescription('Enabled all previously disabled commands')
-                        .setFooter('It might take some time while I restart!'));
+                        .setFooter('It might take some time changes apply!'));
                 writeJSONSync('./botSettings.json', data, { spaces: 4 });
                 return; 
             }
@@ -79,7 +87,7 @@ module.exports = {
             const embed = new Discord.MessageEmbed()
                 .setColor(colors.PaleBlue)
                 .setDescription(`Enabled the command \`${input}\``)
-                .setFooter('It might take some time while I restart!');
+                .setFooter('It might take some time wchanges apply!');
             
             disabledCommands.splice(disabledCommands.indexOf(input), 1); // Set
             await message.channel.send(embed);
@@ -94,7 +102,7 @@ module.exports = {
             const embed = new Discord.MessageEmbed()
                 .setColor(colors.OrangeRed)
                 .setDescription(`Disabled the command \`${input}\``)
-                .setFooter('It might take some time while I restart!');
+                .setFooter('It might take some time changes apply!');
 
             disabledCommands.push(input); // Set
             await message.channel.send(embed);
@@ -102,7 +110,8 @@ module.exports = {
             break;
         }
 
-        case 'list': {
+        case 'list':
+        case undefined: {
             /** @param {boolean} elem */
             const formatBool = (elem) => elem ? 'Enabled' : 'Disabled';
 
@@ -111,6 +120,7 @@ module.exports = {
                 .setDescription(
                     stripIndents`Welcomer: \`${formatBool(data.welcomer)}\`
                 Blacklisting: \`${formatBool(data.blacklisting)}\`
+                Blacklisting logs: \`${formatBool(data.blacklistLogs)}\`
                 Disabled commands: \`${data.disabledCommands.length ? data.disabledCommands.join(', ') : 'None'}\``);
 
             message.channel.send(embed);
@@ -128,7 +138,7 @@ module.exports = {
             const embed = new Discord.MessageEmbed()
                 .setColor(colors.Maroon)
                 .setDescription('Resetting to defaults')
-                .setFooter('It might take some time while I restart!');
+                .setFooter('It might take some time while changes apply!');
 
             await message.channel.send(embed);
             writeJSONSync('./botSettings.json', defaults, { spaces: 4 });
