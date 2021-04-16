@@ -17,7 +17,7 @@ module.exports = {
 
         const msg = await message.channel.send('Pinging...');
 
-        msg.edit(stripIndentsw`Pong!
+        msg.edit(stripIndents`Pong!
         Latency: ${Math.floor(msg.createdAt - message.createdAt)}ms
         Discord API Latency: ${bot.ws.ping}ms`);
     }
