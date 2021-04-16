@@ -4,8 +4,6 @@ const colors = require('../../../colors.json');
 
 module.exports = {
     name: 'user-info',
-    helpName: 'User Information',
-    category: 'Utilities',
     aliases: ['profile', 'user', 'whois'],
     usage: 'user-info ({@user, ID})',
     description: 'Sends the general information of a guild member.\n**Attention:** Only @mentions and user IDs work, `;user-info Cookie` doesn\'t work.',

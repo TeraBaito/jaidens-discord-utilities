@@ -3,9 +3,7 @@ const colors = require('../../../colors.json');
 
 module.exports = {
     name: 'unban',
-    helpName: 'Unban',
-    category: 'Moderation',
-    // aliases: [],
+    aliases: ['ub'],
     usage: 'unban [ID]',
     description: 'Unbans a member from the current guild',
 

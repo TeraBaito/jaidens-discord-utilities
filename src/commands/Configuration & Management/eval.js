@@ -7,8 +7,7 @@ const colors = require('../../../colors.json');
 module.exports = {
     name: 'eval',
     helpName: 'Evaluate',
-    category: 'Owner Only',
-    aliases: [],
+    hidden: true,
     usage: 'eval [string]',
     description: 'Evaluates JavaScript code inputed from args.\nOnwer Only Command\nSelfnote: don\'t use this next to many people idk they could take your token i guess lmao',
     

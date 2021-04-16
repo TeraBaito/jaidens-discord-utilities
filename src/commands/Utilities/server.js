@@ -4,8 +4,6 @@ const colors = require('../../../colors.json');
 
 module.exports = {
     name: 'server',
-    helpName: 'Server Information',
-    category: 'Utilities',
     aliases: ['server-info'],
     usage: 'server',
     description: 'Server information',

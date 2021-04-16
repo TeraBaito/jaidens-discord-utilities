@@ -2,9 +2,7 @@ const Discord = require('discord.js');
 
 module.exports = {
     name: 'no',
-    helpName: 'No, Jaiden is Not Here',
-    category: 'Miscellaneous',
-    aliases: [],
+    helpName: '"No, Jaiden is Not Here"',
     usage: 'no',
     description: 'You can still stay for the community however!',
 

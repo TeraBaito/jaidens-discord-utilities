@@ -5,7 +5,6 @@ const { getMember } = require('../../handlers/functions');
 module.exports = {
     name: 'addrole',
     helpName: 'Add Role',
-    category: 'Configuration & Management',
     aliases: ['grant', 'give-role'],
     // cooldown: ,
     usage: 'addrole [user] [role]',

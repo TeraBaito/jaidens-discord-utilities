@@ -5,8 +5,6 @@ const { getMember } = require('../../handlers/functions');
 
 module.exports = {
     name: 'unmute',
-    helpName: 'Unmute',
-    category: 'Moderation',
     aliases: ['um'],
     // cooldown: ,
     usage: 'unmute [user] (reason)',

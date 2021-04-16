@@ -4,8 +4,6 @@ const { promptMessage, getMember } = require('../../handlers/functions');
 
 module.exports = {
     name: 'ban',
-    helpName: 'Ban',
-    category: 'Moderation',
     aliases: ['b'],
     usage: 'ban [user]',
     description: 'Bans a member from the current guild',

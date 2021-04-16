@@ -15,20 +15,16 @@ function checkData(bot, command, fileName) {
         success = '✔   Loaded',  
         err =    '✖   Missing Data';
 
-    const { name, helpName, category, usage, description, run } = command;
+    const { name, usage, description, run } = command;
     if (
         typeof name == 'string' &&
-        typeof helpName == 'string' &&
-        typeof category == 'string' &&
         typeof usage == 'string' &&
         typeof description == 'string' &&
         typeof run == 'function'
     ) {
         bot.commands.set(command.name.toLowerCase(), command);
-        table.addRow(fileName, success);
-        return;
+        return table.addRow(fileName, success);
     }
-    console.log(typeof command);
     return table.addRow(fileName, err);
 }
 /**
@@ -42,14 +38,6 @@ module.exports = bot => {
         const commands = readdirSync(`./src/commands/${dir}/`).filter(file => file.endsWith('.js'));
         for (let file of commands) {
             let pull = require(`../commands/${dir}/${file}`);
-            /*if (pull.name) {
-                bot.commands.set(pull.name.toLowerCase(), pull);
-                table.addRow(file, '✔   Loaded');
-            } else {
-                table.addRow(file, '✖   Not loaded -> missing a help.name, or help.name is not a string.');
-                continue;
-            }*/
-            if (file == 'test2.js') console.log(pull);
             checkData(bot, pull, file);
             if (pull.aliases && Array.isArray(pull.aliases)) pull.aliases.forEach(alias => bot.aliases.set(alias.toLowerCase(), pull.name.toLowerCase()));
         }

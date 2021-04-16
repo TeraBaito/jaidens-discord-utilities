@@ -4,7 +4,6 @@ const { nicknameProcess } = require('../../handlers/functions');
 module.exports = {
     name: 'unhoist',
     helpName: 'Member Nickname Unhoisting',
-    category: 'Configuration & Management',
     aliases: [],
     usage: 'unhoist',
     description: 'MOD COMMAND ONLY\nUnhoists all hoisted members by a RegExp pattern.',

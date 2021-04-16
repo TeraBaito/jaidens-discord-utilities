@@ -5,10 +5,8 @@ const { promptMessage, getMember } = require('../../handlers/functions');
 
 module.exports = {
     name: 'kick',
-    helpName: 'Kick',
-    category: 'Moderation',
     aliases: ['k'],
-    usage: ';kick [user] (reason)',
+    usage: 'kick [user] (reason)',
     description: 'Kicks a member from the current guild\n**Attention:** Log channel has to be called #toucan-logs, or else it will log it in the current channel.',
 
     /** 

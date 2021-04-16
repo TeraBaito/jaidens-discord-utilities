@@ -7,8 +7,6 @@ const { formatDate } = require('../../handlers/functions');
 
 module.exports = { 
     name: 'about',
-    helpName: 'About',
-    category: 'Miscellaneous',
     aliases: ['bot-info'],
     usage: 'about',
     description: 'General Bot Information',
@@ -24,8 +22,7 @@ module.exports = {
 
         let botEmbed = new Discord.MessageEmbed()
             .setTitle('**Bot Information**')
-            .setDescription(stripIndents
-            `\>\>\> A bot that provides different utilities to the r/JaidenAnimations Discord Server
+            .setDescription(stripIndents`\>\>\> A bot that provides different utilities to the r/JaidenAnimations Discord Server
             Fast and easy-to-use commands
             Actions adjusted to the server needs
             Other cool utils and fun commands`)  

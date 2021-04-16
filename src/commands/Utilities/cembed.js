@@ -1,10 +1,9 @@
 const Discord = require('discord.js');
 const colors = require('../../../colors.json');
+const { checkStaff } = require('../../handlers/functions');
 
 module.exports = {
     name: 'cembed',
-    helpName: 'Create JSON Embed',
-    category: 'Utilities',
     aliases: ['jsonembed'],
     usage: 'cembed [channel] [json-embed]',
     description: 'Sends an embed using JSON format to the specified channel',
@@ -19,6 +18,8 @@ module.exports = {
         message.guild.channels.cache.find(c => c.id == args[0]) ||
         message.guild.channels.cache.find(c => c.name == args[0]);
         
+        if (!checkStaff(message.member)) return message.channel.send('Nope, you\'re not touching this command, not even close');
+
         try {
             let jsonEmbed = JSON.parse(args.slice(1).join(' '));
             channel.send(jsonEmbed);

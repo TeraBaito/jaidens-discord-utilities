@@ -8,10 +8,9 @@ const colors = require('../../../colors.json');
 module.exports = {
     name: 'urban',
     helpName: 'Urban Dictionary',
-    category: 'Fun',
-    // aliases: [],
     usage: 'urban [term]',
     description: 'Defines a term using the Urban Dictionary API',
+    
     /** 
      * @param {Discord.Client} bot 
      * @param {Discord.Message} message 

@@ -2,9 +2,7 @@ const Discord = require('discord.js');
 
 module.exports = {
     name: 'grady',
-    helpName: 'grady',
-    category: 'grady',
-    // aliases: [],
+    hidden: true,
     usage: 'grady',
     description: 'grady',
     /** 

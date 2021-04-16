@@ -4,8 +4,6 @@ const colors = require('../../../colors.json');
 
 module.exports = {
     name: 'math',
-    helpName: 'Math',
-    category: 'Utilities',
     aliases: ['calc', 'schoolpain'],
     usage: 'math [operation]',
     description: 'Evaluates a math operation. Please no quadratic equations or something lol',

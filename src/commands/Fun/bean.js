@@ -2,11 +2,7 @@ const Discord = require('discord.js');
 
 module.exports = {
     name: 'bean',
-    helpName: 'Bean',
-    category: 'Fun',
-    // aliases: [],
-    cooldown: 10,
-    usage: 'bean ({@user, whatever else})',
+    usage: 'bean ({@user, id, whatever else})',
     description: 'Get some beans for yourself or throw beans to others! Featuring everyone can use it, no more mod authority :bwobble:',
 
     /** 

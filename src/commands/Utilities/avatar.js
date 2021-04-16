@@ -4,10 +4,7 @@ const { getMember } = require('../../handlers/functions.js');
 
 module.exports = {
     name: 'avatar',
-    helpName: 'Avatar',
-    category: 'Utilities',
     aliases: ['pfp', 'profile-picture'],
-    // cooldown: ,
     usage: 'avatar (user)',
     description: 'Shows the profile picture of you or a specified user',
 

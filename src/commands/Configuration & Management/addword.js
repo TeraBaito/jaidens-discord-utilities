@@ -6,7 +6,6 @@ const { checkStaff } = require('../../handlers/functions');
 module.exports = {
     name: 'addword',
     helpName: 'Add Blacklisted Word',
-    category: 'Configuration & Management',
     aliases: ['add-word', 'add-blacklist'],
     usage: 'addword [{nsfw, offensive}] [word]',
     description: 'ADMIN COMMAND ONLY\nAdds a blacklisted word to the word list',

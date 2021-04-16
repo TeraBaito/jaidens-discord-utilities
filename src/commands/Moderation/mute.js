@@ -6,10 +6,7 @@ const { getMember } = require('../../handlers/functions');
 
 module.exports = {
     name: 'mute',
-    helpName: 'Mute',
-    category: 'Moderation',
     aliases: ['m'],
-    // cooldown: ,
     usage: 'mute [user] (reason)',
     description: 'Mutes a member from the guild for an indefinite amount of time.\n**Attention:** The muterole has to be called "Muted", and the log channel #toucan-logs',
 
@@ -21,7 +18,7 @@ module.exports = {
     run: async(bot, message, args) => {
         const logChannel = message.guild.channels.cache.find(c => c.name === 'ari-bot-logs') || message.channel;
         const toMute = getMember(message, args[0]);
-        const muterole = message.guild.roles.cache.find(r => r.name === 'Muted');
+        let muterole = message.guild.roles.cache.find(r => r.name === 'Muted');
 
         // No muterole, creates a muterole :)
         if(!muterole) {
@@ -107,6 +104,6 @@ module.exports = {
                     
             logChannel.send(mEmbed);
             message.channel.send(`**${toMute}** has been muted.`);
-        };
+        }
     }
 };

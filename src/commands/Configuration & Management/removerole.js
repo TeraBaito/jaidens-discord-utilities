@@ -5,9 +5,6 @@ const { getMember } = require('../../handlers/functions');
 module.exports = {
     name: 'removerole',
     helpName: 'Remove Role',
-    category: 'Configuration & Management',
-    // aliases: [],
-    // cooldown: ,
     usage: 'removerole [user] [role]',
     description: 'Removes a role from a specified member. Be sure that the role exists so it can be ungranted!',
 

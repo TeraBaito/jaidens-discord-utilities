@@ -4,8 +4,6 @@ const { stripIndents } = require('common-tags');
 
 module.exports = { 
     name: 'ping',
-    helpName: 'Ping',
-    category: 'Utilities',
     aliases: ['pingu', 'pong'],
     usage: 'ping',
     description: 'Checks the latency of the bot and message latency, and checks if bot is on',
@@ -19,8 +17,7 @@ module.exports = {
 
         const msg = await message.channel.send('Pinging...');
 
-        msg.edit(stripIndents
-        `Pong!
+        msg.edit(stripIndentsw`Pong!
         Latency: ${Math.floor(msg.createdAt - message.createdAt)}ms
         Discord API Latency: ${bot.ws.ping}ms`);
     }

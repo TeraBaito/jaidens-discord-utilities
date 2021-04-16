@@ -5,8 +5,6 @@ const { promptMessage, getMember } = require('../../handlers/functions');
 
 module.exports = {
     name: 'tempban',
-    helpName: 'Temporary Ban',
-    category: 'Moderation',
     aliases: ['tb'],
     // cooldown: ,
     usage: 'tempban [user] (reason)',
