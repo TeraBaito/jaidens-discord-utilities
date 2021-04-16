@@ -4,6 +4,8 @@ const { blacklistProcess } = require('../../handlers/functions');
 const { readJSONSync } = require('fs-extra');
 const autoresponders = require('../../handlers/autoresponders.js');
 
+let toggleAR = true;
+
 /**
  * `message` event.
  * 
@@ -30,26 +32,42 @@ module.exports = async (bot, message) => {
     let allowedServers = [jaidenServerID, '386244779752816640', '711301984887636080', '601434467072212993'];
     
 
-    if (message.channel.type === 'news' && message.guild.id === jaidenServerID) {
+    if (message.channel.type === 'news' && message.embeds.length > 0 && message.guild.id === jaidenServerID) {
         message.crosspost()
             .catch(console.error);
     }
 
+    // Command reading [1]
+    if (message.author.bot) return; // Prevent from command loops or maymays from bot answers
+
+    // Blacklisting
     if (blacklisting && 
         (message.guild.id == jaidenServerID ||
         ['717046261487763516', '734543511529193584'].includes(message.channel.id))) blacklistProcess(message, bot);
-
-    // Command reading [1]
-    if (message.author.bot) return; // Prevent from command loops or maymays from bot answers
 
     // Autoresponders
     if (ar) {
         autoresponders.forEach(elem => {
             const { input, output, regexp } = elem;
             if (regexp) {
-                if (input.test(message.content.toLowerCase())) message.channel.send(output);
+                if (input.test(message.content.toLowerCase()) && toggleAR) {
+                    message.channel.send(output);
+                    // Change the switch, nullifying the autoresponder, and turning it back on after a certain time
+                    toggleAR = !toggleAR;
+                    setTimeout(() => {
+                        toggleAR = !toggleAR;
+                    }, 10000);
+                }
             } else {
-                if (message.content.toLowerCase().includes(input)) message.channel.send(output);
+                if (message.content.toLowerCase().includes(input)) {
+                    message.channel.send(output);
+                    // Change the switch, nullifying the autoresponder, and turning it back on after a certain time
+                    toggleAR = !toggleAR;
+                    setTimeout(() => {
+                        toggleAR = !toggleAR;
+                    }, 10000);
+                }
+                
             }
         });
     }
