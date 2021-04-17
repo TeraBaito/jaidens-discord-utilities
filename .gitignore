@@ -16,6 +16,9 @@
 # Sensitive language
 src/handlers/blacklisted-words.json
 
+# Autoresponders
+src/handlers/autoresponders.js
+
 # Changing config that shouldn't really be pushed
 botSettings.json
 
