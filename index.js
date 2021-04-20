@@ -16,6 +16,7 @@ const bot = new Discord.Client({
 bot.commands = new Discord.Collection();
 bot.aliases = new Discord.Collection();
 bot.categories = fs.readdirSync('./src/commands/');
+bot.afk = new Discord.Collection();
 
 // Debugging
 //bot.on('raw', console.log);
