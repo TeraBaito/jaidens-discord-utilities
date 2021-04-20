@@ -21,7 +21,11 @@ bot.afk = new Discord.Collection();
 // Debugging
 //bot.on('raw', console.log);
 //bot.on('debug', m => console.log(`${chalk.cyan('[Debug]')} - ${m}`));
-bot.on('rateLimit', w => console.warn(`${chalk.yellow('[Ratelimit]')} - ${w}`));
+bot.on('rateLimit', rl => console.warn(
+    stripIndents`${chalk.yellow('[Ratelimit]')}
+    Timeout: ${rl.timeout}
+    Limit: ${rl.limit}
+    Route: ${rl.route}`));
 bot.on('warn', w => console.warn(`${chalk.yellow('[Warn]')} - ${w}`));
 bot.on('error', e => console.error(`${chalk.redBright('[Error]')} - ${e.stack}`));
 process.on('uncaughtException', e => console.error(`${chalk.redBright('[Error]')} - ${e.stack}`));
@@ -36,6 +40,7 @@ process.on('warning', e => console.warn(`${chalk.yellow('[Error]')} - ${e.stack}
 
 // Connect to VPS
 const express = require('express');
+const { stripIndents } = require('common-tags');
 const app = express();
 const port = 3000;
 app.get('/', (req, res) => res.send('<p style="font-family:Segoe UI; color:MediumSeaGreen">[Info] Working!</p>'));
