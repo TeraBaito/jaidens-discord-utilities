@@ -38,7 +38,7 @@ function getAll(bot, message) {
  
         embed.addField(category, 
             filesArr
-                .map(file => file.substring(0, cmd.length - 3)) // Removes the .js
+                .map(file => file.substring(0, file.length - 3)) // Removes the .js
                 .filter(cmd => !bot.commands.get(cmd).hidden) // Removes the ones with a hidden property
                 .map(str => `\`${str}\``) // Formats the names to include monospace
                 .join(' ')); // Joints them by spaces instead of newlines
