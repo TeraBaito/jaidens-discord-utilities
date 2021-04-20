@@ -1,10 +1,10 @@
 # jaidens-discord-utilities
 
-Welcome! This is the repository where all the code for the r/JA Discord Bot (also known as Ari Bot) is stored.
+Welcome! This is the repository where all the code for the r/JaidenAnimations Discord Bot (also known as Ari Bot) is stored.
 ### [Join the server](https://discord.gg/gArXkYz)
 
 ## Description
-Ari Bot is focused on providing the r/JA server and its members an efficient and useful variety of features. Its main focus has been the utility (for so the repository name), coping with Tofu Bot from [MaxTechnics](https://github.com/MaxTechnics) (where he covers the more fun aspect of stuffs)
+Ari Bot is focused on providing the r/JA server and its members an efficient and useful variety of features. Its main focus has been the utility (for so the repository name), being the ying to the yang, Tofu Bot from [MaxTechnics](https://github.com/MaxTechnics) (where he covers the more fun aspect of stuffs)
 
 Some of the main features Ari Bot includes are:
 * Information/Util commands (user-info, server-info, avatar)
@@ -24,7 +24,7 @@ Some of the main features Ari Bot includes are:
 
 
 # Installation
-**NOTE:** This bot is not intended for personal use, the bot is made to meet the r/JA Discord Server necessities, and it might malfunction if used as-is.
+**NOTE:** This bot is not intended for personal use, it was made to meet the r/JA Discord Server necessities, and might malfunction if used as-is.
 
 1. Make a bot application and retrieve the token, [here's how](https://discordjs.guide/preparations/setting-up-a-bot-application.html)
 1. Clone this repo
@@ -65,6 +65,21 @@ DISCORD_TOKEN=[your token]
   "nsfw": [],
   "offensive": []
 }
+```
+
+**src/handlers/autoresponders.js**
+```js
+class AutoResponder {
+    constructor(input, output) {
+        this.input = input;
+        this.output = output;
+        this.regexp = input instanceof RegExp;
+    }
+}
+
+const autoresponders = [
+];
+module.exports = autoresponders;
 ```
 
 6. Run `node index`
