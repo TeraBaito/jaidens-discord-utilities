@@ -231,4 +231,13 @@ function nicknameProcess(guild) {
     return members.size;
 }
 
-module.exports = {getMember, formatDate, promptMessage, randomizePercentage, checkStaff, blacklistProcess, unhoistOne, nicknameProcess};
+module.exports = {
+    getMember,
+    formatDate,
+    promptMessage,
+    randomizePercentage,
+    checkStaff,
+    blacklistProcess,
+    unhoistOne,
+    nicknameProcess
+};

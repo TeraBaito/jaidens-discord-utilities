@@ -3,6 +3,8 @@ const { prefix, jaidenServerID } = require('../../../config.json');
 const { blacklistProcess } = require('../../handlers/functions');
 const { readJSONSync } = require('fs-extra');
 const autoresponders = require('../../handlers/autoresponders.js');
+const { stripIndents } = require('common-tags');
+const ms = require('ms');
 
 let toggleAR = true;
 
@@ -70,6 +72,21 @@ module.exports = async (bot, message) => {
                 
             }
         });
+    }
+    
+    // AFK System
+    if (bot.afk.get(message.author.id)) {
+        message.channel.send(`Welcome back, <@!${message.author.id}>! Your AFK was removed.`)
+            .then(m => setTimeout(() => m.delete(), 7000));
+        bot.afk.delete(message.author.id);
+    }
+
+    if (message.mentions.members.first()) {
+        const afkPull = bot.afk.get(message.mentions.members.first().id);
+        if (afkPull) {
+            message.channel.send(`\`\`\`${afkPull.username} has been AFK for ${ms(Date.now() - afkPull.date, { long: true })}\`\`\``+
+            `${afkPull.message}`);
+        }
     }
     
 
