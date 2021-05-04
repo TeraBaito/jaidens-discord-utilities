@@ -27,7 +27,7 @@ module.exports = {
         try {
             const { list } = await fetch(url).then(r => r.json());
             if (!list.length) return message.channel.send(`Didn't find any results for \`${args.join(' ')}\``);
-            const { author, word, permalink, definition, example} = list[0];
+            const { author, word, permalink, definition, example } = list[0];
 
             const embed = new Discord.MessageEmbed()
                 .setColor(colors.Peru)
