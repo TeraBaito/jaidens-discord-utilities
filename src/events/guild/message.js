@@ -74,11 +74,20 @@ module.exports = async (bot, message) => {
         });
     }
     
+    const data = bot.afk.get(message.author.id);
     // AFK System
-    if (bot.afk.get(message.author.id)) {
+    if (data && !data.flags[0]) {
+        const { displayName } = message.member;
+        const { length } = displayName;
+        bot.afk.delete(message.author.id);
+        if (length <= 26 && !data.flags[1]) {
+            message.member.setNickname(displayName.slice(6))
+                .catch(e => {
+                    if (!(e instanceof Discord.DiscordAPIError)) throw e;
+                });
+        }
         message.channel.send(`Welcome back, <@!${message.author.id}>! Your AFK was removed.`)
             .then(m => setTimeout(() => m.delete(), 7000));
-        bot.afk.delete(message.author.id);
     }
 
     if (message.mentions.members.first()) {
