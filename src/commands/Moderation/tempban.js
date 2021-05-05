@@ -1,4 +1,5 @@
-const Discord = require('discord.js');
+const { Message, MessageEmbed } = require('discord.js');
+const Bot = require('../../../index');
 const ms = require('ms');
 const colors = require('../../../colors.json');
 const { promptMessage, getMember } = require('../../handlers/functions');
@@ -6,14 +7,13 @@ const { promptMessage, getMember } = require('../../handlers/functions');
 module.exports = {
     name: 'tempban',
     aliases: ['tb'],
-    // cooldown: ,
     usage: 'tempban [user] (reason)',
     description: 'Bans a user from the guild temporarily, for a specified amount of time (seconds, minutes, hours, days)',
 
     /** 
-     * @param {Discord.Client} bot 
-     * @param {Discord.Message} message 
-     * @param {Array} args 
+     * @param {Bot} bot 
+     * @param {Message} message 
+     * @param {string[]} args 
      */
     run: async(bot, message, args) => {
         const logChannel = message.guild.channels.cache.find(c => c.name === 'ari-bot-logs') || message.channel;
@@ -62,7 +62,7 @@ module.exports = {
         
      
         // Log
-        const bEmbed = new Discord.MessageEmbed()
+        const bEmbed = new MessageEmbed()
             .setColor(colors.Orange)
             .setThumbnail(toTempban.user.displayAvatarURL)
             .setFooter(message.member.displayName)
@@ -73,7 +73,7 @@ module.exports = {
             .addField('Ban time', ms(ms(bantime)))
             .addField('Reason', reason);
 
-        const ubEmbed = new Discord.MessageEmbed()
+        const ubEmbed = new MessageEmbed()
             .setColor(colors.ForestGreen)
             .setFooter(message.member.displayName)
             .setTimestamp()
@@ -84,7 +84,7 @@ module.exports = {
         
             
         // Tempban Verification
-        const promptEmbed = new Discord.MessageEmbed()
+        const promptEmbed = new MessageEmbed()
             .setColor('eb8334')
             .setFooter('This verification becomes invalid after 30 seconds')
             .setDescription(`Do you want to tempban ${toTempban} for ${ms(ms(bantime))}?`);

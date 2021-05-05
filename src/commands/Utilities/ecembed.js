@@ -1,4 +1,5 @@
-const Discord = require('discord.js');
+const { Message, MessageEmbed } = require('discord.js');
+const Bot = require('../../../index');
 const colors = require('../../../colors.json');
 const { checkStaff } = require('../../handlers/functions');
 
@@ -9,9 +10,9 @@ module.exports = {
     description: 'Edits an embed message using JSON format to the specified channel',
 
     /** 
-     * @param {Discord.Client} bot 
-     * @param {Discord.Message} message 
-     * @param {Array} args 
+     * @param {Bot} bot 
+     * @param {Message} message 
+     * @param {string[]} args 
      */
     run: async(bot, message, args) => {
         let channel = message.mentions.channels.first() ||
@@ -29,7 +30,7 @@ module.exports = {
                 });
 
         } catch (e) {
-            const errEmbed = new Discord.MessageEmbed()
+            const errEmbed = new MessageEmbed()
                 .setColor(colors.Red)
                 .setTitle('Error')
                 .setDescription(e)

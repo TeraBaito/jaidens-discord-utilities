@@ -1,4 +1,5 @@
-const Discord = require('discord.js');
+const { Message, MessageEmbed } = require('discord.js');
+const Bot = require('../../../index');
 const colors = require('../../../colors.json');
 
 module.exports = {
@@ -8,9 +9,9 @@ module.exports = {
     description: 'Unbans a member from the current guild',
 
     /** 
-     * @param {Discord.Client} bot 
-     * @param {Discord.Message} message 
-     * @param {Array} args 
+     * @param {Bot} bot 
+     * @param {Message} message 
+     * @param {string[]} args 
      */
     run: async(bot, message, args) => {
         const logChannel = message.guild.channels.cache.find(c => c.name === 'ari-bot-logs') || message.channel;
@@ -57,7 +58,7 @@ module.exports = {
         }
      
         // Log
-        const ubEmbed = new Discord.MessageEmbed()
+        const ubEmbed = new MessageEmbed()
             .setColor(colors.ForestGreen)
             .setFooter(message.member.displayName)
             .setTimestamp()

@@ -1,4 +1,5 @@
-const Discord = require('discord.js');
+const { Message, MessageEmbed } = require('discord.js');
+const Bot = require('../../../index');
 const colors = require('../../../colors.json');
 const { getMember } = require('../../handlers/functions');
 
@@ -11,9 +12,9 @@ module.exports = {
     description: 'Unmutes an already muted member from the guild.\n**Attention:** The muterole has to be called "Muted", and the log channel #toucan-logs',
 
     /** 
-     * @param {Discord.Client} bot 
-     * @param {Discord.Message} message 
-     * @param {Array} args 
+     * @param {Bot} bot 
+     * @param {Message} message 
+     * @param {string[]} args 
      */
     run: async(bot, message, args) => {
         const logChannel = message.guild.channels.cache.find(c => c.name === 'ari-bot-logs') || message.channel;
@@ -51,7 +52,7 @@ module.exports = {
             return message.channel.send('Wait...why are you trying to unmute yourself?');
         }
 
-        const umEmbed = new Discord.MessageEmbed()
+        const umEmbed = new MessageEmbed()
             .setColor(colors.Orange)
             .setThumbnail(toUnmute.user.displayAvatarURL)
             .setFooter(message.member.displayName)

@@ -1,4 +1,5 @@
-const Discord = require('discord.js');
+const { Message, MessageEmbed } = require('discord.js');
+const Bot = require('../../../index');
 const colors = require('../../../colors.json');
 const { getMember } = require('../../handlers/functions');
 
@@ -11,9 +12,9 @@ module.exports = {
     description: 'Gives a role to a specified member. Be sure that the role exists so it can be granted!',
 
     /** 
-     * @param {Discord.Client} bot 
-     * @param {Discord.Message} message 
-     * @param {Array} args 
+     * @param {Bot} bot 
+     * @param {Message} message 
+     * @param {string[]} args 
      */
     run: async(bot, message, args) => {
         let role = message.guild.roles.cache.find(r => r.name.toLowerCase() === args[1].toLowerCase()) || message.guild.roles.cache.find(r => r.id === args[1]) || message.mentions.roles.first();
@@ -23,7 +24,7 @@ module.exports = {
         if(message.deletable) message.delete();
 
         // Putting the embed up here so it doesn't error bc of hoisting
-        let rEmbed = new Discord.MessageEmbed()
+        let rEmbed = new MessageEmbed()
             .setColor(role.hexColor !== colors.Black ? role.hexColor : colors.PaleBlue)
             .setDescription('**Added Role to User**')
             .setTimestamp()

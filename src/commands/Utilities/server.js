@@ -1,4 +1,5 @@
-const Discord = require('discord.js');
+const { Message, MessageEmbed } = require('discord.js');
+const Bot = require('../../../index');
 const { stripIndents } = require('common-tags');
 const colors = require('../../../colors.json');
 
@@ -9,9 +10,9 @@ module.exports = {
     description: 'Server information',
 
     /** 
-     * @param {Discord.Client} bot 
-     * @param {Discord.Message} message 
-     * @param {Array} args 
+     * @param {Bot} bot 
+     * @param {Message} message 
+     * @param {string[]} args 
      */
     run: async (bot, message, args) => {
 
@@ -23,7 +24,7 @@ module.exports = {
         };
 
         let sIcon = message.guild.iconURL();
-        let serverEmbed = new Discord.MessageEmbed()
+        let serverEmbed = new MessageEmbed()
             .setDescription('**Server Information**')
             .setColor(colors.Purple)
             .setThumbnail(sIcon)
@@ -32,7 +33,7 @@ module.exports = {
             .addField('Created On', message.guild.createdAt)
             .addField('Member Count', stripIndents`<:totalmembers:742403092217200640>${message.guild.memberCount} Total\xa0     <:online:742401595446132870>${memberStatuses.online} Online\xa0    <:offline:742401625015976049>${memberStatuses.offline} Offline`)
             .addField('Channel Count', message.guild.channels.cache.size)
-            .addField('Server Owner', message.guild.member(message.guild.owner) ? message.guild.owner.toString() : message.guild.owner.user.tag);
+            .addField('Server Owner', message.guild.owner.user.tag);
     
         return message.channel.send(serverEmbed);
     }

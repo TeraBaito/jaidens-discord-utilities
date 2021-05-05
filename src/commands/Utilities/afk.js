@@ -1,6 +1,5 @@
-const { red } = require('chalk');
-const Discord = require('discord.js');
-const e = require('express');
+const { Message } = require('discord.js');
+const Bot = require('../../../index');
 const ms = require('ms');
 
 module.exports = {
@@ -10,14 +9,14 @@ module.exports = {
     description: 'Leave an AFK message that will show whenever you\'re pinged. Also one of Tera\'s favorite commands\nPlease note this will not overwrite your client settings, and there will still be notifications unless disabled',
 
     /**
-    * @param {Discord.Client} bot
-    * @param {Discord.Message} message
+    * @param {Bot} bot
+    * @param {Message} message
     * @param {string[]} args
     */
     run: async(bot, message, args) => {
         const { afk } = bot,
             { id, displayName } = message.member,
-            timeout = 5000; // ms
+            timeout = 30000; // ms
 
         /** Flags that can be toggled anywhere on the command
          * 0 ==> unbreakable

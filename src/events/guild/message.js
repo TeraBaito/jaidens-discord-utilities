@@ -1,9 +1,9 @@
-const Discord = require('discord.js');
+const { Message } = require('discord.js');
+const Bot = require('../../../index');
 const { prefix, jaidenServerID } = require('../../../config.json');
 const { blacklistProcess } = require('../../handlers/functions');
 const { readJSONSync } = require('fs-extra');
 const autoresponders = require('../../handlers/autoresponders.js');
-const { stripIndents } = require('common-tags');
 const ms = require('ms');
 
 let toggleAR = true;
@@ -17,8 +17,8 @@ let toggleAR = true;
  * 
  * Honestly mostly everything that has to do with user input goes here.
  * 
- * @param {Discord.Client} bot The bot as a Client object
- * @param {Discord.Message} message The Message object passed with the `message` event.
+ * @param {Bot} bot The bot as a Client object
+ * @param {Message} message The Message object passed with the `message` event.
  */
 module.exports = async (bot, message) => {
     const { disabledCommands, blacklisting, autoresponders: ar } = readJSONSync('./botSettings.json');

@@ -1,4 +1,5 @@
-const Discord = require('discord.js');
+const { Message, Guild, GuildMember, User } = require('discord.js');
+const Bot = require('../../index');
 const chalk = require('chalk');
 const { readJSONSync } = require('fs-extra');
 const { FireBrick } = require('../../colors.json');
@@ -6,9 +7,9 @@ const { FireBrick } = require('../../colors.json');
 /**
 * Finds and returns member object by ID, mention, displayName, username or tag (respectively)
 * 
-* @param {Discord.Message} message The Message object to perform actions using message
+* @param {Message} message The Message object to perform actions using message
 * @param {string} toFind String that fetches the user (can be mention, id, tag, or displayName)
-* @returns {Discord.GuildMember}
+* @returns {GuildMember}
 */
 function getMember(message, toFind) {
     toFind = toFind.toLowerCase();
@@ -42,7 +43,6 @@ function getMember(message, toFind) {
 * 
 * @param {Date} date 
 * @returns {string}
-* 
 */
 function formatDate(date) {
     return new Intl.DateTimeFormat('en-US', {
@@ -59,8 +59,8 @@ function formatDate(date) {
 /**
 * Sends a message (prompt) with X reactions, the bot will take action depending on the chosen reaction.
 * 
-* @param {Discord.Message} message The Message object to perform actions using message
-* @param {Discord.User|Discord.GuildMember} author The author of the message, so that actions only perform based on theirs
+* @param {Message} message The Message object to perform actions using message
+* @param {User|GuildMember} author The author of the message, so that actions only perform based on theirs
 * @param {Number} time Prompt message expiration time in seconds
 * @param {Array} validReactions Array with reactions the bot will listen to
 */
@@ -89,7 +89,7 @@ function randomizePercentage(number) {
 /**
 * Checking whether a member is staff or not
 * 
-* @param {Discord.GuildMember} member The member to check on
+* @param {GuildMember} member The member to check on
 * @returns {boolean}
 */
 function checkStaff(member) {
@@ -117,8 +117,8 @@ function checkStaff(member) {
 * 
 * Actions it takes: deletes the message and calls out a rule name for the specific type of word
 * You can't make everyone happy with what is here
-* @param {Discord.Message} message The Message object to perform actions using message
-* @param {Discord.Client} bot The Client object
+* @param {Message} message The Message object to perform actions using message
+* @param {Bot} bot The Client object
 */
 function blacklistProcess(message, bot) {
     const { nsfw, offensive, jr34 } = readJSONSync('./src/handlers/blacklisted-words.json'),
@@ -131,8 +131,8 @@ function blacklistProcess(message, bot) {
     content = content.toLowerCase();
 
     /**
-    * @param {String} w The word
-    * @returns {Boolean}
+    * @param {string} w The word
+    * @returns {boolean}
     */
     let process = (w) => {
         const split = message.content.split(/ +/g);
@@ -147,12 +147,11 @@ function blacklistProcess(message, bot) {
         return split.some(w => pattern.test(w));
     };
     /**
-     * @param {String} msg The message to send
-     * @returns {void}
+     * @param {string} msg The message to send
      */
     let act = (msg) => {
         if (blacklistLogs) {
-            let embed = new Discord.MessageEmbed()
+            let embed = new MessageEmbed()
                 .setColor(FireBrick) 
                 .setTitle('Blacklisting')
                 .addFields(
@@ -199,7 +198,7 @@ function blacklistProcess(message, bot) {
 
 /**
  * Unhoists one member
- * @param {Discord.GuildMember} member 
+ * @param {GuildMember} member 
  */
 function unhoistOne(member) {
     let newNick = member.displayName;
@@ -221,7 +220,7 @@ function unhoistOne(member) {
 
 /**
  * Calls unhoistOne() on a collection of members
- * @param {Discord.Guild} guild 
+ * @param {Guild} guild 
  */
 function nicknameProcess(guild) {
     const hoistPattern =  /^!|^-/;

@@ -1,4 +1,5 @@
-const Discord = require('discord.js');
+const { Message } = require('discord.js');
+const Bot = require('../../../index');
 const { readJSONSync, writeJSONSync } = require('fs-extra');
 const { checkStaff } = require('../../handlers/functions');
 
@@ -11,9 +12,9 @@ module.exports = {
     description: 'ADMIN COMMAND ONLY\nRemoves a blacklisted word from the word list',
 
     /**
-    * @param {Discord.Client} bot
-    * @param {Discord.Message} message
-    * @param {Array} args
+    * @param {Bot} bot
+    * @param {Message} message
+    * @param {string[]} args
     */
     run: async(bot, message, args) => {
         if (!checkStaff(message.member)) return message.channel.send('Sorry, you can\'t access this command!');

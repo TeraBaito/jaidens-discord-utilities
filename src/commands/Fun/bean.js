@@ -1,4 +1,5 @@
-const Discord = require('discord.js');
+const { Message } = require('discord.js');
+const Bot = require('../../../index');
 
 module.exports = {
     name: 'bean',
@@ -6,9 +7,9 @@ module.exports = {
     description: 'Get some beans for yourself or throw beans to others! Featuring everyone can use it, no more mod authority :bwobble:',
 
     /** 
-     * @param {Discord.Client} bot 
-     * @param {Discord.Message} message 
-     * @param {Array} args 
+     * @param {Bot} bot 
+     * @param {Message} message 
+     * @param {string[]} args 
      */
     run: async(bot, message, args) => {
         if(!args[0] || message.mentions.users.first() === message.author) {

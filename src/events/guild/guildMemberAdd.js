@@ -1,4 +1,5 @@
-const Discord = require('discord.js');
+const { MessageEmbed, GuildMember } = require('discord.js');
+const Bot = require('../../../index');
 const { stripIndents } = require('common-tags');
 const { readJSONSync } = require('fs-extra');
 const { formatDate, unhoistOne } = require('../../handlers/functions');
@@ -11,15 +12,15 @@ const eggs = require('../../handlers/eastereggs.json');
  * 
  * Emitted whenever a user joins a guild.
  * 
- * @param {Discord.Client} bot
- * @param {Discord.GuildMember} member 
+ * @param {Bot} bot
+ * @param {GuildMember} member 
  */
 module.exports = async (bot, member) => {
     const { welcomer } = readJSONSync('./botSettings.json');
     
     if (!welcomer) return;
     
-    const mEmbed = new Discord.MessageEmbed()
+    const mEmbed = new MessageEmbed()
         .setColor(colors.Olive)
         .setTitle('Member Joined')
         .addField('Name', member.displayName, true)

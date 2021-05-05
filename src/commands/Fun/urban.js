@@ -1,4 +1,5 @@
-const Discord = require('discord.js');
+const { Message, MessageEmbed } = require('discord.js');
+const Bot = require('../../../index');
 const fetch = require('node-fetch');
 const querystring = require('querystring');
 const chalk = require('chalk');
@@ -12,9 +13,9 @@ module.exports = {
     description: 'Defines a term using the Urban Dictionary API',
     
     /** 
-     * @param {Discord.Client} bot 
-     * @param {Discord.Message} message 
-     * @param {Array} args 
+     * @param {Bot} bot 
+     * @param {Message} message 
+     * @param {string[]} args 
      */
     run: async(bot, message, args) => {
         if (!args[0]) return message.channel.send('Please provide a term tho');
@@ -29,7 +30,7 @@ module.exports = {
             if (!list.length) return message.channel.send(`Didn't find any results for \`${args.join(' ')}\``);
             const { author, word, permalink, definition, example } = list[0];
 
-            const embed = new Discord.MessageEmbed()
+            const embed = new MessageEmbed()
                 .setColor(colors.Peru)
                 .setTitle(word)
                 .setURL(permalink)

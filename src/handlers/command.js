@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+const Bot = require('../../index');
 const ascii = require('ascii-table');
 const { readdirSync } = require('fs');
 
@@ -31,7 +31,7 @@ function checkData(bot, command, fileName) {
  * Requires and triggers a command from the ./commands/ directory when it is inputed by a user next to the prefix.
  * Not included in this file but in `index.js`, but there also is a collection with all commands at the time of node.
  * If a user inputs a wrong command (incorrect command.name or command.aliases) it will not trigger anything.
- * @param {Discord.Client} bot The bot as a Client object
+ * @param {Bot} bot The bot as a Client object
  */
 module.exports = bot => {
     readdirSync('./src/commands/').forEach(dir => {

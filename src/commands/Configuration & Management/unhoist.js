@@ -1,17 +1,17 @@
-const Discord = require('discord.js');
+const { Message } = require('discord.js');
+const Bot = require('../../../index');
 const { nicknameProcess } = require('../../handlers/functions');
 
 module.exports = {
     name: 'unhoist',
     helpName: 'Member Nickname Unhoisting',
-    aliases: [],
     usage: 'unhoist',
     description: 'MOD COMMAND ONLY\nUnhoists all hoisted members by a RegExp pattern.',
 
     /**
-    * @param {Discord.Client} bot
-    * @param {Discord.Message} message
-    * @param {Array} args
+    * @param {Bot} bot
+    * @param {Message} message
+    * @param {string[]} args
     */
     run: async(bot, message, args) => {
         const count = nicknameProcess(message.guild);

@@ -1,4 +1,5 @@
-const Discord = require('discord.js');
+const { Message, MessageEmbed } = require('discord.js');
+const Bot = require('../../../index');
 const math = require('mathjs');
 const colors = require('../../../colors.json');
 
@@ -8,9 +9,9 @@ module.exports = {
     usage: 'math [operation]',
     description: 'Evaluates a math operation. Please no quadratic equations or something lol',
     /** 
-     * @param {Discord.Client} bot 
-     * @param {Discord.Message} message 
-     * @param {Array} args 
+     * @param {Bot} bot 
+     * @param {Message} message 
+     * @param {string[]} args 
      */
     run: async(bot, message, args) => {
         if(!args[0]) return message.channel.send('Please ask a math question.');
@@ -24,7 +25,7 @@ module.exports = {
         }
        
        
-        const embed = new Discord.MessageEmbed()
+        const embed = new MessageEmbed()
             .setColor(colors.Blue)
             .setTitle('Math')
             .addField('Question', `\`\`\`css\n${args.join('')}\`\`\``)

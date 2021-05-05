@@ -1,4 +1,5 @@
-const Discord = require('discord.js');
+const { Message } = require('discord.js');
+const Bot = require('../../../index');
 
 module.exports = {
     name: 'no',
@@ -7,9 +8,9 @@ module.exports = {
     description: 'You can still stay for the community however!',
 
     /** 
-     * @param {Discord.Client} bot 
-     * @param {Discord.Message} message 
-     * @param {Array} args 
+     * @param {Bot} bot 
+     * @param {Message} message 
+     * @param {string[]} args 
      */
     run: async(bot, message, args) => {
         if (message.deletable) message.delete();

@@ -1,4 +1,5 @@
-const Discord = require('discord.js');
+const { Message, MessageEmbed } = require('discord.js');
+const Bot = require('../../../index');
 const { readdirSync } = require('fs');
 const { prefix } = require('../../../config.json');
 const colors = require('../../../colors.json');
@@ -11,9 +12,9 @@ module.exports = {
     description: 'Shows list of commands',
     
     /** 
-     * @param {Discord.Client} bot 
-     * @param {Discord.Message} message 
-     * @param {Array} args 
+     * @param {Bot} bot 
+     * @param {Message} message 
+     * @param {string[]} args 
      */
     run: async (bot, message, args) => {
         if (args[0]) {
@@ -25,7 +26,7 @@ module.exports = {
 };
 
 function getAll(bot, message) {
-    const embed = new Discord.MessageEmbed()
+    const embed = new MessageEmbed()
         .setColor(colors.Orange)
         .setFooter('Syntax: () = optional, [] = required, {a, b} = choose between a or b');
     
@@ -50,7 +51,7 @@ function getAll(bot, message) {
 }
 
 function getCmd(bot, message, input) {
-    const embed = new Discord.MessageEmbed()
+    const embed = new MessageEmbed()
         .setColor(colors.SteelBlue)
         .setFooter('Syntax: () = optional; [] = required; {a, b} = choose between a or b');
 

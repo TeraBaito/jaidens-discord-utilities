@@ -1,5 +1,6 @@
 const { stripIndents } = require('common-tags');
-const Discord = require('discord.js');
+const { Message, MessageEmbed } = require('discord.js');
+const Bot = require('../../../index');
 const { readJSONSync, writeJSONSync } = require('fs-extra');
 const { checkStaff } = require('../../handlers/functions');
 const colors = require('../../../colors.json');
@@ -12,9 +13,9 @@ module.exports = {
     description: 'STAFF COMMAND ONLY\nEnables and disables core settings of the bot, such as welcomer or specific commands.',
 
     /**
-    * @param {Discord.Client} bot
-    * @param {Discord.Message} message
-    * @param {Array} args
+    * @param {Bot} bot
+    * @param {Message} message
+    * @param {string[]} args
     */
     run: async(bot, message, args) => {
         let emot = '<:troll:798638733095075875>';
@@ -34,7 +35,7 @@ module.exports = {
         case 'announce':
         case 'welcome': {
             data.welcomer = !data.welcomer; // Set
-            const embed = new Discord.MessageEmbed()
+            const embed = new MessageEmbed()
                 .setColor(colors.ForestGreen)
                 .setDescription(`\`${formatBool(data.welcomer)}\` welcomer settings`)
                 .setFooter('It might take some time while changes apply!');
@@ -47,7 +48,7 @@ module.exports = {
         case 'blacklisting':
         case 'blacklist': {
             data.blacklisting = !data.blacklisting; // Set
-            const embed = new Discord.MessageEmbed()
+            const embed = new MessageEmbed()
                 .setColor(colors.ForestGreen)
                 .setDescription(`\`${formatBool(data.blacklisting)}\` blacklisting settings`)
                 .setFooter('It might take some time while changes apply!');
@@ -59,7 +60,7 @@ module.exports = {
         case 'blacklistlogs':
         case 'blacklistdebug': {
             data.blacklistLogs = !data.blacklistLogs; // Set
-            const embed = new Discord.MessageEmbed()
+            const embed = new MessageEmbed()
                 .setColor(colors.ForestGreen)
                 .setDescription(`\`${formatBool(data.blacklistLogs)}\` blacklisting logs`)
                 .setFooter('It might take some time while changes apply!');
@@ -71,7 +72,7 @@ module.exports = {
         case 'autoresponders':
         case 'autoresponder': {
             data.autoresponders = !data.autoresponders; // Set
-            const embed = new Discord.MessageEmbed()
+            const embed = new MessageEmbed()
                 .setColor(colors.ForestGreen)
                 .setDescription(`\`${formatBool(data.autoresponders)}\` autoresponders`)
                 .setFooter('It might take some time while changes apply!');
@@ -84,7 +85,7 @@ module.exports = {
             if (input == 'all') {
                 disabledCommands.splice(0, disabledCommands.length);
                 await message.channel.send(
-                    new Discord.MessageEmbed()
+                    new MessageEmbed()
                         .setColor(colors.PaleBlue)
                         .setDescription('Enabled all previously disabled commands')
                         .setFooter('It might take some time changes apply!'));
@@ -95,7 +96,7 @@ module.exports = {
             if (!bot.commands.get(input)) return message.channel.send(`There's not such command as \`${input}\`!`);
             if (!disabledCommands.includes(input)) return message.channel.send(`The command \`${input}\` is not disabled!`);
 
-            const embed = new Discord.MessageEmbed()
+            const embed = new MessageEmbed()
                 .setColor(colors.PaleBlue)
                 .setDescription(`Enabled the command \`${input}\``)
                 .setFooter('It might take some time wchanges apply!');
@@ -110,7 +111,7 @@ module.exports = {
             if (!bot.commands.get(input)) return message.channel.send(`There's not such command as \`${input}\`!`);
             if (disabledCommands.includes(input)) return message.channel.send(`The command \`${input}\` is already disabled!`);
 
-            const embed = new Discord.MessageEmbed()
+            const embed = new MessageEmbed()
                 .setColor(colors.OrangeRed)
                 .setDescription(`Disabled the command \`${input}\``)
                 .setFooter('It might take some time changes apply!');
@@ -126,7 +127,7 @@ module.exports = {
             /** @param {boolean} elem */
             const formatBool = (elem) => elem ? 'Enabled' : 'Disabled';
 
-            const embed = new Discord.MessageEmbed()
+            const embed = new MessageEmbed()
                 .setColor(colors.ForestGreen)
                 .setDescription(
                     stripIndents`Welcomer: \`${formatBool(data.welcomer)}\`
@@ -147,7 +148,7 @@ module.exports = {
             };
             if (data == defaults) return message.channel.send('The bot is already in its default settings!');
             
-            const embed = new Discord.MessageEmbed()
+            const embed = new MessageEmbed()
                 .setColor(colors.Maroon)
                 .setDescription('Resetting to defaults')
                 .setFooter('It might take some time while changes apply!');

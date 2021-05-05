@@ -1,4 +1,5 @@
-const Discord = require('discord.js');
+const { Message } = require('discord.js');
+const Bot = require('../../../index');
 const { stripIndents } = require('common-tags');
 
 
@@ -9,9 +10,9 @@ module.exports = {
     description: 'Checks the latency of the bot and message latency, and checks if bot is on',
 
     /** 
-     * @param {Discord.Client} bot 
-     * @param {Discord.Message} message 
-     * @param {Array} args 
+     * @param {Bot} bot 
+     * @param {Message} message 
+     * @param {string[]} args 
      */
     run: async (bot, message, args) => {
 

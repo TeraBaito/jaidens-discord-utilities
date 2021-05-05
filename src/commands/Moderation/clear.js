@@ -1,4 +1,5 @@
-const Discord = require('discord.js');
+const { Message } = require('discord.js');
+const Bot = require('../../../index');
 
 module.exports = {
     name: 'clear',
@@ -7,9 +8,9 @@ module.exports = {
     description: 'Clears a specified amount of messages in the current channel, up to 100 messages',
 
     /** 
-     * @param {Discord.Client} bot 
-     * @param {Discord.Message} message 
-     * @param {Array} args 
+     * @param {Bot} bot 
+     * @param {Message} message 
+     * @param {string[]} args 
      */
     run: async(bot, message, args) => {
         if (message.deletable) message.delete;

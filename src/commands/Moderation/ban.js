@@ -1,6 +1,7 @@
-const Discord = require('discord.js');
+const { Message, MessageEmbed } = require('discord.js');
+const Bot = require('../../../index');
 const colors = require('../../../colors.json');
-const { promptMessage, getMember } = require('../../handlers/functions');
+const { promptMessage, getMember, checkStaff } = require('../../handlers/functions');
 
 module.exports = {
     name: 'ban',
@@ -9,9 +10,9 @@ module.exports = {
     description: 'Bans a member from the current guild',
 
     /** 
-     * @param {Discord.Client} bot 
-     * @param {Discord.Message} message 
-     * @param {Array} args 
+     * @param {Bot} bot 
+     * @param {Message} message 
+     * @param {string[]} args 
      */
     run: async(bot, message, args) => {
         const logChannel = message.guild.channels.cache.find(c => c.name === 'ari-bot-logs') || message.channel;
@@ -27,9 +28,7 @@ module.exports = {
         }
 
         // No permissions to ban
-        if (!message.member.hasPermission('BAN_MEMBERS')) {
-            return message.channel.send('You don\'t have permissions to ban members, smh').then(m => setTimeout(() => { m.delete(); }, 5000));
-        }
+        if (checkStaff(message.member)) return message.channel.send('You can\'t execute this command, smhsmh');
 
         // No bot permissions to ban (it does by default)
         if (!message.guild.me.hasPermission('BAN_MEMBERS')) {
@@ -54,7 +53,7 @@ module.exports = {
         
      
         // Log
-        const bEmbed = new Discord.MessageEmbed()
+        const bEmbed = new MessageEmbed()
             .setColor(colors.Orange)
             .setThumbnail(toBan.user.displayAvatarURL)
             .setFooter(message.member.displayName)
@@ -71,7 +70,7 @@ module.exports = {
         }
             
         // Ban Verification
-        const promptEmbed = new Discord.MessageEmbed()
+        const promptEmbed = new MessageEmbed()
             .setColor('eb8334')
             .setFooter('This verification becomes invalid after 30 seconds')
             .setDescription(`Do you want to ban ${toBan}?`);

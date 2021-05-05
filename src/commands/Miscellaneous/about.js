@@ -1,4 +1,5 @@
-const Discord = require('discord.js');
+const { Message, MessageEmbed } = require('discord.js');
+const Bot = require('../../../index');
 const { stripIndents } = require('common-tags');
 const { owner, ownerID } = require('../../../config.json');
 const { version } = require('../../../package.json');
@@ -12,15 +13,15 @@ module.exports = {
     description: 'General Bot Information',
 
     /** 
-     * @param {Discord.Client} bot 
-     * @param {Discord.Message} message 
-     * @param {Array} args 
+     * @param {Bot} bot 
+     * @param {Message} message 
+     * @param {string[]} args 
      */
     run: async (bot, message, args) => {
         let bIcon = bot.user.displayAvatarURL();
-        let { heapUsed, heapTotal } = process.memoryUsage();
+        let { heapUsed } = process.memoryUsage();
 
-        let botEmbed = new Discord.MessageEmbed()
+        let botEmbed = new MessageEmbed()
             .setTitle('**Bot Information**')
             .setDescription(stripIndents`\>\>\> A bot that provides different utilities to the r/JaidenAnimations Discord Server
             Fast and easy-to-use commands
@@ -31,7 +32,7 @@ module.exports = {
             .addField('Bot Name', bot.user.tag)
             .addField('Made By', `${owner} (${ownerID})`)
             .addField('Active For', `${(process.uptime() / 3600).toFixed(1)} hours`)
-            .addField('Memory Usage', `${(heapUsed / 1024 / 1024).toFixed(1)} MB / ${(heapTotal / 1024 / 1024).toFixed(1)}MB (${(heapUsed / heapTotal * 100).toFixed(2)}%)`)
+            .addField('Memory Usage', `${(heapUsed / 1024 / 1024).toFixed(1)} MB`)
             .addField('Creation Date', formatDate(bot.user.createdAt))
             .setFooter(`Version: ${version}, coded with discord.js`);
 

@@ -1,4 +1,5 @@
-const Discord = require('discord.js');
+const { Message } = require('discord.js');
+const Bot = require('../../../index');
 
 module.exports = {
     name: 'grady',
@@ -6,9 +7,9 @@ module.exports = {
     usage: 'grady',
     description: 'grady',
     /** 
-     * @param {Discord.Client} bot 
-     * @param {Discord.Message} message 
-     * @param {Array} args 
+     * @param {Bot} bot 
+     * @param {Message} message 
+     * @param {string[]} args 
      */
     run: async(bot, message, args) => {
         message.channel.send('<@740491200972193793>');

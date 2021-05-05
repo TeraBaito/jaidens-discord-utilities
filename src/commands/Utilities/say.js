@@ -1,4 +1,5 @@
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
+const Bot = require('../../../index');
 const colors = require('../../../colors.json');
 
 module.exports = {
@@ -8,9 +9,9 @@ module.exports = {
     description: 'Echoes the given args',
 
     /** 
-     * @param {Discord.Client} bot 
-     * @param {Discord.Message} message 
-     * @param {Array} args 
+     * @param {Bot} bot 
+     * @param {Message} message 
+     * @param {string[]} args 
      */
     run: async(bot, message, args) => {
         let channel = message.mentions.channels.first() ||
@@ -24,7 +25,7 @@ module.exports = {
         if (message.deletable) message.delete();
         
         if (args[1] == 'embed') {
-            const embed = new Discord.MessageEmbed()
+            const embed = new MessageEmbed()
                 .setColor(colors.ForestGreen)
                 .setDescription(args.slice(2).join(' '));
             

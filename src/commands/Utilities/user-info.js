@@ -1,4 +1,5 @@
-const Discord = require('discord.js');
+const { Message, MessageEmbed } = require('discord.js');
+const Bot = require('../../../index');
 const { getMember, formatDate } = require('../../handlers/functions.js');
 const colors = require('../../../colors.json');
 
@@ -9,9 +10,9 @@ module.exports = {
     description: 'Sends the general information of a guild member.\n**Attention:** Only @mentions and user IDs work, `;user-info Cookie` doesn\'t work.',
 
     /** 
-     * @param {Discord.Client} bot 
-     * @param {Discord.Message} message 
-     * @param {Array} args 
+     * @param {Bot} bot 
+     * @param {Message} message 
+     * @param {string[]} args 
      */
     run: async (bot, message, args) => {
         const member = getMember(message, args.join(' '));
@@ -35,7 +36,7 @@ module.exports = {
         if (uRoles.length > 650) uRoles = 'Too much roles to show!';
         
         // Embed
-        const userEmbed = new Discord.MessageEmbed()
+        const userEmbed = new MessageEmbed()
             .setDescription('**User Information**')
             .setFooter(member.displayName, uIcon)
             .setThumbnail(uIcon)

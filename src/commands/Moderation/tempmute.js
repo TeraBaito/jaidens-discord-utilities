@@ -1,4 +1,5 @@
-const Discord = require('discord.js');
+const { Message, MessageEmbed } = require('discord.js');
+const Bot = require('../../../index');
 const ms = require('ms');
 const colors = require('../../../colors.json');
 const { getMember } = require('../../handlers/functions');
@@ -7,14 +8,13 @@ const { getMember } = require('../../handlers/functions');
 module.exports = {
     name: 'tempmute',
     aliases: ['tm'],
-    // cooldown: ,
     usage: 'tempmute [user] [time {s, m, h, d}] (reason)',
     description: 'Mutes a user from the guild temporarily, for a specified amount of time (seconds, minutes, hours, days)',
 
     /** 
-     * @param {Discord.Client} bot 
-     * @param {Discord.Message} message 
-     * @param {Array} args 
+     * @param {Bot} bot 
+     * @param {Message} message 
+     * @param {string[]} args 
      */
     run: async(bot, message, args) => {
         const logChannel = message.guild.channels.cache.find(c => c.name === 'ari-bot-logs') || message.channel;
@@ -85,7 +85,7 @@ module.exports = {
             return message.channel.send('You can\'t tempmute a person that can tempmute you too, don\'t even bother...');
         }
 
-        const mEmbed = new Discord.MessageEmbed()
+        const mEmbed = new MessageEmbed()
             .setColor(colors.Orange)
             .setThumbnail(toTempmute.user.displayAvatarURL)
             .setFooter(message.member.displayName)
@@ -96,7 +96,7 @@ module.exports = {
             .addField('Mute time', ms(ms(mutetime)))
             .addField('Reason', reason);
 
-        const umEmbed = new Discord.MessageEmbed()
+        const umEmbed = new MessageEmbed()
             .setColor(colors.ForestGreen)
             .setThumbnail(toTempmute.user.displayAvatarURL)
             .setFooter(message.member.displayName)

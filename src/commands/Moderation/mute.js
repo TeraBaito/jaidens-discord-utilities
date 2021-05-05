@@ -1,8 +1,8 @@
-const Discord = require('discord.js');
+const { Message, MessageEmbed } = require('discord.js');
+const Bot = require('../../../index');
 const colors = require('../../../colors.json');
 const { getMember } = require('../../handlers/functions');
     
-
 
 module.exports = {
     name: 'mute',
@@ -11,9 +11,9 @@ module.exports = {
     description: 'Mutes a member from the guild for an indefinite amount of time.\n**Attention:** The muterole has to be called "Muted", and the log channel #toucan-logs',
 
     /** 
-     * @param {Discord.Client} bot 
-     * @param {Discord.Message} message 
-     * @param {Array} args 
+     * @param {Bot} bot 
+     * @param {Message} message 
+     * @param {string[]} args 
      */
     run: async(bot, message, args) => {
         const logChannel = message.guild.channels.cache.find(c => c.name === 'ari-bot-logs') || message.channel;
@@ -76,7 +76,7 @@ module.exports = {
             return message.channel.send('You can\'t mute a person that can mute you too, don\'t even bother...');
         }
 
-        const mEmbed = new Discord.MessageEmbed()
+        const mEmbed = new MessageEmbed()
             .setColor(colors.Orange)
             .setThumbnail(toMute.user.displayAvatarURL)
             .setFooter(message.member.displayName)

@@ -1,4 +1,5 @@
-const Discord = require('discord.js');
+const { Message } = require('discord.js');
+const Bot = require('../../../index');
 
 module.exports = {
     name: 'a',
@@ -8,9 +9,9 @@ module.exports = {
     description: 'Shrimp\'s favorite command',
 
     /**
-    * @param {Discord.Client} bot
-    * @param {Discord.Message} message
-    * @param {Array} args
+    * @param {Bot} bot
+    * @param {Message} message
+    * @param {string[]} args
     */
     run: async(bot, message, args) => {
         if (!['558264504736153600', '291684752363225098', '488064501816492047']
