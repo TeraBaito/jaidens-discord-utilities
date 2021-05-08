@@ -1,22 +1,29 @@
 // Modules
-const Discord = require('discord.js');
+const { Client, Collection } = require('discord.js');
 require('dotenv').config({ path: './.env'});
 const fs = require('fs');
 const chalk = require('chalk');
+const { stripIndents } = require('common-tags');
+
+const Bot = class extends Client {
+    constructor() {
+        super({
+            fetchAllMembers: true,
+            ws: {
+                intents: ['GUILDS', 'GUILD_MEMBERS', 'GUILD_MESSAGES', 'GUILD_VOICE_STATES', 'GUILD_MESSAGE_REACTIONS']
+            }
+        });
+
+        this.commands = new Collection();
+        this.aliases = new Collection();
+        this.afk = new Collection();
+        this.categories = fs.readdirSync('./src/commands');
+    }
+};
+module.exports = Bot;
 
 // Client
-const bot = new Discord.Client({
-    fetchAllMembers: true,
-    ws: {
-        intents: ['GUILDS', 'GUILD_MEMBERS', 'GUILD_MESSAGES', 'GUILD_VOICE_STATES', 'GUILD_MESSAGE_REACTIONS']
-    }
-});
-
-// Other bot properties
-bot.commands = new Discord.Collection();
-bot.aliases = new Discord.Collection();
-bot.categories = fs.readdirSync('./src/commands/');
-bot.afk = new Discord.Collection();
+const bot = new Bot();
 
 // Debugging
 //bot.on('raw', console.log);
@@ -39,12 +46,13 @@ process.on('warning', e => console.warn(`${chalk.yellow('[Error]')} - ${e.stack}
 });
 
 // Connect to VPS
-const express = require('express');
-const { stripIndents } = require('common-tags');
+/* const express = require('express');
 const app = express();
 const port = 3000;
-app.get('/', (req, res) => res.send('<p style="font-family:Segoe UI; color:MediumSeaGreen">[Info] Working!</p>'));
-app.listen(port, () => console.log(`Ari Bot listening at http://localhost:${port}`));
+
+app.get('/', (req, res) => res.send('Working'));
+app.listen(port, () => console.log(`Ari Bot listening at http://localhost:${port}`)); */
+
 
 // Login and turn on (default is DISCORD_TOKEN)
 bot.login();
