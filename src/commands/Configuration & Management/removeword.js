@@ -23,17 +23,41 @@ module.exports = {
         /** @type {{nsfw: string[], offensive: string[], jr34: string}} */
         const words = readJSONSync('./src/handlers/blacklisted-words.json', 'utf-8');
         let { offensive, nsfw } = words;
-        const restart = '. Please remember that the bot has to be restarted in order for the updates to be shown';
-        
+        const { raw: r } = String;
+
+        const inp = (function (input) {
+            // eslint-disable-next-line no-useless-escape
+            const match = /[\+\*\?\^\$\\\.\[\]\{\}\(\)\|\/]/.test(input);
+            
+            if (match) {
+                input = input
+                    .replace(/\+/g, r`\+`)
+                    .replace(/\*/g, r`\*`)
+                    .replace(/\?/g, r`\?`)
+                    .replace(/\^/g, r`\^`)
+                    .replace(/\$/g, r`\$`)
+                    .replace(/\./g, r`\.`)
+                    .replace(/\[/g, r`\[`)
+                    .replace(/\]/g, r`\]`)
+                    .replace(/\{/g, r`\{`)
+                    .replace(/\}/g, r`\}`)
+                    .replace(/\(/g, r`\(`)
+                    .replace(/\)/g, r`\)`)
+                    .replace(/\|/g, r`\|`)
+                    .replace(/\//g, r`\$`);
+            }
+            return input;
+        })(args[1]);
+
         switch(args[0]) {
         case 'offensive':
-            if (!offensive.includes(args[1])) return message.channel.send('There\'s no such word as that!');
-            offensive.splice(offensive.indexOf(args[1]), 1);
+            if (!offensive.includes(inp)) return message.channel.send('There\'s no such word as that!');
+            offensive.splice(offensive.indexOf(inp), 1);
             await message.channel.send('Deleted the word from the offensive words list');
             break;
         case 'nsfw':
-            if (!nsfw.includes(args[1])) return message.channel.send('There\'s no such word as that!');
-            nsfw.splice(nsfw.indexOf(args[1]), 1);
+            if (!nsfw.includes(inp)) return message.channel.send('There\'s no such word as that!');
+            nsfw.splice(nsfw.indexOf(inp), 1);
             await message.channel.send('Deleted the word from the NSFW words list');
             break;
         default:
