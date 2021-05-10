@@ -1,4 +1,4 @@
-const { Message } = require('discord.js');
+const { Message, DiscordAPIError } = require('discord.js');
 const Bot = require('../../../index');
 const ms = require('ms');
 
@@ -33,7 +33,7 @@ module.exports = {
                 if (length <= 26 && !n) {
                     message.member.setNickname('[AFK] ' + displayName)
                         .catch(e => {
-                            if (!(e instanceof Discord.DiscordAPIError)) throw e;
+                            if (!(e instanceof DiscordAPIError)) throw e;
                         });
                 }
                 break;
@@ -41,7 +41,7 @@ module.exports = {
                 if (length <= 26 && !afk.get(id).flags[1]) {
                     message.member.setNickname(displayName.slice(6))
                         .catch(e => {
-                            if (!(e instanceof Discord.DiscordAPIError)) throw e;
+                            if (!(e instanceof DiscordAPIError)) throw e;
                         });
                 }
                 break;

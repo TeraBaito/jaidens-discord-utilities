@@ -1,4 +1,4 @@
-const { Message, Guild, GuildMember, User } = require('discord.js');
+const { Message, Guild, GuildMember, User, MessageEmbed } = require('discord.js');
 const Bot = require('../../index');
 const chalk = require('chalk');
 const { readJSONSync } = require('fs-extra');
@@ -144,7 +144,12 @@ function blacklistProcess(message, bot) {
         * @type {RegExp} */  
         // eslint-disable-next-line no-useless-escape
         let pattern = new RegExp(`(^${w}$)|([^a-z\s]+${w})|(${w}[^a-z\s]+)`, 'mi');
-        return split.some(w => pattern.test(w));
+
+        if (w.includes(' ')) {
+            return pattern.test(message.content);
+        } else {
+            return split.some(w => pattern.test(w));
+        }
     };
     /**
      * @param {string} msg The message to send

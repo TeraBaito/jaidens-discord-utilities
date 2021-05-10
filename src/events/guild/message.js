@@ -1,4 +1,4 @@
-const { Message } = require('discord.js');
+const { Message, DiscordAPIError } = require('discord.js');
 const Bot = require('../../../index');
 const { prefix, jaidenServerID } = require('../../../config.json');
 const { blacklistProcess } = require('../../handlers/functions');
@@ -83,7 +83,7 @@ module.exports = async (bot, message) => {
         if (length <= 26 && !data.flags[1]) {
             message.member.setNickname(displayName.slice(6))
                 .catch(e => {
-                    if (!(e instanceof Discord.DiscordAPIError)) throw e;
+                    if (!(e instanceof DiscordAPIError)) throw e;
                 });
         }
         message.channel.send(`Welcome back, <@!${message.author.id}>! Your AFK was removed.`)
