@@ -13,7 +13,7 @@ module.exports = {
     * @param {Message} message
     * @param {string[]} args
     */
-    run: async(bot, message, args) => {
+    run: async (bot, message, args) => {
         const { afk } = bot,
             { id, displayName } = message.member,
             timeout = 30000; // ms
@@ -29,22 +29,22 @@ module.exports = {
             const n = flags[1];
             const { length } = displayName;
             switch (type) {
-            case 1: // Set
-                if (length <= 26 && !n) {
-                    message.member.setNickname('[AFK] ' + displayName)
-                        .catch(e => {
-                            if (!(e instanceof DiscordAPIError)) throw e;
-                        });
-                }
-                break;
-            case 2: // Remove before
-                if (length <= 26 && !afk.get(id).flags[1]) {
-                    message.member.setNickname(displayName.slice(6))
-                        .catch(e => {
-                            if (!(e instanceof DiscordAPIError)) throw e;
-                        });
-                }
-                break;
+                case 1: // Set
+                    if (length <= 26 && !n) {
+                        message.member.setNickname('[AFK] ' + displayName)
+                            .catch(e => {
+                                if (!(e instanceof DiscordAPIError)) throw e;
+                            });
+                    }
+                    break;
+                case 2: // Remove before
+                    if (length <= 26 && !afk.get(id).flags[1] && displayName.startsWith('[AFK] ')) {
+                        message.member.setNickname(displayName.slice(6))
+                            .catch(e => {
+                                if (!(e instanceof DiscordAPIError)) throw e;
+                            });
+                    }
+                    break;
             }
         }
 
