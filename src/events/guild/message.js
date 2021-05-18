@@ -80,7 +80,7 @@ module.exports = async (bot, message) => {
         const { displayName } = message.member;
         const { length } = displayName;
         bot.afk.delete(message.author.id);
-        if (length <= 26 && !data.flags[1]) {
+        if (displayName.startsWith('[AFK] ') && !data.flags[1]) {
             message.member.setNickname(displayName.slice(6))
                 .catch(e => {
                     if (!(e instanceof DiscordAPIError)) throw e;

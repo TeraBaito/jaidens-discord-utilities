@@ -38,7 +38,7 @@ module.exports = {
                 }
                 break;
             case 2: // Remove before
-                if (length <= 26 && !afk.get(id).flags[1]) {
+                if (displayName.startsWith('[AFK] ') && !afk.get(id).flags[1]) {
                     message.member.setNickname(displayName.slice(6))
                         .catch(e => {
                             if (!(e instanceof DiscordAPIError)) throw e;
