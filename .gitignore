@@ -29,5 +29,8 @@ template.config.js
 # Hosting files
 .replit
 
+# Databases
+/db/
+
 # Everything testing
 *test*
