@@ -1,5 +1,6 @@
 const { Message } = require('discord.js');
 const Bot = require('../../../index');
+const { checkStaff } = require('../../handlers/functions');
 
 module.exports = {
     name: 'edittag',
