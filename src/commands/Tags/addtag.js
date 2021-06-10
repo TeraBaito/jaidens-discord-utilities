@@ -1,4 +1,4 @@
-const { Message } = require('discord.js');
+const { Message, Util: { removeMentions } } = require('discord.js');
 const Bot = require('../../../index');
 
 module.exports = {
@@ -20,7 +20,7 @@ module.exports = {
         try {
             const tag = await bot.tags.create({
                 name: args[0],
-                description: args.slice(1).join(' '),
+                description: removeMentions(args.slice(1).join(' ')),
                 username: message.author.username
             });
             return message.channel.send(`Tag \`${tag.name}\` added.`);
