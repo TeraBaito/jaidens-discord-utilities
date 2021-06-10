@@ -1,6 +1,6 @@
 {
   "name": "jaidens-discord-utilities",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Discord bot with utilities for r/JaidenAnimations Discord Server",
   "main": "index.js",
   "dependencies": {
@@ -14,7 +14,9 @@
     "mathjs": "^8.0.1",
     "moment": "^2.29.1",
     "ms": "^2.1.2",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.1",
+    "sequelize": "^6.6.2",
+    "sqlite3": "^5.0.2"
   },
   "devDependencies": {
     "eslint": "^7.14.0"
