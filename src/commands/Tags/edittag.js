@@ -6,7 +6,7 @@ module.exports = {
     name: 'edittag',
     helpName: 'Edit Tag',
     aliases: ['edit-tag', 'tagedit', 'tag-edit'],
-    usage: 'addtag [name] [content]',
+    usage: 'edittag [name] [content]',
     description: 'Edits a tag\'s content',
 
     /** 
