@@ -1,7 +1,6 @@
 const { Message } = require('discord.js');
 const Bot = require('../../../index');
 const { readJSONSync, writeJSONSync } = require('fs-extra');
-const { checkStaff } = require('../../handlers/functions');
 
 
 module.exports = {
@@ -10,6 +9,7 @@ module.exports = {
     aliases: ['add-word', 'add-blacklist'],
     usage: 'addword [{nsfw, offensive}] [word]',
     description: 'ADMIN COMMAND ONLY\nAdds a blacklisted word to the word list',
+    staffOnly: true,
 
     /**
     * @param {Bot} bot
@@ -17,17 +17,17 @@ module.exports = {
     * @param {string[]} args
     */
     run: async(bot, message, args) => {
-        if (!checkStaff(message.member)) return message.channel.send('Sorry, you can\'t access this command!');
-
         /** @type {{nsfw: string[], offensive: string[], jr34: string}} */
         const words = readJSONSync('./src/handlers/blacklisted-words.json', 'utf-8');
         const { raw: r } = String;
 
         // Automatically escape
         /** @param {string} i */
-        const regex = (i) => i.replace(/[-[\]{}()*+?.,\\^$|#]/g, '\\$&');
+        const regex = (i) => i.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
         let inp = args.slice(1);
+        console.log(inp);
         inp.length > 1 ? inp = inp.map(i => regex(i)) : inp = regex(inp[0]);
+        console.log(inp);
 
         switch(args[0]) {
         case 'offensive':

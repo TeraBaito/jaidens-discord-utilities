@@ -67,7 +67,12 @@ function formatDate(date) {
 async function promptMessage(message, author, time, validReactions) {
     time *= 1000;
 
-    for(const reaction of validReactions) await message.react(reaction);
+    for(const reaction of validReactions) {
+        message.react(reaction);
+        // eslint-disable-next-line no-inner-declarations
+        const d = async () => new Promise(r => setTimeout(r, 1000));
+        await d();
+    }
 
     const filter = (reaction, user) => validReactions.includes(reaction.emoji.name) && user.id === author.id;
 
@@ -92,7 +97,8 @@ function randomizePercentage(number) {
 * @param {GuildMember} member The member to check on
 * @returns {boolean}
 */
-function checkStaff(member) {
+async function checkStaff(member) {
+    await member.fetch();
     try {
         if (
             member.roles.cache.find(r => r.name == 'Staff') || // Check by roles
@@ -145,8 +151,13 @@ function blacklistProcess(message, bot) {
         // eslint-disable-next-line no-useless-escape
         let pattern = new RegExp(`(^${w}$)|([^a-z\s]+${w})|(${w}[^a-z\s]+)`, 'mi');
 
-        if (w.includes(' ')) {
-            return pattern.test(message.content);
+        if (Array.isArray(w)) {
+            return w.every(e => {
+                // eslint-disable-next-line no-useless-escape
+                let pattern = new RegExp(`(^${e}$)|([^a-z\s]+${e})|(${e}[^a-z\s]+)`, 'mi');
+                return pattern.test(e);
+            });
+            // return pattern.test(message.content);
         } else {
             return split.some(w => pattern.test(w));
         }
@@ -228,7 +239,7 @@ function unhoistOne(member) {
  * @param {Guild} guild 
  */
 function nicknameProcess(guild) {
-    const hoistPattern =  /^!|^-/;
+    const hoistPattern =  /^[!?$-]+/;
     const members = guild.members.cache.filter(m => hoistPattern.test(m.displayName));
     //console.log(members);
     members.each(m => unhoistOne(m));

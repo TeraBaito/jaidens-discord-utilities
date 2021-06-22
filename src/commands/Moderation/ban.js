@@ -1,13 +1,14 @@
 const { Message, MessageEmbed } = require('discord.js');
 const Bot = require('../../../index');
 const colors = require('../../../colors.json');
-const { promptMessage, getMember, checkStaff } = require('../../handlers/functions');
+const { promptMessage, getMember } = require('../../handlers/functions');
 
 module.exports = {
     name: 'ban',
     aliases: ['b'],
     usage: 'ban [user]',
     description: 'Bans a member from the current guild',
+    staffOnly: true,
 
     /** 
      * @param {Bot} bot 
@@ -27,14 +28,10 @@ module.exports = {
             return message.channel.send('Please provide a user to ban').then(m => setTimeout(() => { m.delete(); }, 5000));
         }
 
-        // No permissions to ban
-        if (checkStaff(message.member)) return message.channel.send('You can\'t execute this command, smhsmh');
-
         // No bot permissions to ban (it does by default)
         if (!message.guild.me.hasPermission('BAN_MEMBERS')) {
             return message.channel.send('I don\'t have permissions to ban members, please enable them').then(m => setTimeout(() => { m.delete(); }, 5000));
         }
-
 
         // No member found
         if (!toBan) {
@@ -49,8 +46,7 @@ module.exports = {
         // User not bannable
         if (!toBan.bannable) {
             return message.channel.send('I can\'t ban that user due to role hierarchy, I guess').then(m => setTimeout(() => { m.delete(); }, 5000));
-        }
-        
+        } 
      
         // Log
         const bEmbed = new MessageEmbed()
@@ -73,9 +69,7 @@ module.exports = {
         const promptEmbed = new MessageEmbed()
             .setColor('eb8334')
             .setFooter('This verification becomes invalid after 30 seconds')
-            .setDescription(`Do you want to ban ${toBan}?`);
-
-        
+            .setDescription(`Do you want to ban ${toBan}?`); 
 
         message.channel.send(promptEmbed).then(async msg => {
             const emoji = await promptMessage(msg, message.author, 30, ['✅', '❌']);

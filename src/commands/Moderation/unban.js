@@ -7,6 +7,7 @@ module.exports = {
     aliases: ['ub'],
     usage: 'unban [ID]',
     description: 'Unbans a member from the current guild',
+    staffOnly: true,
 
     /** 
      * @param {Bot} bot 
@@ -24,11 +25,6 @@ module.exports = {
         // No args
         if (!args[0]) {
             return message.channel.send('Please provide a user to unban').then(m => setTimeout(() => { m.delete(); }, 5000));
-        }       
-
-        // No permissions to unban
-        if (!message.member.hasPermission('BAN_MEMBERS', 'ADMINISTRATOR')) {
-            return message.channel.send('You don\'t have permissions to unban members so...').then(m => setTimeout(() => { m.delete(); }, 5000));
         }
 
         // No bot permissions to ban (it does by default)

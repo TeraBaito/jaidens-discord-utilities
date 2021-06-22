@@ -8,6 +8,7 @@ module.exports = {
     helpName: 'Remove Role',
     usage: 'removerole [user] [role]',
     description: 'Removes a role from a specified member. Be sure that the role exists so it can be ungranted!',
+    staffOnly: true,
 
     /** 
      * @param {Bot} bot 
@@ -28,13 +29,6 @@ module.exports = {
             .setTimestamp()
             .addField('Removed from', `${toRemoveRole} (${toRemoveRole.id})`)
             .addField('Removed by:', `${message.author} ${message.author.id}`); 
-        
-
-        // User can't remove roles
-        if (!message.member.hasPermission('MANAGE_ROLES')) {
-            message.channel.send('You don\'t have permissions to remove roles to other members')
-                .then(m => setTimeout(() => { m.delete(); }, 5000));
-        }
 
         // Bot doesn't have permission to remove roles (it does by default)
         if (!message.guild.me.hasPermission('MANAGE_ROLES')) {

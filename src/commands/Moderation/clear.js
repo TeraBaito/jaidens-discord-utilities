@@ -6,6 +6,7 @@ module.exports = {
     aliases: ['purge'],
     usage: 'clear [amount of messages]',
     description: 'Clears a specified amount of messages in the current channel, up to 100 messages',
+    staffOnly: true,
 
     /** 
      * @param {Bot} bot 
@@ -15,13 +16,7 @@ module.exports = {
     run: async(bot, message, args) => {
         if (message.deletable) message.delete;
 
-        // Member doesn't have perms to delete messages
-        if (!message.member.hasPermission('MANAGE_MESSAGES')) {
-            return message.channel.send('You don\'t have permission to delete messages, welps')
-                .then(m => setTimeout(() => { m.delete(); }, 5000));
-        }
-
-        // Bot doesn't have perms to delete messages (it does by default
+        // Bot doesn't have perms to delete messages (it does by default)
         if (!message.guild.me.hasPermission('MANAGE_MESSAGES')) {
             return message.channel.send('I don\'t have permissions to delete messages, please enable the "Manage Messages" permission')
                 .then(m => setTimeout(() => { m.delete(); }, 5000));

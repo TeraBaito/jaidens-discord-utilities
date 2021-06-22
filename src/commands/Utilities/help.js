@@ -68,6 +68,7 @@ function getCmd(bot, message, input) {
     // Adds aliases by mapping them
     if(cmd.aliases) embed.addField('Aliases', `${cmd.aliases.map(a => `\`${a}\``).join(' ')}`);
     // The description
+    if (cmd.staffOnly) cmd.description = '**STAFF ONLY COMMAND**\n' + cmd.description;
     if(cmd.description) embed.addField('Description', `${cmd.description}`);
     // The usage
     if(cmd.usage) embed.addField('Usage', `\`${prefix}${cmd.usage}\``);

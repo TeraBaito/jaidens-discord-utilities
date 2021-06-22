@@ -9,6 +9,7 @@ module.exports = {
     aliases: ['k'],
     usage: 'kick [user] (reason)',
     description: 'Kicks a member from the current guild\n**Attention:** Log channel has to be called #toucan-logs, or else it will log it in the current channel.',
+    staffOnly: true,
 
     /** 
      * @param {Bot} bot 
@@ -17,7 +18,7 @@ module.exports = {
      */
     run: async(bot, message, args) => {
         const logChannel = message.guild.channels.cache.find(c => c.name === 'ari-bot-logs') || message.channel;
-        const toKick = getMember(message, args[0]);
+        const toKick = await getMember(message, args[0]);
 
         // Checks of when using command
         
@@ -26,11 +27,6 @@ module.exports = {
         // No args
         if (!args[0]) {
             return await message.channel.send('Please provide a user to kick').then(m => setTimeout(() => { m.delete(); }, 5000));
-        }
-
-        // No permissions to kick
-        if (!message.member.hasPermission('KICK_MEMBERS')) {
-            return await message.channel.send('You don\'t have permissions to kick members, smh').then(m => setTimeout(() => { m.delete(); }, 5000));
         }
 
         // No bot permissions to kick (it does by default)
@@ -68,15 +64,13 @@ module.exports = {
             kEmbed.addField('Reason', 'No reason specified');
         } else {
             kEmbed.addField('Reason', args.slice(1).join(' '));
-        }
-            
+        }           
 
         const promptEmbed = new MessageEmbed()
             .setColor('eb8334')
             .setFooter('This verification becomes invalid after 30 seconds')
             .setDescription(`Do you want to kick ${toKick}?`);
 
-        
 
         message.channel.send(promptEmbed).then(async msg => {
             const emoji = await promptMessage(msg, message.author, 30, ['✅', '❌']);

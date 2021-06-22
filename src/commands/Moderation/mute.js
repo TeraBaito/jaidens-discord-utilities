@@ -9,6 +9,7 @@ module.exports = {
     aliases: ['m'],
     usage: 'mute [user] (reason)',
     description: 'Mutes a member from the guild for an indefinite amount of time.\n**Attention:** The muterole has to be called "Muted", and the log channel #toucan-logs',
+    staffOnly: true,
 
     /** 
      * @param {Bot} bot 
@@ -40,24 +41,16 @@ module.exports = {
             }
         }
 
-        // Member doesn't have perms to mute
-        if (!message.member.hasPermission('KICK_MEMBERS', 'BAN_MEMBERS', 'MANAGE_ROLES')) {
-            return message.channel.send('You don\'t have permissions to mute users, funny man')
-                .then(m => setTimeout(() => { m.delete(); }, 5000));
-        }
-
         // Bot doesn't have perms to mute (it does by default)
         if (!message.guild.me.hasPermission('MANAGE_ROLES')) {
             return message.channel.send('I don\'t have permissions to mute users, please enable the "Manage Roles" permission')
                 .then(m => setTimeout(() => { m.delete(); }, 5000));
-
         }
 
         // No user provided (no arguments)
         if (!args[0]) {
             return message.channel.send('Please provide a valid user to mute')
                 .then(m => setTimeout(() => { m.delete(); }, 5000));
-
         }
     
         // Can't find member

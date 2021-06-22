@@ -1,7 +1,6 @@
 const { Message } = require('discord.js');
 const Bot = require('../../../index');
 const { readJSONSync, writeJSONSync } = require('fs-extra');
-const { checkStaff } = require('../../handlers/functions');
 
 
 module.exports = {
@@ -10,6 +9,7 @@ module.exports = {
     aliases: ['delword', 'remove-word', 'rmword', 'remove-blacklist'],
     usage: 'removeword [{nsfw, offensive}] [word]',
     description: 'ADMIN COMMAND ONLY\nRemoves a blacklisted word from the word list',
+    staffOnly: true,
 
     /**
     * @param {Bot} bot
@@ -17,7 +17,6 @@ module.exports = {
     * @param {string[]} args
     */
     run: async(bot, message, args) => {
-        if (!checkStaff(message.member)) return message.channel.send('Sorry, you can\'t access this command!');
         if (!args[0] || !args[1]) return message.channel.send('Please input the valid syntax from the help command!');
 
         /** @type {{nsfw: string[], offensive: string[], jr34: string}} */
@@ -26,9 +25,9 @@ module.exports = {
         const { raw: r } = String;
 
         /** @param {string} i */
-        const regex = (i) => i.replace(/[-[\]{}()*+?.,\\^$|#]/g, '\\$&');
+        const regex = (i) => i.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
         let inp = args.slice(1);
-        inp.length > 1 ? inp = inp.map(i => regex(i)) : inp = regex(inp[0]);
+        inp.length > 1 ? inp = regex(inp) : inp = inp.map(i => regex(i));
 
         switch(args[0]) {
         case 'offensive':

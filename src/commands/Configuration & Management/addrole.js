@@ -10,6 +10,7 @@ module.exports = {
     // cooldown: ,
     usage: 'addrole [user] [role]',
     description: 'Gives a role to a specified member. Be sure that the role exists so it can be granted!',
+    staffOnly: true,
 
     /** 
      * @param {Bot} bot 
@@ -31,12 +32,6 @@ module.exports = {
             .addField('Added to', `${toGiveRole} (${toGiveRole.id})`)
             .addField('Added by:', `${message.author} ${message.author.id}`); 
         
-
-        // User can't give roles
-        if (!message.member.hasPermission('MANAGE_ROLES')) {
-            message.channel.send('You don\'t have permissions to give roles to other members')
-                .then(m => setTimeout(() => { m.delete(); }, 5000));
-        }
 
         // Bot doesn't have permission to give roles (it does by default)
         if (!message.guild.me.hasPermission('MANAGE_ROLES')) {

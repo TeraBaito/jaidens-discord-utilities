@@ -1,7 +1,7 @@
 const { Message, DiscordAPIError } = require('discord.js');
 const Bot = require('../../../index');
 const { prefix, jaidenServerID } = require('../../../config.json');
-const { blacklistProcess } = require('../../handlers/functions');
+const { blacklistProcess, checkStaff } = require('../../handlers/functions');
 const { readJSONSync } = require('fs-extra');
 const autoresponders = require('../../handlers/autoresponders.js');
 const ms = require('ms');
@@ -44,11 +44,11 @@ module.exports = async (bot, message) => {
 
     // Blacklisting
     if (blacklisting && 
-        (message.guild.id == jaidenServerID ||
-        ['717046261487763516', '734543511529193584'].includes(message.channel.id))) blacklistProcess(message, bot);
+        [jaidenServerID, '711301984887636080'].includes(message.channel.id) &&
+        message.channel.id != '755189056660308050') blacklistProcess(message, bot);
 
     // Autoresponders
-    if (ar) {
+    if (ar && toggleAR) {       
         autoresponders.forEach(elem => {
             const { input, output, regexp } = elem;
             if (regexp) {
@@ -80,7 +80,7 @@ module.exports = async (bot, message) => {
         const { displayName } = message.member;
         const { length } = displayName;
         bot.afk.delete(message.author.id);
-        if (displayName.startsWith('[AFK] ') && !data.flags[1]) {
+        if (length <= 26 && !data.flags[1]) {
             message.member.setNickname(displayName.slice(6))
                 .catch(e => {
                     if (!(e instanceof DiscordAPIError)) throw e;
@@ -110,6 +110,7 @@ module.exports = async (bot, message) => {
     let command = bot.commands.get(cmd);
     if(!command) command = bot.commands.get(bot.aliases.get(cmd));
     if(command && message.content.startsWith(prefix)) {
+        if (command.staffOnly && !(await checkStaff(message.member))) return message.channel.send('You\'re not allowed to run this command, you\'re not staff!');
         if (!allowedServers.includes(message.guild.id)) return message.channel.send('Sorry, this bot is private and this server is not included in the allowed servers list.');
         if (disabledCommands.includes(command.name)) return message.channel.send('Sorry, this command is temporarily disabled. Want some choccy milk instead?', { files: ['https://media.discordapp.net/attachments/601435709261348895/801884062226186310/iu.png?width=461&height=473']});
         command.run(bot, message, args);

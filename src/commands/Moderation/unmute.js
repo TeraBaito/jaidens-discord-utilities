@@ -7,9 +7,9 @@ const { getMember } = require('../../handlers/functions');
 module.exports = {
     name: 'unmute',
     aliases: ['um'],
-    // cooldown: ,
     usage: 'unmute [user] (reason)',
     description: 'Unmutes an already muted member from the guild.\n**Attention:** The muterole has to be called "Muted", and the log channel #toucan-logs',
+    staffOnly: true,
 
     /** 
      * @param {Bot} bot 
@@ -20,12 +20,6 @@ module.exports = {
         const logChannel = message.guild.channels.cache.find(c => c.name === 'ari-bot-logs') || message.channel;
         const toUnmute = getMember(message, args[0]);
         const muterole = message.guild.roles.cache.find(r => r.name === 'Muted');
-
-        // Member doesn't have perms to unmute
-        if (!message.member.hasPermission('KICK_MEMBERS', 'BAN_MEMBERS', 'MANAGE_ROLES')) {
-            return message.channel.send('You don\'t have permissions to unmute users')
-                .then(m => setTimeout(() => { m.delete(); }, 5000));
-        }
 
         // Bot doesn't have perms to mute (it does by default)
         if (!message.guild.me.hasPermission('MANAGE_ROLES')) {

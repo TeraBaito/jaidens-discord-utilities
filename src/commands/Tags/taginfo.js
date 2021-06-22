@@ -2,6 +2,7 @@ const { Message, MessageEmbed } = require('discord.js');
 const { ForestGreen } = require('../../../colors.json');
 const Bot = require('../../../index');
 const { formatDate } = require('../../handlers/functions');
+const { suggestionsChannel } = require('../../../config.json');
 
 module.exports = {
     name: 'taginfo',
@@ -20,6 +21,7 @@ module.exports = {
         if (!args[0]) return message.channel.send('Please specify a tag.');
         
         const tag = await bot.tags.findOne({ where: { name: args[0] } });
+
         if (tag) {
             const embed = new MessageEmbed()
                 .setTitle(tag.name)

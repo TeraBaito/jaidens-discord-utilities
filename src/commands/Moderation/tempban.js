@@ -9,6 +9,7 @@ module.exports = {
     aliases: ['tb'],
     usage: 'tempban [user] (reason)',
     description: 'Bans a user from the guild temporarily, for a specified amount of time (seconds, minutes, hours, days)',
+    staffOnly: true,
 
     /** 
      * @param {Bot} bot 
@@ -21,8 +22,6 @@ module.exports = {
         let bantime = args[1];
         let reason = args[3] ? args.slice(2).join(' ') : 'No reason specified';
 
-
-
         if(message.deletable) message.delete();
 
         // Checks of when using command
@@ -30,13 +29,6 @@ module.exports = {
         // No args
         if (!args[0]) {
             return message.channel.send('Please provide a user to tempban').then(m => setTimeout(() => { m.delete(); }, 5000));
-        }
-
-        
-
-        // No permissions to tempban
-        if (!message.member.hasPermission('BAN_MEMBERS')) {
-            return message.channel.send('You don\'t have permissions to tempban members, smh').then(m => setTimeout(() => { m.delete(); }, 5000));
         }
 
         // No bot permissions to tempban (it does by default)
@@ -57,9 +49,7 @@ module.exports = {
         // User not bannable
         if (!toTempban.bannable) {
             return message.channel.send('I can\'t tempban that user due to role hierarchy, I guess').then(m => setTimeout(() => { m.delete(); }, 5000));
-        }
-        
-        
+        }    
      
         // Log
         const bEmbed = new MessageEmbed()

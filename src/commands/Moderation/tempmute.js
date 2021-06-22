@@ -10,6 +10,7 @@ module.exports = {
     aliases: ['tm'],
     usage: 'tempmute [user] [time {s, m, h, d}] (reason)',
     description: 'Mutes a user from the guild temporarily, for a specified amount of time (seconds, minutes, hours, days)',
+    staffOnly: true,
 
     /** 
      * @param {Bot} bot 
@@ -44,24 +45,16 @@ module.exports = {
             }
         }
 
-        // Member doesn't have perms to tempmute
-        if (!message.member.hasPermission('KICK_MEMBERS', 'BAN_MEMBERS', 'MANAGE_ROLES')) {
-            return message.channel.send('You don\'t have permissions to tempmute users, funny man')
-                .then(m => setTimeout(() => { m.delete(); }, 5000));
-        }
-
         // Bot doesn't have perms to tempmute (it does by default)
         if (!message.guild.me.hasPermission('MANAGE_ROLES')) {
             return message.channel.send('I don\'t have permissions to tempmute users, please enable the "Manage Roles" permission')
                 .then(m => setTimeout(() => { m.delete(); }, 5000));
-
         }
 
         // No user provided (no first argument)
         if (!args[0]) {
             return message.channel.send('Please provide a valid user to tempmute')
                 .then(m => setTimeout(() => { m.delete(); }, 5000));
-
         }
     
         // No time provided (no second argument)

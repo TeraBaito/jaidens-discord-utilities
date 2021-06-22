@@ -7,6 +7,7 @@ module.exports = {
     helpName: 'Member Nickname Unhoisting',
     usage: 'unhoist',
     description: 'MOD COMMAND ONLY\nUnhoists all hoisted members by a RegExp pattern.',
+    staffOnly: true,
 
     /**
     * @param {Bot} bot

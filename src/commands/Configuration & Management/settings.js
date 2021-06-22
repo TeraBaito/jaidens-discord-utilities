@@ -2,7 +2,6 @@ const { stripIndents } = require('common-tags');
 const { Message, MessageEmbed } = require('discord.js');
 const Bot = require('../../../index');
 const { readJSONSync, writeJSONSync } = require('fs-extra');
-const { checkStaff } = require('../../handlers/functions');
 const colors = require('../../../colors.json');
 
 module.exports = {
@@ -10,7 +9,8 @@ module.exports = {
     helpName: 'Bot Core Settings',
     aliases: ['botSettings', 'config', 'botConfig'],
     usage: 'settings {welcomer, blacklisting, list, reset}\na+settings {enable, disable} [command]\na+settings enable all',
-    description: 'STAFF COMMAND ONLY\nEnables and disables core settings of the bot, such as welcomer or specific commands.',
+    description: 'Enables and disables core settings of the bot, such as welcomer or specific commands.',
+    staffOnly: true,
 
     /**
     * @param {Bot} bot
@@ -18,9 +18,6 @@ module.exports = {
     * @param {string[]} args
     */
     run: async(bot, message, args) => {
-        let emot = '<:troll:798638733095075875>';
-        if (!checkStaff(message.member)) return message.channel.send('You can\'t use this command; smh get admin lol rekt '+emot+emot+emot);
-
         /**  @type {{ welcomer: boolean, blacklisting: boolean, blacklistLogs: boolean disabledCommands: string[] }} */
         const data = readJSONSync('./botSettings.json', 'utf-8');
         let { disabledCommands } = data;
