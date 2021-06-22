@@ -1,6 +1,6 @@
 const { GuildMember, MessageEmbed } = require('discord.js');
 const Bot = require('../../../index');
-const { welcomer } = require('../../../botSettings.json');
+const { readJSONSync } = require('fs-extra');
 const { jaidenServerID, mainChannel } = require('../../../config.json');
 const colors = require('../../../colors.json');
 
@@ -14,7 +14,8 @@ const colors = require('../../../colors.json');
  * @param {GuildMember} member 
  */
 module.exports = async (bot, member) => {
-    if (!welcomer) return;
+    const { welcomer } = readJSONSync('./botSettings.json');
+    if (!welcomer || member.guild.id != jaidenServerID) return;
 
     const mEmbed = new MessageEmbed()
         .setColor(colors.Peru)
@@ -24,5 +25,6 @@ module.exports = async (bot, member) => {
 
     // ok cya
     if (member.guild.id != jaidenServerID) return;
-    bot.channels.cache.get('755182878635327529').send(`Welps, guess like **${member.displayName}** couldn't stand to be around us, adiós.`);
+    bot.channels.cache.get(mainChannel).send(`Welps, guess like **${member.displayName}** couldn't stand to be around us, adiós.`);
+    bot.guilds.cache.get(jaidenServerID).channels.cache.find(ch => ch.name == 'new-members').send(mEmbed);
 };

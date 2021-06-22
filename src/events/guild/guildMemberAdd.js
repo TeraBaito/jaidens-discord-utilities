@@ -17,8 +17,7 @@ const eggs = require('../../handlers/eastereggs.json');
  */
 module.exports = async (bot, member) => {
     const { welcomer } = readJSONSync('./botSettings.json');
-    
-    if (!welcomer) return;
+    if (!welcomer || member.guild.id != jaidenServerID) return;
     
     const mEmbed = new MessageEmbed()
         .setColor(colors.Olive)
@@ -41,7 +40,6 @@ module.exports = async (bot, member) => {
     And for the context, Jaiden isn't here :p`;
 
     // Just sends a cool message in chat to welcome the user
-    if (member.guild.id != jaidenServerID) return;
     bot.channels.cache.get(mainChannel).send(msg);
 
     bot.guilds.cache.get(jaidenServerID).channels.cache.find(ch => ch.name == 'new-members').send(mEmbed);
