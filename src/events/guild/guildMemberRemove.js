@@ -4,7 +4,6 @@ const { readJSONSync } = require('fs-extra');
 const { jaidenServerID, mainChannel } = require('../../../config.json');
 const colors = require('../../../colors.json');
 
-
 /**
  * `guildMemberRemove` event.
  * 
@@ -21,7 +20,8 @@ module.exports = async (bot, member) => {
         .setColor(colors.Peru)
         .setTitle('Member Left')
         .addField('Name', member.displayName, true)
-        .addField('ID', member.id);
+        .addField('ID', member.id)
+        .setThumbnail(member.user.displayAvatarURL({ format: 'png', dynamic: true }));
 
     // ok cya
     if (member.guild.id != jaidenServerID) return;
