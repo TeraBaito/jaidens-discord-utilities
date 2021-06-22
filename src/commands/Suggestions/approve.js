@@ -10,6 +10,7 @@ module.exports = {
     usage: 'approve [suggestion id]',
     description: 'Approves a suggestion based on its ID',
     staffOnly: true,
+    cooldown: 60,
 
     /**
     * @param {Bot} bot

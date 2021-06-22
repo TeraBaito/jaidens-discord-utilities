@@ -10,6 +10,7 @@ module.exports = {
     aliases: ['tag-info', 'tagdata', 'tag-data'],
     usage: 'taginfo [name]',
     description: 'Displays the information of a tag',
+    cooldown: 10,
 
     /**
      * 

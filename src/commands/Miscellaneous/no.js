@@ -6,6 +6,7 @@ module.exports = {
     helpName: '"No, Jaiden is Not Here"',
     usage: 'no',
     description: 'You can still stay for the community however!',
+    cooldown: 30,
 
     /** 
      * @param {Bot} bot 

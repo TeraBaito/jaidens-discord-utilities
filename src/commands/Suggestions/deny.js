@@ -10,6 +10,7 @@ module.exports = {
     usage: 'deny [suggestion id]',
     description: 'Denies a suggestion based on its ID',
     staffOnly: true,
+    cooldown: 60,
 
     /**
     * @param {Bot} bot

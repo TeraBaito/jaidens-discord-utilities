@@ -7,6 +7,7 @@ module.exports = {
     aliases: ['away-from-keyboard', 'gn'],
     usage: 'afk (message)',
     description: 'Leave an AFK message that will show whenever you\'re pinged. Also one of Tera\'s favorite commands\nPlease note this will not overwrite your client settings, and there will still be notifications unless disabled',
+    cooldown: 20,
 
     /**
     * @param {Bot} bot

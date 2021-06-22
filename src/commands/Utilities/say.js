@@ -7,6 +7,7 @@ module.exports = {
     aliases: ['echo'],
     usage: 'say [#channel] (embed) [message]',
     description: 'Echoes the given args',
+    staffOnly: true,
 
     /** 
      * @param {Bot} bot 
@@ -19,8 +20,6 @@ module.exports = {
         message.guild.channels.cache.find(c => c.name == args[0]);
 
         if (!channel) return message.channel.send('Couldn\'t find a channel with the arguments provided');
-    
-        if (!message.member.hasPermission('MANAGE_MESSAGES')) return;
 
         if (message.deletable) message.delete();
         

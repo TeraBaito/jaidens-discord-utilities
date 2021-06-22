@@ -8,6 +8,7 @@ module.exports = {
     aliases: ['deltag', 'delete-tag', 'tagdelete', 'tag-delete'],
     usage: 'deletetag [name]',
     description: 'Deletes a tag from the database',
+    cooldown: 10,
 
     /**
      * @param {Bot} bot 

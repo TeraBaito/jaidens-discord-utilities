@@ -8,6 +8,8 @@ module.exports = {
     aliases: ['calc', 'schoolpain'],
     usage: 'math [operation]',
     description: 'Evaluates a math operation. Please no quadratic equations or something lol',
+
+    
     /** 
      * @param {Bot} bot 
      * @param {Message} message 

@@ -8,6 +8,7 @@ module.exports = {
     usage: 'unhoist',
     description: 'MOD COMMAND ONLY\nUnhoists all hoisted members by a RegExp pattern.',
     staffOnly: true,
+    cooldown: 120,
 
     /**
     * @param {Bot} bot

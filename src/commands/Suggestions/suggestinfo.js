@@ -10,6 +10,7 @@ module.exports = {
     aliases: ['sinfo', 'sabout', 'suggestioninfo', 'suggestion-info', 'suggest-info', 'suggestdata', 'suggest-data', 'aboutsuggestion', 'suggestionabout'],
     usage: 'suggestinfo [id]',
     description: 'Shows the stored data of a suggestion.',
+    cooldown: 60,
 
     /**
     * @param {Bot} bot

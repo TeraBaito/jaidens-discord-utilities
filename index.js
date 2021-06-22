@@ -20,6 +20,7 @@ const Bot = class extends Client {
         this.aliases = new Collection();
         this.afk = new Collection();
         this.categories = fs.readdirSync('./src/commands');
+        this.cooldowns = new Collection();
         this.tags = require('./src/handlers/models/Tags')(tagsDB);
         this.suggestions = require('./src/handlers/models/Suggestions')(suggestionsDB);
     }

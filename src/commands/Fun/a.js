@@ -7,6 +7,7 @@ module.exports = {
     aliases: ['shrimps-favorite-command'],
     usage: 'a',
     description: 'Shrimp\'s favorite command',
+    cooldown: 10,
 
     /**
     * @param {Bot} bot

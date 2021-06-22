@@ -11,6 +11,7 @@ module.exports = {
     helpName: 'Urban Dictionary',
     usage: 'urban [term]',
     description: 'Defines a term using the Urban Dictionary API',
+    cooldown: 20,
     
     /** 
      * @param {Bot} bot 

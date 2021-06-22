@@ -17,7 +17,8 @@ module.exports = {
     run: async(bot, message, args) => {
         // No args
         if (!args[0]) {
-            return message.channel.send('Please provide a user to unban').then(m => setTimeout(() => { m.delete(); }, 5000));
+            return message.channel.send('Please provide a user to unban')
+                .then(m => setTimeout(() => { m.delete(); }, 5000));
         }
         
         const logChannel = message.guild.channels.cache.find(c => c.name === 'ari-bot-logs') || message.channel;

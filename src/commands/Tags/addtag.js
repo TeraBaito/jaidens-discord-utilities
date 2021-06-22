@@ -7,6 +7,7 @@ module.exports = {
     helpName: 'Add Tag',
     usage: 'addtag [name] [content]',
     description: 'Adds a tag to the database',
+    cooldown: 20,
 
     /** 
      * @param {Bot} bot 

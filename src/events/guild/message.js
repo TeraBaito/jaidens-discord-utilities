@@ -1,4 +1,4 @@
-const { Message, DiscordAPIError } = require('discord.js');
+const { Message, DiscordAPIError, Collection } = require('discord.js');
 const Bot = require('../../../index');
 const { prefix, jaidenServerID } = require('../../../config.json');
 const { blacklistProcess, checkStaff } = require('../../handlers/functions');
@@ -22,6 +22,7 @@ let toggleAR = true;
  */
 module.exports = async (bot, message) => {
     const { disabledCommands, blacklisting, autoresponders: ar } = readJSONSync('./botSettings.json');
+    const { cooldowns } = bot;
 
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
     const cmd = args.shift().toLowerCase();
@@ -103,13 +104,26 @@ module.exports = async (bot, message) => {
     if (!message.guild) return; // No DMs n stuff
     if (!message.member || message.member.partial) message.member = await message.guild.members.fetch(message);
     if (cmd.length === 0) return; // Come on
-
     
-
     // Command handler
     let command = bot.commands.get(cmd);
     if(!command) command = bot.commands.get(bot.aliases.get(cmd));
+
     if(command && message.content.startsWith(prefix)) {
+        if (!cooldowns.has(command.name)) cooldowns.set(command.name, new Collection());
+        const now = Date.now(),
+            timestamps = cooldowns.get(command.name),
+            cooldownAmount = (command.cooldown || 3) * 1000;
+
+        if (timestamps.has(message.author.id)) {
+            const expire = timestamps.get(message.author.id) + cooldownAmount;
+
+            if (now < expire) return;
+        }
+
+        timestamps.set(message.author.id, now);
+        setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+
         if (command.staffOnly && !(await checkStaff(message.member))) return message.channel.send('You\'re not allowed to run this command, you\'re not staff!');
         if (!allowedServers.includes(message.guild.id)) return message.channel.send('Sorry, this bot is private and this server is not included in the allowed servers list.');
         if (disabledCommands.includes(command.name)) return message.channel.send('Sorry, this command is temporarily disabled. Want some choccy milk instead?', { files: ['https://media.discordapp.net/attachments/601435709261348895/801884062226186310/iu.png?width=461&height=473']});
