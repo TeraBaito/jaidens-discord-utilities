@@ -25,29 +25,10 @@ module.exports = {
         let { offensive, nsfw } = words;
         const { raw: r } = String;
 
-        const inp = (function (input) {
-            // eslint-disable-next-line no-useless-escape
-            const match = /[\+\*\?\^\$\\\.\[\]\{\}\(\)\|\/]/.test(input);
-            
-            if (match) {
-                input = input
-                    .replace(/\+/g, r`\+`)
-                    .replace(/\*/g, r`\*`)
-                    .replace(/\?/g, r`\?`)
-                    .replace(/\^/g, r`\^`)
-                    .replace(/\$/g, r`\$`)
-                    .replace(/\./g, r`\.`)
-                    .replace(/\[/g, r`\[`)
-                    .replace(/\]/g, r`\]`)
-                    .replace(/\{/g, r`\{`)
-                    .replace(/\}/g, r`\}`)
-                    .replace(/\(/g, r`\(`)
-                    .replace(/\)/g, r`\)`)
-                    .replace(/\|/g, r`\|`)
-                    .replace(/\//g, r`\$`);
-            }
-            return input;
-        })(args[1]);
+        /** @param {string} i */
+        const regex = (i) => i.replace(/[-[\]{}()*+?.,\\^$|#]/g, '\\$&');
+        let inp = args.slice(1);
+        inp.length > 1 ? inp = inp.map(i => regex(i)) : inp = regex(inp[0]);
 
         switch(args[0]) {
         case 'offensive':

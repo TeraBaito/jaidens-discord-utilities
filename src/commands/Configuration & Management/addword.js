@@ -22,29 +22,13 @@ module.exports = {
         /** @type {{nsfw: string[], offensive: string[], jr34: string}} */
         const words = readJSONSync('./src/handlers/blacklisted-words.json', 'utf-8');
         const { raw: r } = String;
-        const inp = (function (input) {
-            // eslint-disable-next-line no-useless-escape
-            const match = /[\+\*\?\^\$\\\.\[\]\{\}\(\)\|\/]/.test(input);
-            
-            if (match) {
-                input = input
-                    .replace(/\+/g, r`\+`)
-                    .replace(/\*/g, r`\*`)
-                    .replace(/\?/g, r`\?`)
-                    .replace(/\^/g, r`\^`)
-                    .replace(/\$/g, r`\$`)
-                    .replace(/\./g, r`\.`)
-                    .replace(/\[/g, r`\[`)
-                    .replace(/\]/g, r`\]`)
-                    .replace(/\{/g, r`\{`)
-                    .replace(/\}/g, r`\}`)
-                    .replace(/\(/g, r`\(`)
-                    .replace(/\)/g, r`\)`)
-                    .replace(/\|/g, r`\|`)
-                    .replace(/\//g, r`\$`);
-            }
-            return input;
-        })(args[1]);
+
+        // Automatically escape
+        /** @param {string} i */
+        const regex = (i) => i.replace(/[-[\]{}()*+?.,\\^$|#]/g, '\\$&');
+        let inp = args.slice(1);
+        inp.length > 1 ? inp = inp.map(i => regex(i)) : inp = regex(inp[0]);
+
         switch(args[0]) {
         case 'offensive':
             if (words.nsfw.includes(inp)) return message.channel.send('The word is in the NSFW words list already!');
