@@ -30,22 +30,22 @@ module.exports = {
         console.log(inp);
 
         switch(args[0]) {
-        case 'offensive':
-            if (words.nsfw.includes(inp)) return message.channel.send('The word is in the NSFW words list already!');
-            if (words.offensive.includes(inp)) return message.channel.send('The word is already in this list!');
+            case 'offensive':
+                if (words.nsfw.includes(inp)) return message.channel.send('The word is in the NSFW words list already!');
+                if (words.offensive.includes(inp)) return message.channel.send('The word is already in this list!');
 
-            words.offensive.push(inp);
-            message.channel.send('Added the word to the offensive words list');
-            break;
-        case 'nsfw':
-            if (words.offensive.includes(inp)) return message.channel.send('The word is in the offensive words list already!');
-            if (words.nsfw.includes(inp)) return message.channel.send('The word is already in this list!');
+                words.offensive.push(inp);
+                message.channel.send('Added the word to the offensive words list');
+                break;
+            case 'nsfw':
+                if (words.offensive.includes(inp)) return message.channel.send('The word is in the offensive words list already!');
+                if (words.nsfw.includes(inp)) return message.channel.send('The word is already in this list!');
             
-            words.nsfw.push(inp);
-            message.channel.send('Added the word to the NSFW words list');
-            break;
-        default:
-            return message.channel.send('Invalid word type given! Please check the types in the help command');
+                words.nsfw.push(inp);
+                message.channel.send('Added the word to the NSFW words list');
+                break;
+            default:
+                return message.channel.send('Invalid word type given! Please check the types in the help command');
         }
         writeJSONSync('./src/handlers/blacklisted-words.json', words, { spaces:4 });
     }

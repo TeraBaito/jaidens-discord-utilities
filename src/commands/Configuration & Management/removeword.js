@@ -30,18 +30,18 @@ module.exports = {
         inp.length > 1 ? inp = regex(inp) : inp = inp.map(i => regex(i));
 
         switch(args[0]) {
-        case 'offensive':
-            if (!offensive.includes(inp)) return message.channel.send('There\'s no such word as that!');
-            offensive.splice(offensive.indexOf(inp), 1);
-            await message.channel.send('Deleted the word from the offensive words list');
-            break;
-        case 'nsfw':
-            if (!nsfw.includes(inp)) return message.channel.send('There\'s no such word as that!');
-            nsfw.splice(nsfw.indexOf(inp), 1);
-            await message.channel.send('Deleted the word from the NSFW words list');
-            break;
-        default:
-            return message.channel.send('Invalid word type given! Please check the types in the help command');
+            case 'offensive':
+                if (!offensive.includes(inp)) return message.channel.send('There\'s no such word as that!');
+                offensive.splice(offensive.indexOf(inp), 1);
+                await message.channel.send('Deleted the word from the offensive words list');
+                break;
+            case 'nsfw':
+                if (!nsfw.includes(inp)) return message.channel.send('There\'s no such word as that!');
+                nsfw.splice(nsfw.indexOf(inp), 1);
+                await message.channel.send('Deleted the word from the NSFW words list');
+                break;
+            default:
+                return message.channel.send('Invalid word type given! Please check the types in the help command');
         }
         writeJSONSync('./src/handlers/blacklisted-words.json', words, { spaces:4 });
     }
