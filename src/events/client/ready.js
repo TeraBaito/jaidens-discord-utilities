@@ -11,6 +11,4 @@ const chalk = require('chalk');
 module.exports = bot => {
     bot.user.setActivity('you', { type: 'WATCHING' });
     console.info(`${chalk.green('[Info]')} - ${bot.user.username} online!`);
-    const force = process.argv.includes('--force') || process.argv.includes('-f');
-    bot.tags.sync({ force });
 };

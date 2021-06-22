@@ -1,16 +1,10 @@
 // Modules
 const { Client, Collection } = require('discord.js');
-const { Sequelize } = require('sequelize');
 require('dotenv').config({ path: './.env'});
 const fs = require('fs');
 const chalk = require('chalk');
 const { stripIndents } = require('common-tags');
-
-const sequelize = new Sequelize({
-    dialect: 'sqlite',
-    logging: false,
-    storage: 'db/database.sqlite',
-});
+const { tagsDB, suggestionsDB } = require('./src/handlers/databases');
 
 const Bot = class extends Client {
     constructor() {
@@ -18,14 +12,16 @@ const Bot = class extends Client {
             fetchAllMembers: true,
             ws: {
                 intents: ['GUILDS', 'GUILD_MEMBERS', 'GUILD_MESSAGES', 'GUILD_VOICE_STATES', 'GUILD_MESSAGE_REACTIONS']
-            }
+            },
+            partials: ['MESSAGE', 'USER', 'GUILD_MEMBER']
         });
 
         this.commands = new Collection();
         this.aliases = new Collection();
         this.afk = new Collection();
         this.categories = fs.readdirSync('./src/commands');
-        this.tags = require('./src/handlers/models/Tags')(sequelize);
+        this.tags = require('./src/handlers/models/Tags')(tagsDB);
+        this.suggestions = require('./src/handlers/models/Suggestions')(suggestionsDB);
     }
 };
 module.exports = Bot;
