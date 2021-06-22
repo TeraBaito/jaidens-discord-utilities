@@ -17,17 +17,17 @@ module.exports = {
      * @param {string[]} args 
      */
     run: async(bot, message, args) => {
+        // No args
+        if (!args[0]) {
+            return message.channel.send('Please provide a user to kick').then(m => setTimeout(() => { m.delete(); }, 5000));
+        }
+
         const logChannel = message.guild.channels.cache.find(c => c.name === 'ari-bot-logs') || message.channel;
         const toKick = await getMember(message, args[0]);
 
         // Checks of when using command
         
         if(message.deletable) message.delete();
-
-        // No args
-        if (!args[0]) {
-            return await message.channel.send('Please provide a user to kick').then(m => setTimeout(() => { m.delete(); }, 5000));
-        }
 
         // No bot permissions to kick (it does by default)
         if (!message.guild.me.hasPermission('KICK_MEMBERS')) {

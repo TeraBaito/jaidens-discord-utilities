@@ -17,19 +17,17 @@ module.exports = {
      * @param {string[]} args 
      */
     run: async(bot, message, args) => {
+        // No args
+        if (!args[0]) {
+            return message.channel.send('Please provide a user to tempban').then(m => setTimeout(() => { m.delete(); }, 5000));
+        }
+
         const logChannel = message.guild.channels.cache.find(c => c.name === 'ari-bot-logs') || message.channel;
         const toTempban = getMember(message, args[0]);
         let bantime = args[1];
         let reason = args[3] ? args.slice(2).join(' ') : 'No reason specified';
 
         if(message.deletable) message.delete();
-
-        // Checks of when using command
-        
-        // No args
-        if (!args[0]) {
-            return message.channel.send('Please provide a user to tempban').then(m => setTimeout(() => { m.delete(); }, 5000));
-        }
 
         // No bot permissions to tempban (it does by default)
         if (!message.guild.me.hasPermission('BAN_MEMBERS')) {

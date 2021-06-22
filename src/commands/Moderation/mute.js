@@ -17,6 +17,12 @@ module.exports = {
      * @param {string[]} args 
      */
     run: async(bot, message, args) => {
+        // No user provided (no arguments)
+        if (!args[0]) {
+            return message.channel.send('Please provide a valid user to mute')
+                .then(m => setTimeout(() => { m.delete(); }, 5000));
+        }
+
         const logChannel = message.guild.channels.cache.find(c => c.name === 'ari-bot-logs') || message.channel;
         const toMute = getMember(message, args[0]);
         let muterole = message.guild.roles.cache.find(r => r.name === 'Muted');
@@ -44,12 +50,6 @@ module.exports = {
         // Bot doesn't have perms to mute (it does by default)
         if (!message.guild.me.hasPermission('MANAGE_ROLES')) {
             return message.channel.send('I don\'t have permissions to mute users, please enable the "Manage Roles" permission')
-                .then(m => setTimeout(() => { m.delete(); }, 5000));
-        }
-
-        // No user provided (no arguments)
-        if (!args[0]) {
-            return message.channel.send('Please provide a valid user to mute')
                 .then(m => setTimeout(() => { m.delete(); }, 5000));
         }
     
