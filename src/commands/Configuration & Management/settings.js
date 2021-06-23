@@ -3,6 +3,7 @@ const { Message, MessageEmbed } = require('discord.js');
 const Bot = require('../../../index');
 const { readJSONSync, writeJSONSync } = require('fs-extra');
 const colors = require('../../../colors.json');
+const { promptMessage } = require('../../handlers/functions');
 
 module.exports = {
     name: 'settings',
@@ -141,6 +142,8 @@ module.exports = {
                 let defaults = {
                     welcomer: true,
                     blacklisting: true,
+                    blacklistLogs: true,
+                    autoresponders: true,
                     disabledCommands: []
                 };
                 if (data == defaults) return message.channel.send('The bot is already in its default settings!');
@@ -154,6 +157,41 @@ module.exports = {
                 writeJSONSync('./botSettings.json', defaults, { spaces: 4 });
                 break;
             }
+            case 'showblacklist':
+            case 'showwords':
+            case 'showbl': {
+                const embed = new MessageEmbed()
+                    .setColor(colors.Red)
+                    .setTitle('HOLD UP!')
+                    .setDescription('This command will show **all** the blacklisted words **without censor**, and will then delete it after **30 seconds**. Don\'t use this carelessly. If you\'re sure what you\'re doing, react with the check.')
+                    .setFooter('You have 30s to react');
+                const msg = await message.channel.send(embed);
+                const emoji = await promptMessage(msg, message.author, 30, '✅', '❌');
+                if (emoji == '✅') {
+                    const words = readJSONSync('./src/handlers/blacklisted-words.json', 'utf-8');
+                    const format = (ws) => {
+                        return ws.map(w => {
+                            if (Array.isArray(w)) return w.join(' ');
+                            else return w;
+                        }).join(', ');
+                    };
+                    let res = stripIndents`\`\`\`diff
+                    + JR34
+                    ${format(words.jr34)}
+
+                    + NSFW
+                    ${format(words.nsfw)}
+
+                    + Offensive
+                    ${format(words.offensive)}
+                    \`\`\``;
+
+                    message.channel.send(res)
+                        .then(m => setTimeout(() => m.delete(), 30000));
+                } else if (emoji == '❌') return message.channel.send('Cancelled.');
+                break;
+            }
+
             default: return message.channel.send('Invalid argument, please check the usage in the help command');
         }
     }

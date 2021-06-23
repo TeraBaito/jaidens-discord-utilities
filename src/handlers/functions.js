@@ -64,7 +64,7 @@ function formatDate(date) {
 * @param {Number} time Prompt message expiration time in seconds
 * @param {Array} validReactions Array with reactions the bot will listen to
 */
-async function promptMessage(message, author, time, validReactions) {
+async function promptMessage(message, author, time, ...validReactions) {
     time *= 1000;
 
     for(const reaction of validReactions) {
