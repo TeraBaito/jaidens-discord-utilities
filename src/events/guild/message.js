@@ -45,7 +45,7 @@ module.exports = async (bot, message) => {
 
     // Blacklisting
     if (blacklisting && 
-        [jaidenServerID, '711301984887636080'].includes(message.channel.id) &&
+        [jaidenServerID, '711301984887636080'].includes(message.guild.id) &&
         message.channel.id != '755189056660308050') blacklistProcess(message, bot);
 
     // Autoresponders
