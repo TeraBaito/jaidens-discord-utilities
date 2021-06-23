@@ -202,7 +202,7 @@ function blacklistProcess(message, bot) {
 
     // Offensive words
     if(offensive.some(process)) {
-        act('Please refer to Rule 1 and 9, really offensive words are discouraged in this server');
+        act('Please refer to Rule 1, really offensive words are discouraged in this server');
     }
 
     // "jr34"
