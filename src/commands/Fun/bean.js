@@ -25,8 +25,13 @@ module.exports = {
             return message.channel.send(`<@!${args[0]}> was beaned!`);
 
         } else {
+            // Supress @everyone, @here and pinging roles
+            let input = args.join(' ');
+            [/@everyone/gi, /@here/gi, /<@&\d{18}>/].forEach(ping => {
+                input = input.replace(ping, 'funi ping');
+            });
             if (message.deletable) message.delete();
-            return message.channel.send(`${args.join(' ')} was beaned!`);
+            return message.channel.send(`${input} was beaned!`);
         }
     }
 };
