@@ -12,7 +12,7 @@ module.exports = {
      * @param {Message} message 
      * @param {string[]} args 
      */
-    run: async(bot, message, args) => {
+    run: async(bot, message, args) => {       
         if(!args[0] || message.mentions.users.first() === message.author) {
             return message.channel.send('You got some beans and ate them with your rice, ah yes...');
 
@@ -27,9 +27,7 @@ module.exports = {
         } else {
             // Supress @everyone, @here and pinging roles
             let input = args.join(' ');
-            [/@everyone/gi, /@here/gi, /<@&\d{18}>/].forEach(ping => {
-                input = input.replace(ping, 'funi ping');
-            });
+            if [/@everyone/, /@here/, /<@&\d{18}>/].some(e => e.test(args[0])) return message.channel.send('i\'m not going to ping everyone and instead make you look like an idiot lmao!!! point and laugh at this dude');
             if (message.deletable) message.delete();
             return message.channel.send(`${input} was beaned!`);
         }
