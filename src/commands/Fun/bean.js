@@ -27,7 +27,7 @@ module.exports = {
         } else {
             // Supress @everyone, @here and pinging roles
             let input = args.join(' ');
-            if [/@everyone/, /@here/, /<@&\d{18}>/].some(e => e.test(args[0])) return message.channel.send('i\'m not going to ping everyone and instead make you look like an idiot lmao!!! point and laugh at this dude');
+            if ([/@everyone/, /@here/, /<@&\d{18}>/].some(e => e.test(args[0]))) return message.channel.send('i\'m not going to ping everyone and instead make you look like an idiot lmao!!! point and laugh at this dude');
             if (message.deletable) message.delete();
             return message.channel.send(`${input} was beaned!`);
         }
