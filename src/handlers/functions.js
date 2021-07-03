@@ -219,7 +219,7 @@ function blacklistProcess(message, bot) {
 function unhoistOne(member) {
     let newNick = member.displayName;
    
-    const hoistPattern =  /^[!?$-+^[]_()\*`\|{}\/\&@;:#\~]+/;
+    const hoistPattern =  /^[!-/]/;
 
     // While the nickname matches the RegExp, slice 1 char and trim
     while(hoistPattern.test(newNick)) {
