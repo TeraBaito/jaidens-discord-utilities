@@ -219,7 +219,7 @@ function blacklistProcess(message, bot) {
 function unhoistOne(member) {
     let newNick = member.displayName;
    
-    const hoistPattern =  /^[!?$-]+/;
+    const hoistPattern =  /^[!?$-+^[]_()*`|{}/\&@;:#~]+/;
 
     // While the nickname matches the RegExp, slice 1 char and trim
     while(hoistPattern.test(newNick)) {
@@ -239,7 +239,7 @@ function unhoistOne(member) {
  * @param {Guild} guild 
  */
 function nicknameProcess(guild) {
-    const hoistPattern =  /^[!?$-\+\^\[\]_]+/;
+    const hoistPattern =  /^[!?$-+^[]_()*`|{}/\&@;:#~]+/;
     const members = guild.members.cache.filter(m => hoistPattern.test(m.displayName));
     //console.log(members);
     members.each(m => unhoistOne(m));
