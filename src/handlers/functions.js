@@ -239,7 +239,7 @@ function unhoistOne(member) {
  * @param {Guild} guild 
  */
 function nicknameProcess(guild) {
-    const hoistPattern =  /^[!?$-]+/;
+    const hoistPattern =  /^[!?$-\+\^\[\]_]+/;
     const members = guild.members.cache.filter(m => hoistPattern.test(m.displayName));
     //console.log(members);
     members.each(m => unhoistOne(m));
