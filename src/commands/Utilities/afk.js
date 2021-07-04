@@ -1,5 +1,5 @@
 const { Message, DiscordAPIError } = require('discord.js');
-const Bot = require('../../../index');
+const Bot = require('../../../Bot');
 const ms = require('ms');
 
 module.exports = {
@@ -20,18 +20,28 @@ module.exports = {
             timeout = 30000; // ms
 
         /** Flags that can be toggled anywhere on the command
-         * 0 ==> unbreakable
-         * 1 ==> don't change nickname
-         * @type {boolean[]} */
-        const flags = [null, null];
+         * u ==> unbreakable
+         * n ==> don't change nickname
+         */
+        const flags = {
+            u: false,
+            n: false
+        };
+        
         let inputFlags = args.find(arg => arg.startsWith('-'));
 
+        // Parse the flags and add them as booleans
+        if (inputFlags) {
+            args.splice(args.indexOf(inputFlags), 1);
+            inputFlags = inputFlags.slice(1).split('');
+            for (let flag of inputFlags) flags[flag] = true;
+        }
+
         function nick(type) {
-            const n = flags[1];
             const { length } = displayName;
             switch (type) {
                 case 1: // Set
-                    if (length <= 26 && !n) {
+                    if (length <= 26 && flags.n) {
                         message.member.setNickname('[AFK] ' + displayName)
                             .catch(e => {
                                 if (!(e instanceof DiscordAPIError)) throw e;
@@ -39,7 +49,7 @@ module.exports = {
                     }
                     break;
                 case 2: // Remove before
-                    if (length <= 26 && !afk.get(id).flags[1]) {
+                    if (length <= 26 && !afk.get(id).flags.n) {
                         message.member.setNickname(displayName.slice(6))
                             .catch(e => {
                                 if (!(e instanceof DiscordAPIError)) throw e;
@@ -47,14 +57,6 @@ module.exports = {
                     }
                     break;
             }
-        }
-
-        // Parse the flags and add them as booleans
-        if (inputFlags) {
-            inputFlags = inputFlags.slice(1);
-            args.splice(args.indexOf(inputFlags), -1);
-            if (inputFlags.includes('u')) flags[0] = true;
-            if (inputFlags.includes('n')) flags[1] = true;
         }
 
         // If a member is already on the collection, aka if they toggle the command

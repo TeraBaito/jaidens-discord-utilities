@@ -1,5 +1,5 @@
 const { MessageEmbed, GuildMember } = require('discord.js');
-const Bot = require('../../../index');
+const Bot = require('../../../Bot');
 const { stripIndents } = require('common-tags');
 const { readJSONSync } = require('fs-extra');
 const { formatDate, unhoistOne } = require('../../handlers/functions');
@@ -19,14 +19,14 @@ module.exports = async (bot, member) => {
     const { welcomer } = readJSONSync('./botSettings.json');
     if (!welcomer || member.guild.id != jaidenServerID) return;
     
-    const mEmbed = new MessageEmbed()
+    const embeds = [ new MessageEmbed()
         .setColor(colors.Olive)
         .setTitle('Member Joined')
         .addField('Name', member.displayName, true)
         .addField('ID', member.id, true)
         .addField('Joined Server', formatDate(member.joinedAt))
         .addField('Joined Discord', formatDate(member.user.createdAt))
-        .setThumbnail(member.user.displayAvatarURL({ format: 'png', dynamic: true }));
+        .setThumbnail(member.user.displayAvatarURL({ format: 'png', dynamic: true })) ];
 
     // 0 // 0 < 11 = true // eggs[0]
     // 11 // 11 < 11 = false // default
@@ -42,6 +42,6 @@ module.exports = async (bot, member) => {
     // Just sends a cool message in chat to welcome the user
     bot.channels.cache.get(mainChannel).send(msg);
 
-    bot.guilds.cache.get(jaidenServerID).channels.cache.find(ch => ch.name == 'new-members').send(mEmbed);
+    bot.guilds.cache.get(jaidenServerID).channels.cache.find(ch => ch.name == 'new-members').send({ embeds });
     unhoistOne(member);
 };

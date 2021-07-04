@@ -1,5 +1,5 @@
 const { Message } = require('discord.js');
-const Bot = require('../../../index');
+const Bot = require('../../../Bot');
 const { readJSONSync, writeJSONSync } = require('fs-extra');
 
 
@@ -22,7 +22,6 @@ module.exports = {
         /** @type {{nsfw: string[], offensive: string[], jr34: string}} */
         const words = readJSONSync('./src/handlers/blacklisted-words.json', 'utf-8');
         let { offensive, nsfw } = words;
-        const { raw: r } = String;
 
         /** @param {string} i */
         const regex = (i) => i.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');

@@ -1,5 +1,5 @@
-const { Message, MessageEmbed } = require('discord.js');
-const Bot = require('../../../index');
+const { Message, MessageEmbed, Permissions: { FLAGS: { BAN_MEMBERS } } } = require('discord.js');
+const Bot = require('../../../Bot');
 const ms = require('ms');
 const colors = require('../../../colors.json');
 const { promptMessage, getMember } = require('../../handlers/functions');
@@ -18,37 +18,30 @@ module.exports = {
      */
     run: async(bot, message, args) => {
         // No args
-        if (!args[0]) {
-            return message.channel.send('Please provide a user to tempban')
-                .then(m => setTimeout(() => { m.delete(); }, 5000));
-        }
+        if (!args[0]) return message.channel.send('Please provide a user to tempban')
+            .then(m => setTimeout(() => { m.delete(); }, 5000));
 
         const logChannel = message.guild.channels.cache.find(c => c.name === 'ari-bot-logs') || message.channel;
-        const toTempban = getMember(message, args[0]);
+        const toTempban = await getMember(message, args[0]);
         let bantime = args[1];
         let reason = args[3] ? args.slice(2).join(' ') : 'No reason specified';
 
         if(message.deletable) message.delete();
 
         // No bot permissions to tempban (it does by default)
-        if (!message.guild.me.hasPermission('BAN_MEMBERS')) {
-            return message.channel.send('I don\'t have permissions to tempban members, please enable them').then(m => setTimeout(() => { m.delete(); }, 5000));
-        }
+        if (!message.guild.me.permissions.has(BAN_MEMBERS)) return message.channel.send('I don\'t have permissions to tempban members, please enable them')
+            .then(m => setTimeout(() => { m.delete(); }, 5000));
 
         // No member found
-        if (!toTempban) {
-            return message.channel.send('Couldn\'t find that member, try again').then(m => setTimeout(() => { m.delete(); }, 5000));
-        }
+        if (!toTempban) return message.channel.send('Couldn\'t find that member, try again')
+            .then(m => setTimeout(() => { m.delete(); }, 5000));
 
         // Can't tempban yourself xdd
-        if (message.author.id === toTempban.id) {
-            return message.channel.send('You can\'t tempban yourself, just...no.');
-        }
+        if (message.author.id === toTempban.id) return message.channel.send('You can\'t tempban yourself, just...no.');
 
         // User not bannable
-        if (!toTempban.bannable) {
-            return message.channel.send('I can\'t tempban that user due to role hierarchy, I guess').then(m => setTimeout(() => { m.delete(); }, 5000));
-        }    
+        if (!toTempban.bannable) return message.channel.send('I can\'t tempban that user due to role hierarchy, I guess')
+            .then(m => setTimeout(() => { m.delete(); }, 5000)); 
      
         // Log
         const bEmbed = new MessageEmbed()
@@ -70,27 +63,25 @@ module.exports = {
             .addField('Unbanned member', `${toTempban} (${toTempban.id})`)
             .addField('Reason', 'Automatic unban');
 
-        
             
         // Tempban Verification
         const promptEmbed = new MessageEmbed()
             .setColor('eb8334')
             .setFooter('This verification becomes invalid after 30 seconds')
             .setDescription(`Do you want to tempban ${toTempban} for ${ms(ms(bantime))}?`);
+     
     
-            
-    
-        message.channel.send(promptEmbed).then(async msg => {
-            const emoji = await promptMessage(msg, message.author, 30, ['✅', '❌']);
+        message.channel.send({ embeds: [promptEmbed] }).then(async msg => {
+            const emoji = await promptMessage(msg, message.author, 30, '✅', '❌');
                 
             if (emoji === '✅') {
                 msg.delete();
     
-                toTempban.ban(args.slice(1).join(' '))
+                toTempban.ban({ reason: args.slice(1).join(' ') })
                     .catch(err => {
                         if(err) return message.channel.send('Well... something went wrong');
                     });
-                logChannel.send(bEmbed);
+                logChannel.send({ embeds: [bEmbed] });
                 message.channel.send(`**${toTempban}** has been banned for ${ms(ms(bantime))}.`);
 
                 setTimeout(() => {
@@ -99,7 +90,7 @@ module.exports = {
                     } catch(e) {
                         console.log(e);
                     }
-                    logChannel.send(ubEmbed);
+                    logChannel.send({ embeds: [ubEmbed] });
                 }, ms(bantime));
     
             } else if (emoji === '❌') {

@@ -1,5 +1,5 @@
 const { Message } = require('discord.js');
-const Bot = require('../../../index');
+const Bot = require('../../../Bot');
 const { checkStaff } = require('../../handlers/functions');
 
 module.exports = {

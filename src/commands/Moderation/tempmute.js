@@ -1,8 +1,8 @@
-const { Message, MessageEmbed } = require('discord.js');
-const Bot = require('../../../index');
+const { Message, MessageEmbed, Permissions: { FLAGS }} = require('discord.js');
+const Bot = require('../../../Bot');
 const ms = require('ms');
 const colors = require('../../../colors.json');
-const { getMember } = require('../../handlers/functions');
+const { getMember, checkStaff } = require('../../handlers/functions');
 
 
 module.exports = {
@@ -19,13 +19,11 @@ module.exports = {
      */
     run: async(bot, message, args) => {
         // No user provided (no first argument)
-        if (!args[0]) {
-            return message.channel.send('Please provide a valid user to tempmute')
-                .then(m => setTimeout(() => { m.delete(); }, 5000));
-        }
+        if (!args[0]) return message.channel.send('Please provide a valid user to tempmute')
+            .then(m => setTimeout(() => { m.delete(); }, 5000));
 
         const logChannel = message.guild.channels.cache.find(c => c.name === 'ari-bot-logs') || message.channel;
-        const toTempmute = getMember(message, args[0]);
+        const toTempmute = await getMember(message, args[0]);
         let muterole = message.guild.roles.cache.find(r => r.name === 'Muted');
         let mutetime = args[1];
         let reason = args[2] ? args.slice(2).join(' ') : 'No reason specified';
@@ -52,31 +50,21 @@ module.exports = {
         }
 
         // Bot doesn't have perms to tempmute (it does by default)
-        if (!message.guild.me.hasPermission('MANAGE_ROLES')) {
-            return message.channel.send('I don\'t have permissions to tempmute users, please enable the "Manage Roles" permission')
-                .then(m => setTimeout(() => { m.delete(); }, 5000));
-        }
+        if (!message.guild.me.permissions.has(FLAGS.MANAGE_ROLES)) return message.channel.send('I don\'t have permissions to tempmute users, please enable the "Manage Roles" permission')
+            .then(m => setTimeout(() => { m.delete(); }, 5000));
     
         // No time provided (no second argument)
-        if (!mutetime) {
-            return message.channel.send('Please provide a valid time argument to tempmute');
-        }
+        if (!mutetime) return message.channel.send('Please provide a valid time argument to tempmute');
 
         // Can't find member
-        if (!toTempmute) {
-            return message.channel.send('Couldn\'t find that member, try again')
-                .then(m => setTimeout(() => { m.delete(); }, 5000));
-        }
+        if (!toTempmute) return message.channel.send('Couldn\'t find that member, try again')
+            .then(m => setTimeout(() => { m.delete(); }, 5000));
 
         // Can't mute yourself
-        if (message.author.id === toTempmute.id) {
-            return message.channel.send('nOOOO don\'t try to mute yourself you\'re better than this :cri:');
-        }
+        if (message.author.id === toTempmute.id) return message.channel.send('nOOOO don\'t try to mute yourself you\'re better than this :cri:');
 
         // Member to tempmute has permissions to tempmute
-        if (toTempmute.hasPermission('KICK_MEMBERS', 'BAN_MEMBERS', 'MANAGE_ROLES') && !message.member.hasPermission('ADMINISTRATOR')) {
-            return message.channel.send('You can\'t tempmute a person that can tempmute you too, don\'t even bother...');
-        }
+        if (await checkStaff(toTempmute.id) && !message.member.permissions.has(FLAGS.ADMINISTRATOR)) return message.channel.send('You can\'t tempmute a person that can tempmute you too, don\'t even bother...');
 
         const mEmbed = new MessageEmbed()
             .setColor(colors.Orange)
@@ -99,7 +87,7 @@ module.exports = {
             .addField('Reason', 'Automatic unmute');
 
 
-        if (toTempmute.roles.cache.find(r => r.name === 'Muted')) {
+        if (toTempmute.roles.cache.get(muterole.id)) {
             return message.channel.send('This person is already muted')
                 .then(m => setTimeout(() => { m.delete(); }, 5000));
         } else {
@@ -109,12 +97,12 @@ module.exports = {
                     if(err) return message.channel.send('Well... something went wrong');
                 });
                     
-            logChannel.send(mEmbed);
+            logChannel.send({ embeds: [mEmbed] });
             
 
             setTimeout(() => {
                 toTempmute.roles.remove(muterole.id);
-                logChannel.send(umEmbed);
+                logChannel.send({ embeds: [umEmbed] });
             }, ms(mutetime));
         }
     }

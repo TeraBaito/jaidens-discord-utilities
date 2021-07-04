@@ -1,5 +1,5 @@
 const { Message, MessageEmbed } = require('discord.js');
-const Bot = require('../../../index');
+const Bot = require('../../../Bot');
 const { suggestionsChannel } = require('../../../config.json');
 const { Gray } = require('../../../colors.json');
 
@@ -35,7 +35,7 @@ module.exports = {
             .setFooter(suggestion.status)
             .setTimestamp(suggestion.createdAt);
         
-        bot.channels.cache.get(suggestionsChannel).send(embed)
+        bot.channels.cache.get(suggestionsChannel).send({ embeds: [embed] })
             .then(async (m) => {
                 const { id: message_id } = m;
                 m.react('👍');

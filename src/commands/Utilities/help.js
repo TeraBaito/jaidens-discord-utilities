@@ -1,5 +1,5 @@
 const { Message, MessageEmbed } = require('discord.js');
-const Bot = require('../../../index');
+const Bot = require('../../../Bot');
 const { readdirSync } = require('fs');
 const { prefix } = require('../../../config.json');
 const colors = require('../../../colors.json');
@@ -47,7 +47,7 @@ function getAll(bot, message) {
     });
 
     // After they're all added, send it
-    return message.channel.send(embed);
+    return message.channel.send({ embeds: [embed] });
 }
 
 function getCmd(bot, message, input) {
@@ -73,5 +73,5 @@ function getCmd(bot, message, input) {
     // The usage
     if(cmd.usage) embed.addField('Usage', `\`${prefix}${cmd.usage}\``);
 
-    return message.channel.send(embed);
+    return message.channel.send({ embeds: [embed] });
 }

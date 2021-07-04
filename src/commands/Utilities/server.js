@@ -1,7 +1,8 @@
 const { Message, MessageEmbed } = require('discord.js');
-const Bot = require('../../../index');
+const Bot = require('../../../Bot');
 const { stripIndents } = require('common-tags');
 const colors = require('../../../colors.json');
+const { formatDate } = require('../../handlers/functions');
 
 module.exports = {
     name: 'server',
@@ -15,26 +16,19 @@ module.exports = {
      * @param {string[]} args 
      */
     run: async (bot, message, args) => {
-
-        // Offline and Online member count (integers)
-        // Would've substracted offline from guild.memberCount for online but it returned NaN
-        let memberStatuses = {
-            offline: message.guild.members.cache.filter(member => member.presence.status === 'offline').size,
-            online: message.guild.members.cache.filter(member => member.presence.status !== 'offline').size
-        };
-
         let sIcon = message.guild.iconURL();
-        let serverEmbed = new MessageEmbed()
+        const { user: { tag: ownerTag }} = await message.guild.fetchOwner();
+        let embeds = [ new MessageEmbed()
             .setDescription('**Server Information**')
             .setColor(colors.Purple)
             .setThumbnail(sIcon)
             .addField('Server Name', message.guild.name)
             .addField('Server ID', message.guild.id)
-            .addField('Created On', message.guild.createdAt)
-            .addField('Member Count', stripIndents`<:totalmembers:742403092217200640>${message.guild.memberCount} Total\xa0     <:online:742401595446132870>${memberStatuses.online} Online\xa0    <:offline:742401625015976049>${memberStatuses.offline} Offline`)
-            .addField('Channel Count', message.guild.channels.cache.size)
-            .addField('Server Owner', message.guild.owner.user.tag);
+            .addField('Created On', formatDate(message.guild.createdAt))
+            .addField('Member Count', `<:totalmembers:742403092217200640>${message.guild.memberCount} Total`)
+            .addField('Channel Count', message.guild.channels.cache.size.toString())
+            .addField('Server Owner', ownerTag) ];
     
-        return message.channel.send(serverEmbed);
+        return message.channel.send({ embeds });
     }
 };

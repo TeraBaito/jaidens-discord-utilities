@@ -1,5 +1,5 @@
 const { GuildMember } = require('discord.js');
-const Bot = require('../../../index');
+const Bot = require('../../../Bot');
 const { unhoistOne } = require('../../handlers/functions');
 
 /**

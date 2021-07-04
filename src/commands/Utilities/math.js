@@ -1,5 +1,5 @@
 const { Message, MessageEmbed } = require('discord.js');
-const Bot = require('../../../index');
+const Bot = require('../../../Bot');
 const math = require('mathjs');
 const colors = require('../../../colors.json');
 
@@ -27,12 +27,12 @@ module.exports = {
         }
        
        
-        const embed = new MessageEmbed()
+        const embeds = [ new MessageEmbed()
             .setColor(colors.Blue)
             .setTitle('Math')
             .addField('Question', `\`\`\`css\n${args.join('')}\`\`\``)
-            .addField('Answer', `\`\`\`css\n${resp}\`\`\``);
+            .addField('Answer', `\`\`\`css\n${resp}\`\`\``) ];
        
-        message.channel.send(embed);
+        message.channel.send({ embeds });
     }
 };

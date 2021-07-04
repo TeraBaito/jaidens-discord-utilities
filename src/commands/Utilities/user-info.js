@@ -1,5 +1,5 @@
 const { Message, MessageEmbed } = require('discord.js');
-const Bot = require('../../../index');
+const Bot = require('../../../Bot');
 const { getMember, formatDate } = require('../../handlers/functions.js');
 const colors = require('../../../colors.json');
 
@@ -15,7 +15,7 @@ module.exports = {
      * @param {string[]} args 
      */
     run: async (bot, message, args) => {
-        const member = getMember(message, args.join(' '));
+        const member = await getMember(message, args.join(' '));
 
         // Information Variables
 
@@ -36,7 +36,7 @@ module.exports = {
         if (uRoles.length > 650) uRoles = 'Too much roles to show!';
         
         // Embed
-        const userEmbed = new MessageEmbed()
+        const embeds = [ new MessageEmbed()
             .setDescription('**User Information**')
             .setFooter(member.displayName, uIcon)
             .setThumbnail(uIcon)
@@ -48,8 +48,8 @@ module.exports = {
             .addField('Joined Server On', sJoined)
             .addField('Roles Count', member.roles.cache.size)
             .addField('Roles', uRoles, true)
-            .setTimestamp();
+            .setTimestamp() ];
 
-        message.channel.send(userEmbed);
+        message.channel.send({ embeds });
     }
 };

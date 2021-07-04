@@ -1,5 +1,5 @@
 const { Message, MessageEmbed } = require('discord.js');
-const Bot = require('../../../index');
+const Bot = require('../../../Bot');
 const colors = require('../../../colors.json');
 
 module.exports = {
@@ -23,7 +23,7 @@ module.exports = {
             let jsonEmbed = JSON.parse(args.slice(2).join(' '));
             channel.messages.fetch(args[0])
                 .then(msg => {
-                    msg.edit(jsonEmbed);
+                    msg.edit({ embeds: [jsonEmbed] });
                     message.channel.send('Successfully edited embed!');
                 });
 
@@ -34,7 +34,7 @@ module.exports = {
                 .setDescription(e)
                 .setFooter(bot.user.username, bot.user.displayAvatarURL);
             
-            message.channel.send(errEmbed);
+            message.channel.send({ embeds: [errEmbed] });
         }
     }
 };

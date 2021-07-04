@@ -1,4 +1,4 @@
-const { Message, Guild, GuildMember, User, MessageEmbed } = require('discord.js');
+const { Message, Guild, GuildMember, User, MessageEmbed, Permissions: { FLAGS } } = require('discord.js');
 const Bot = require('../../index');
 const chalk = require('chalk');
 const { readJSONSync } = require('fs-extra');
@@ -9,33 +9,25 @@ const { FireBrick } = require('../../colors.json');
 * 
 * @param {Message} message The Message object to perform actions using message
 * @param {string} toFind String that fetches the user (can be mention, id, tag, or displayName)
-* @returns {GuildMember}
+* @returns {Promise<?GuildMember>}
 */
-function getMember(message, toFind) {
+async function getMember(message, toFind) {
     toFind = toFind.toLowerCase();
-
-    // First, tries to get from ID (all members should work, since bot has fetchAllMembers: true)
-    let target = message.guild.members.cache.get(toFind);
-
-    // Then, tries to get from mention
-    if (!target && message.mentions.members) target = message.mentions.members.first();
-
-    // Then, tries getting from tag or displayName
-    if(!target && toFind)
-        target = message.guild.members.cache.find(member => {
-            // Then, tries to get from displayName (nickname -> username)
-            return member.displayName.toLowerCase().includes(toFind) ||
-                // Then, solely for username (this is so that a nickname doesn't overwrite a username when used)
-                member.user.username.toLowerCase().includes(toFind) ||
-                // Then, tries getting it for mention
-                member.user.tag.toLowerCase().includes(toFind);
-        });
-
-    // If none of those work, it uses the GuildMember from who sent a message that triggered this function
-    if(!target)
-        target = message.member;
-
-    return target;
+    let target;
+    // By mention
+    target = message.mentions?.members?.first();
+    // By cache (ID, displayName, username, tag)
+    if (!target) target = message.guild.members.cache.get(toFind);
+    if (!target) target = message.guild.members.cache.find(member => {
+        return member.displayName.toLowerCase().includes(toFind) ||
+        member.user.username.toLowerCase().includes(toFind) ||
+        member.user.tag.toLowerCase().includes(toFind);
+    });
+    // By fetching (if valid user ID)
+    if (!target && toFind.length == 18) target = await message.guild.members.fetch(toFind).catch(() => {});
+    // By searching nickname / username
+    if (!target) target = (await message.guild.members.search({ query: toFind, limit: 1 })).first();
+    return target ?? null;
 }
 
 /**
@@ -95,7 +87,7 @@ function randomizePercentage(number) {
 * Checking whether a member is staff or not
 * 
 * @param {GuildMember} member The member to check on
-* @returns {boolean}
+* @returns {Promise<boolean>}
 */
 async function checkStaff(member) {
     await member.fetch();
@@ -106,10 +98,10 @@ async function checkStaff(member) {
             member.roles.cache.find(r => r.name == 'Moderators') ||
             member.roles.cache.find(r => r.name == 'Administrator') ||
             member.id == member.guild.ownerID || // Check if it's the owner
-            member.hasPermission('ADMINISTRATOR') || // Check by perms (honestly these are enough to check for all staff)
-            member.hasPermission('KICK_MEMBERS') ||
-            member.hasPermission('BAN_MEMBERS') ||
-            member.hasPermission('MANAGE_MESSAGES')
+            member.permissions.has(FLAGS.ADMINISTRATOR) || // Check by perms (honestly these are enough to check for all staff)
+            member.permissions.has(FLAGS.KICK_MEMBERS) ||
+            member.permissions.has(FLAGS.BAN_MEMBERS) ||
+            member.permissions.has(FLAGS.MANAGE_MESSAGES)
         ) return true;
         return false;
     } catch (e) {
@@ -126,7 +118,7 @@ async function checkStaff(member) {
 * @param {Message} message The Message object to perform actions using message
 * @param {Bot} bot The Client object
 */
-function blacklistProcess(message, bot) {
+async function blacklistProcess(message, bot) {
     const { nsfw, offensive, jr34 } = readJSONSync('./src/handlers/blacklisted-words.json'),
         { blacklistLogs } = readJSONSync('./botSettings.json'),
         { logChannel } = require('../../config.json');
@@ -152,12 +144,11 @@ function blacklistProcess(message, bot) {
         let pattern = new RegExp(`(^${w}$)|([^a-z\s]+${w})|(${w}[^a-z\s]+)`, 'mi');
 
         if (Array.isArray(w)) {
-            return w.every(e => {
+            return w.every(v => split.some(e => {
                 // eslint-disable-next-line no-useless-escape
-                let pattern = new RegExp(`(^${e}$)|([^a-z\s]+${e})|(${e}[^a-z\s]+)`, 'mi');
+                let pattern = new RegExp(`(^${v}$)|([^a-z\s]+${v})|(${v}[^a-z\s]+)`, 'mi');
                 return pattern.test(e);
-            });
-            // return pattern.test(message.content);
+            }));
         } else {
             return split.some(w => pattern.test(w));
         }
@@ -167,7 +158,7 @@ function blacklistProcess(message, bot) {
      */
     let act = (msg) => {
         if (blacklistLogs) {
-            let embed = new MessageEmbed()
+            let embeds = [ new MessageEmbed()
                 .setColor(FireBrick) 
                 .setTitle('Blacklisting')
                 .addFields(
@@ -186,8 +177,8 @@ function blacklistProcess(message, bot) {
                         value: message.content,
                         inline: false
                     }
-                );
-            bot.channels.cache.get(logChannel).send(embed);
+                ) ];
+            bot.channels.cache.get(logChannel).send({ embeds });
         }
         
         if (message.deletable) message.delete();
@@ -207,7 +198,7 @@ function blacklistProcess(message, bot) {
 
     // "jr34"
     if (jr34.some(process)) {
-        if (checkStaff(message.member)) return;
+        if (await checkStaff(message.member).then()) return;
         act('Please refer to Rule 6, don\'t talk about sensitive topics like Jaiden Rule 34');
     }
 }
@@ -216,7 +207,7 @@ function blacklistProcess(message, bot) {
  * Unhoists one member
  * @param {GuildMember} member 
  */
-function unhoistOne(member) {
+async function unhoistOne(member) {
     let newNick = member.displayName;
    
     const hoistPattern =  /^[!?$-]+/;
@@ -238,11 +229,20 @@ function unhoistOne(member) {
  * Calls unhoistOne() on a collection of members
  * @param {Guild} guild 
  */
-function nicknameProcess(guild) {
-    const hoistPattern =  /^[!?$-]+/;
-    const members = guild.members.cache.filter(m => hoistPattern.test(m.displayName));
-    //console.log(members);
-    members.each(m => unhoistOne(m));
+async function nicknameProcess(guild) {
+    const s = (query) => guild.members.search({ query });
+    const members = await Promise.all([
+        s('!'),
+        s('$'),
+        s('-'),
+        s('+'),
+        s('.'),
+        s('#'),
+        s('&'),
+        s('*'),
+        s('/'),
+    ]).then(ms => ms.filter(m => m).reduce((a, c) => a.concat(c)));
+    if (members.size) members.each(m => { if (m) unhoistOne(m); });
     return members.size;
 }
 

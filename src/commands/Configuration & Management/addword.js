@@ -1,5 +1,5 @@
 const { Message } = require('discord.js');
-const Bot = require('../../../index');
+const Bot = require('../../../Bot');
 const { readJSONSync, writeJSONSync } = require('fs-extra');
 
 
@@ -19,7 +19,6 @@ module.exports = {
     run: async(bot, message, args) => {
         /** @type {{nsfw: string[], offensive: string[], jr34: string}} */
         const words = readJSONSync('./src/handlers/blacklisted-words.json', 'utf-8');
-        const { raw: r } = String;
 
         // Automatically escape
         /** @param {string} i */

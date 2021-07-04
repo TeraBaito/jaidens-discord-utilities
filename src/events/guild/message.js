@@ -1,5 +1,5 @@
 const { Message, DiscordAPIError, Collection } = require('discord.js');
-const Bot = require('../../../index');
+const Bot = require('../../../Bot');
 const { prefix, jaidenServerID } = require('../../../config.json');
 const { blacklistProcess, checkStaff } = require('../../handlers/functions');
 const { readJSONSync } = require('fs-extra');
@@ -45,8 +45,8 @@ module.exports = async (bot, message) => {
 
     // Blacklisting
     if (blacklisting && 
-        [jaidenServerID, '711301984887636080'].includes(message.channel.id) &&
-        message.channel.id != '755189056660308050') blacklistProcess(message, bot);
+        [jaidenServerID, '711301984887636080'].includes(message.guild.id) &&
+        message.channel.id != '755189056660308050') await blacklistProcess(message, bot);
 
     // Autoresponders
     if (ar && toggleAR) {       
@@ -77,11 +77,11 @@ module.exports = async (bot, message) => {
     
     const data = bot.afk.get(message.author.id);
     // AFK System
-    if (data && !data.flags[0]) {
+    if (data && !data.flags.u) {
         const { displayName } = message.member;
         const { length } = displayName;
         bot.afk.delete(message.author.id);
-        if (length <= 26 && !data.flags[1]) {
+        if (length <= 26 && !data.flags.n) {
             message.member.setNickname(displayName.slice(6))
                 .catch(e => {
                     if (!(e instanceof DiscordAPIError)) throw e;
@@ -99,7 +99,6 @@ module.exports = async (bot, message) => {
         }
     }
     
-
     // Command reading [2]
     if (!message.guild) return; // No DMs n stuff
     if (!message.member || message.member.partial) message.member = await message.guild.members.fetch(message);

@@ -1,5 +1,5 @@
 const { Message, Util: { removeMentions } } = require('discord.js');
-const Bot = require('../../../index');
+const Bot = require('../../../Bot');
 
 module.exports = {
     name: 'addtag',

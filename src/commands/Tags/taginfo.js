@@ -1,6 +1,6 @@
 const { Message, MessageEmbed } = require('discord.js');
 const { ForestGreen } = require('../../../colors.json');
-const Bot = require('../../../index');
+const Bot = require('../../../Bot');
 const { formatDate } = require('../../handlers/functions');
 const { suggestionsChannel } = require('../../../config.json');
 
@@ -24,15 +24,15 @@ module.exports = {
         const tag = await bot.tags.findOne({ where: { name: args[0] } });
 
         if (tag) {
-            const embed = new MessageEmbed()
+            const embeds = [ new MessageEmbed()
                 .setTitle(tag.name)
                 .setColor(ForestGreen)
                 .addFields(
                     { name: 'Created by', value: tag.username, inline: true },
                     { name: 'Uses', value: tag.usage_count },
                     { name: 'Created at', value: formatDate(tag.createdAt) }
-                );
-            return message.channel.send(embed);
+                ) ];
+            return message.channel.send({ embeds });
         }
         return message.channel.send(`Couldn't find tag \`${args[0]}\`.`);
     }

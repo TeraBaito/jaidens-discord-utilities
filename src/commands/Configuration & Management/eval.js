@@ -1,5 +1,5 @@
 const { Message, MessageEmbed } = require('discord.js');
-const Bot = require('../../../index');
+const Bot = require('../../../Bot');
 const beautify = require('beautify');
 const { ownerID } = require('../../../config.json');
 const colors = require('../../../colors.json');
@@ -33,25 +33,35 @@ module.exports = {
 
             const toEval = args.join(' ');
             const evaluated = eval(toEval);
+            const str = evaluated + '';
 
-            let embed = new MessageEmbed()
-                .setColor(colors.ForestGreen)
-                .setTimestamp()
-                .setTitle('Eval')
-                .addField('To Evaluate', `\`\`\`js\n${beautify(toEval, { format: 'js' })}\n\`\`\``)
-                .addField('Evaluated', evaluated)
-                .addField('Type of', typeof(evaluated))
-                .setFooter(bot.user.username, bot.user.displayAvatarURL);
+            if (str.length >= 1024) {
+                console.log(evaluated);
+                return message.channel.send('Sorry, the evaluated data is too big so I can\'t send the results, instead I logged them into the console.');
+            }
+            
+            let embeds = [
+                new MessageEmbed()
+                    .setColor(colors.ForestGreen)
+                    .setTimestamp()
+                    .setTitle('Eval')
+                    .addField('To Evaluate', `\`\`\`js\n${beautify(toEval, { format: 'js' })}\n\`\`\``)
+                    .addField('Evaluated', str)
+                    .addField('Type of', typeof(evaluated))
+                    .setFooter(bot.user.username, bot.user.displayAvatarURL)
+            ];
 
-            message.channel.send(embed);
+            message.channel.send({ embeds });
         } catch (e) {
-            let embed = new MessageEmbed()
-                .setColor(colors.Red)
-                .setTitle('Error')
-                .setDescription(e)
-                .setFooter(bot.user.username, bot.user.displayAvatarURL);
+            let embeds = [
+                new MessageEmbed()
+                    .setColor(colors.Red)
+                    .setTitle('Error')
+                    .setDescription(e.message)
+                    .setFooter(bot.user.username, bot.user.displayAvatarURL)
+            ];
 
-            message.channel.send(embed);
+            message.channel.send({ embeds });
         }
     }
 };

@@ -1,9 +1,9 @@
-const { Message } = require('discord.js');
-const Bot = require('../../../index');
+const { Message, Permissions: { FLAGS: { MANAGE_MESSAGES } } } = require('discord.js');
+const Bot = require('../../../Bot');
 
 module.exports = {
     name: 'clear',
-    aliases: ['purge'],
+    aliases: ['purge', 'clean'],
     usage: 'clear [amount of messages]',
     description: 'Clears a specified amount of messages in the current channel, up to 100 messages',
     staffOnly: true,
@@ -17,21 +17,15 @@ module.exports = {
         if (message.deletable) message.delete;
 
         // Bot doesn't have perms to delete messages (it does by default)
-        if (!message.guild.me.hasPermission('MANAGE_MESSAGES')) {
-            return message.channel.send('I don\'t have permissions to delete messages, please enable the "Manage Messages" permission')
-                .then(m => setTimeout(() => { m.delete(); }, 5000));
-        }
+        if (!message.guild.me.permissions.has(MANAGE_MESSAGES)) return message.channel.send('I don\'t have permissions to delete messages, please enable the "Manage Messages" permission')
+            .then(m => setTimeout(() => { m.delete(); }, 5000));
 
         // Clear amount is not a number or is 0
-        if (isNaN(args[0])) {
-            return message.channel.send('But this is not a number, send a number of messages to clear')
-                .then(m => setTimeout(() => { m.delete(); }, 5000));    
-        }
+        if (isNaN(args[0])) return message.channel.send('But this is not a number, send a number of messages to clear')
+            .then(m => setTimeout(() => { m.delete(); }, 5000));    
 
-        if (parseInt(args[0] <= 0)) {
-            return message.channel.send('Can you send a number that is not 0, you\'re just wasting my time...')
-                .then(m => setTimeout(() => { m.delete(); }, 5000));
-        }
+        if (parseInt(args[0] <= 0)) return message.channel.send('Can you send a number that is not 0, you\'re just wasting my time...')
+            .then(m => setTimeout(() => { m.delete(); }, 5000));
 
         let deleteAmount;
 

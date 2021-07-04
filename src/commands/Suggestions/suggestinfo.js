@@ -1,5 +1,5 @@
 const { Message, MessageEmbed, MessageReaction, Collection } = require('discord.js');
-const Bot = require('../../../index');
+const Bot = require('../../../Bot');
 const { formatDate } = require('../../handlers/functions');
 const { jaidenServerID, suggestionsChannel } = require('../../../config.json');
 const { Orange } = require('../../../colors.json');
@@ -61,6 +61,6 @@ module.exports = {
             { name: 'Downvotes', value: downvotes, inline: true },
             { name: 'Ratio', value: ratios(), inline: true }
         );
-        message.channel.send(embed);
+        message.channel.send({ embeds: [embed] });
     }
 };

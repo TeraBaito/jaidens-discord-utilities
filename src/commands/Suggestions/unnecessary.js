@@ -1,5 +1,5 @@
 const { Message, MessageEmbed } = require('discord.js');
-const Bot = require('../../../index');
+const Bot = require('../../../Bot');
 const { LightBlue } = require('../../../colors.json') ;
 const { jaidenServerID, suggestionsChannel } = require('../../../config.json');
 
@@ -43,7 +43,7 @@ module.exports = {
             .setFooter(suggestion.status)
             .setTimestamp(suggestion.createdAt)
             .addField('Reason', suggestion.reason);
-        msg.edit(embed);
+        msg.edit({ embeds: [embed] });
 
         // DMs the user that their suggestion was approved, error message if unable
         const dmEmbed = new MessageEmbed()
@@ -52,7 +52,7 @@ module.exports = {
             ' doesn\'t provide proper feedback, or breaks the server\'s or Discord\'s rules. Remember you can\'t suggest'+
             ' this again, and to always think twice before you do any other suggestion.\n\n[Message Link]'+
             `(https://discord.com/channels/${jaidenServerID}/${suggestionsChannel}/${suggestion.message_id})`);
-        user.send(dmEmbed)
+        user.send({ embeds: [dmEmbed] })
             .catch(() => message.channel.send(`Couldn't send an information message to **${user.tag}**!`));
         
         if (message.deletable) message.delete();

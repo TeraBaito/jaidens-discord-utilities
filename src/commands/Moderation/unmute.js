@@ -1,5 +1,5 @@
-const { Message, MessageEmbed } = require('discord.js');
-const Bot = require('../../../index');
+const { Message, MessageEmbed, Permissions: { FLAGS: { MANAGE_ROLES } } } = require('discord.js');
+const Bot = require('../../../Bot');
 const colors = require('../../../colors.json');
 const { getMember } = require('../../handlers/functions');
 
@@ -18,39 +18,23 @@ module.exports = {
      */
     run: async(bot, message, args) => {
         // No args
-        if (!args[0]) {
-            return message.channel.send('Please provide a user to unmute')
-                .then(m => setTimeout(() => { m.delete(); }, 5000));
-        }
+        if (!args[0]) return message.channel.send('Please provide a user to unmute')
+            .then(m => setTimeout(() => { m.delete(); }, 5000));
 
         const logChannel = message.guild.channels.cache.find(c => c.name === 'ari-bot-logs') || message.channel;
-        const toUnmute = getMember(message, args[0]);
+        const toUnmute = await getMember(message, args[0]);
         const muterole = message.guild.roles.cache.find(r => r.name === 'Muted');
 
         // Bot doesn't have perms to mute (it does by default)
-        if (!message.guild.me.hasPermission('MANAGE_ROLES')) {
-            return message.channel.send('I don\'t have permissions to unmute users, please enable the "Manage Roles" permission')
-                .then(m => setTimeout(() => { m.delete(); }, 5000));
-
-        }
-
-        // No user provided (no arguments)
-        if (!args[0]) {
-            return message.channel.send('Please provide a valid user to unmute')
-                .then(m => setTimeout(() => { m.delete(); }, 5000));
-
-        }
+        if (!message.guild.me.permissions.has(MANAGE_ROLES)) return message.channel.send('I don\'t have permissions to unmute users, please enable the "Manage Roles" permission')
+            .then(m => setTimeout(() => { m.delete(); }, 5000));
     
         // Can't find member
-        if (!toUnmute) {
-            return message.channel.send('Couldn\'t find that member, try again')
-                .then(m => setTimeout(() => { m.delete(); }, 5000));
-        }
+        if (!toUnmute) return message.channel.send('Couldn\'t find that member, try again')
+            .then(m => setTimeout(() => { m.delete(); }, 5000));
 
         // Can't unmute yourself
-        if (message.author.id === toUnmute.id) {
-            return message.channel.send('Wait...why are you trying to unmute yourself?');
-        }
+        if (message.author.id === toUnmute.id) return message.channel.send('Wait...why are you trying to unmute yourself?');
 
         const umEmbed = new MessageEmbed()
             .setColor(colors.Orange)
@@ -77,7 +61,7 @@ module.exports = {
                     if(err) return message.channel.send('Well... something went wrong');
                 });
                     
-            logChannel.send(umEmbed);
+            logChannel.send({ embeds: [umEmbed] });
             message.channel.send(`**${toUnmute}** has been unmuted.`);
         }
     }

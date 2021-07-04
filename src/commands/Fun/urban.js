@@ -1,5 +1,5 @@
 const { Message, MessageEmbed } = require('discord.js');
-const Bot = require('../../../index');
+const Bot = require('../../../Bot');
 const fetch = require('node-fetch');
 const querystring = require('querystring');
 const chalk = require('chalk');
@@ -31,14 +31,14 @@ module.exports = {
             if (!list.length) return message.channel.send(`Didn't find any results for \`${args.join(' ')}\``);
             const { author, word, permalink, definition, example } = list[0];
 
-            const embed = new MessageEmbed()
+            const embeds = [ new MessageEmbed()
                 .setColor(colors.Peru)
                 .setTitle(word)
                 .setURL(permalink)
                 .addField('Definition', definition)
-                .setFooter(`By ${author}`);
+                .setFooter(`By ${author}`) ];
             if (example) embed.addField('Example', example);
-            message.channel.send(embed);
+            message.channel.send({ embeds });
             msg.delete();
         } catch (e) {
             message.channel.send('Something went wrong...');

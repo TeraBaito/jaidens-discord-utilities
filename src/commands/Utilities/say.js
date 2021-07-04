@@ -1,5 +1,5 @@
 const { MessageEmbed } = require('discord.js');
-const Bot = require('../../../index');
+const Bot = require('../../../Bot');
 const colors = require('../../../colors.json');
 
 module.exports = {
@@ -24,11 +24,11 @@ module.exports = {
         if (message.deletable) message.delete();
         
         if (args[1] == 'embed') {
-            const embed = new MessageEmbed()
+            const embeds =  [ new MessageEmbed()
                 .setColor(colors.ForestGreen)
-                .setDescription(args.slice(2).join(' '));
+                .setDescription(args.slice(2).join(' ')) ];
             
-            channel.send(embed);
+            channel.send({ embeds });
         } else {
             channel.send(args.slice(1).join(' '));
         }

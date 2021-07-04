@@ -1,5 +1,5 @@
 const { Message, MessageEmbed } = require('discord.js');
-const Bot = require('../../../index');
+const Bot = require('../../../Bot');
 const { stripIndents } = require('common-tags');
 const { owner, ownerID } = require('../../../config.json');
 const { version } = require('../../../package.json');
@@ -21,7 +21,7 @@ module.exports = {
         let bIcon = bot.user.displayAvatarURL();
         let { heapUsed } = process.memoryUsage();
 
-        let botEmbed = new MessageEmbed()
+        let embeds = [ new MessageEmbed()
             .setTitle('**Bot Information**')
             .setDescription(stripIndents`\>\>\> A bot that provides different utilities to the r/JaidenAnimations Discord Server
             Fast and easy-to-use commands
@@ -34,8 +34,8 @@ module.exports = {
             .addField('Active For', `${(process.uptime() / 3600).toFixed(1)} hours`)
             .addField('Memory Usage', `${(heapUsed / 1024 / 1024).toFixed(1)} MB`)
             .addField('Creation Date', formatDate(bot.user.createdAt))
-            .setFooter(`Version: ${version}, coded with discord.js`);
+            .setFooter(`Version: ${version}, coded with discord.js`) ];
 
-        return message.channel.send(botEmbed);
+        return message.channel.send({ embeds });
     }
 };

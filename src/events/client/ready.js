@@ -1,4 +1,4 @@
-const Bot = require('../../../index');
+const Bot = require('../../../Bot');
 const chalk = require('chalk');
 
 /**

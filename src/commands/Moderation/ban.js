@@ -1,5 +1,5 @@
-const { Message, MessageEmbed } = require('discord.js');
-const Bot = require('../../../index');
+const { Message, MessageEmbed, Permissions: { FLAGS: { BAN_MEMBERS } } } = require('discord.js');
+const Bot = require('../../../Bot');
 const colors = require('../../../colors.json');
 const { promptMessage, getMember } = require('../../handlers/functions');
 
@@ -17,25 +17,22 @@ module.exports = {
      */
     run: async(bot, message, args) => {
         // No args
-        if (!args[0]) {
-            return message.channel.send('Please provide a user to ban')
-                .then(m => setTimeout(() => { m.delete(); }, 5000));
-        }
+        if (!args[0]) return message.channel.send('Please provide a user to ban')
+            .then(m => setTimeout(() => { m.delete(); }, 5000));
 
         const logChannel = message.guild.channels.cache.find(c => c.name === 'ari-bot-logs') || message.channel;
-        const toBan = getMember(message, args[0]);
+        const toBan = await getMember(message, args[0]);
         
         if(message.deletable) message.delete();
 
         // No bot permissions to ban (it does by default)
-        if (!message.guild.me.hasPermission('BAN_MEMBERS')) {
+        if (!message.guild.me.permissions.has(BAN_MEMBERS)) {
             return message.channel.send('I don\'t have permissions to ban members, please enable them').then(m => setTimeout(() => { m.delete(); }, 5000));
         }
 
         // No member found
-        if (!toBan) {
-            return message.channel.send('Couldn\'t find that member, try again').then(m => setTimeout(() => { m.delete(); }, 5000));
-        }
+        if (!toBan) return message.channel.send('Couldn\'t find that member, try again')
+            .then(m => setTimeout(() => { m.delete(); }, 5000));
 
         // Can't ban yourself (BRUH moment)
         if (message.author.id === toBan.id) {
@@ -70,17 +67,17 @@ module.exports = {
             .setFooter('This verification becomes invalid after 30 seconds')
             .setDescription(`Do you want to ban ${toBan}?`); 
 
-        message.channel.send(promptEmbed).then(async msg => {
-            const emoji = await promptMessage(msg, message.author, 30, ['✅', '❌']);
+        message.channel.send({ embeds: [promptEmbed]}).then(async msg => {
+            const emoji = await promptMessage(msg, message.author, 30, '✅', '❌');
             
             if (emoji === '✅') {
                 msg.delete();
 
-                toBan.ban(args.slice(1).join(' '))
+                toBan.ban({ reason: args.slice(1).join(' ')})
                     .catch(err => {
                         if(err) return message.channel.send('Well... something went wrong');
                     });
-                logChannel.send(bEmbed);
+                logChannel.send({ embeds: [bEmbed] });
                 message.channel.send(`**${toBan}** has been banned.`);
 
             } else if (emoji === '❌') {

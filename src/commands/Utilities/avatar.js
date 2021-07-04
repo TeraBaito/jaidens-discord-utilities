@@ -1,5 +1,5 @@
 const { Message, MessageEmbed } = require('discord.js');
-const Bot = require('../../../index');
+const Bot = require('../../../Bot');
 const colors = require('../../../colors.json');
 const { getMember } = require('../../handlers/functions.js');
 
@@ -15,14 +15,14 @@ module.exports = {
      * @param {string[]} args 
      */
     run: async(bot, message, args) => {
-        let member = getMember(message, args.join(' '));
+        let member = await getMember(message, args.join(' '));
         const uIcon = member.user.displayAvatarURL({ format: 'png', size: 4096, dynamic: true });
 
-        const aEmbed = new MessageEmbed()
+        const embeds = [ new MessageEmbed()
             .setColor(colors.ForestGreen)
             .setDescription(`**${member.displayName}'s Avatar**`)
-            .setImage(uIcon);
+            .setImage(uIcon) ];
 
-        message.channel.send(aEmbed);
+        message.channel.send({ embeds });
     }
 };
