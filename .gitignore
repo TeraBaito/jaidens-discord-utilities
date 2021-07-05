@@ -1,6 +1,9 @@
 # Use `npm install` to install all required modules 
 /node_modules/
 
+# Package LOCK (package.json is what's important just for the deps)
+package-lock.json
+
 # Legacy stuff
 /legacy/
 

@@ -69,7 +69,7 @@ async function promptMessage(message, author, time, ...validReactions) {
     const filter = (reaction, user) => validReactions.includes(reaction.emoji.name) && user.id === author.id;
 
     return message
-        .awaitReactions(filter, { max: 1, time: time})
+        .awaitReactions({ filter, time, max: 1 })
         .then(collected => collected.first() && collected.first().emoji.name);
 }
 
@@ -97,7 +97,7 @@ async function checkStaff(member) {
             member.roles.cache.find(r => r.name == 'Helpers') ||
             member.roles.cache.find(r => r.name == 'Moderators') ||
             member.roles.cache.find(r => r.name == 'Administrator') ||
-            member.id == member.guild.ownerID || // Check if it's the owner
+            member.id == member.guild.ownerId || // Check if it's the owner
             member.permissions.has(FLAGS.ADMINISTRATOR) || // Check by perms (honestly these are enough to check for all staff)
             member.permissions.has(FLAGS.KICK_MEMBERS) ||
             member.permissions.has(FLAGS.BAN_MEMBERS) ||
