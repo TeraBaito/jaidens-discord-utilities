@@ -136,17 +136,18 @@ async function blacklistProcess(message, bot) {
         const split = message.content.split(/ +/g);
         /** Blacklist pattern
         * Breakdown:
-        *      ^word$ : only word
-        *      |([^a-z\s]+word) : anything that's not a-z or whitespace, then word
-        *      |(word[^a-z\s]+) : the same but backwards
+        *       ^word$ : only word                                  | "word"
+        *       ^word[^a-z]+ word ONLY AT THE START, then symbols   | "word.!+-"
+        *       [^a-z]+word$ : symbols, then word ONLY AT THE END   | "-+!word"
+        *       [^a-z]+word[^a-z]+: symbols, word, symbols          | "-+!word!+-"
         * @type {RegExp} */  
         // eslint-disable-next-line no-useless-escape
-        let pattern = new RegExp(`(^${w}$)|([^a-z\s]+${w})|(${w}[^a-z\s]+)`, 'mi');
+        let pattern = new RegExp(`(^${w}$)|(^${w}[^a-z]+)|([^a-z]+${w}$)|([^a-z]+${w}[^a-z]+)`, 'mi');
 
         if (Array.isArray(w)) {
             return w.every(v => split.some(e => {
                 // eslint-disable-next-line no-useless-escape
-                let pattern = new RegExp(`(^${v}$)|([^a-z\s]+${v})|(${v}[^a-z\s]+)`, 'mi');
+                let pattern = new RegExp(`(^${w}$)|(^${w}[^a-z]+)|([^a-z]+${w}$)|([^a-z]+${w}[^a-z]+)`, 'mi');
                 return pattern.test(e);
             }));
         } else {
