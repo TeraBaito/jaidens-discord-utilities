@@ -125,11 +125,9 @@ async function blacklistProcess(message, bot) {
         let pattern = new RegExp(`(^${w}$)|(^${w}[^a-z]+)|([^a-z]+${w}$)|([^a-z]+${w}[^a-z]+)`, 'mi');
 
         if (Array.isArray(w)) {
-            return w.every(v => split.some(e => {
-                // eslint-disable-next-line no-useless-escape
-                let pattern = new RegExp(`(^${w}$)|(^${w}[^a-z]+)|([^a-z]+${w}$)|([^a-z]+${w}[^a-z]+)`, 'mi');
-                return pattern.test(e);
-            }));
+            return w.every(v => split.some(e => 
+                new RegExp(`(^${v}$)|(^${v}[^a-z]+)|([^a-z]+${v}$)|([^a-z]+${v}[^a-z]+)`, 'mi').test(e)
+            ));
         } else {
             return split.some(w => pattern.test(w));
         }
