@@ -22,7 +22,7 @@ process.on('warning', e => console.warn(`${chalk.yellow('[Error]')} - ${e.stack}
 
 
 // Handlers' modules
-['command', 'event'].forEach(handler => {
+['command', 'event', 'interaction'].forEach(handler => {
     require(`./src/handlers/${handler}`)(bot);
 });
 
