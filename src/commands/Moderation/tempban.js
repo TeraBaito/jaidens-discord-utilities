@@ -1,8 +1,8 @@
-const { Message, MessageEmbed, Permissions: { FLAGS: { BAN_MEMBERS } } } = require('discord.js');
+const { Message, MessageEmbed, MessageButton, Permissions: { FLAGS: { BAN_MEMBERS } } } = require('discord.js');
 const Bot = require('../../../Bot');
 const ms = require('ms');
 const colors = require('../../../colors.json');
-const { promptMessage, getMember } = require('../../handlers/functions');
+const { promptButtons, getMember } = require('../../handlers/functions');
 
 module.exports = {
     name: 'tempban',
@@ -70,33 +70,34 @@ module.exports = {
             .setFooter('This verification becomes invalid after 30 seconds')
             .setDescription(`Do you want to tempban ${toTempban} for ${ms(ms(bantime))}?`);
      
+        const components = [[
+            new MessageButton()
+                .setCustomId('y')
+                .setLabel('Yes')
+                .setStyle('SUCCESS'),
+            new MessageButton()
+                .setCustomId('n')
+                .setLabel('No')
+                .setStyle('DANGER')
+        ]];
     
-        message.channel.send({ embeds: [promptEmbed] }).then(async msg => {
-            const emoji = await promptMessage(msg, message.author, 30, '✅', '❌');
-                
-            if (emoji === '✅') {
-                msg.delete();
-    
-                toTempban.ban({ reason: args.slice(1).join(' ') })
-                    .catch(err => {
-                        if(err) return message.channel.send('Well... something went wrong');
-                    });
-                logChannel.send({ embeds: [bEmbed] });
-                message.channel.send(`**${toTempban}** has been banned for ${ms(ms(bantime))}.`);
+        const msg = await message.channel.send({ embeds: [promptEmbed], components });
+        const button = await promptButtons(msg, message.author.id, 30);
 
-                setTimeout(() => {
-                    try {
-                        toTempban.guild.members.unban(toTempban, { reason });
-                    } catch(e) {
-                        console.log(e);
-                    }
+        if (button.customId == 'y') {
+            toTempban.ban({ reason: args.slice(1).join(' ') })
+                .catch(__ => button.reply({ content: 'Well... something went wrong', ephemeral: true }));
+            logChannel.send({ embeds: [bEmbed] });
+            button.reply(`**${toTempban}** has been banned for ${ms(ms(bantime))}.`);
+
+            setTimeout(() => {
+                try {
+                    toTempban.guild.members.unban(toTempban, { reason });
                     logChannel.send({ embeds: [ubEmbed] });
-                }, ms(bantime));
-    
-            } else if (emoji === '❌') {
-                msg.delete();
-                message.channel.send('Tempban cancelled.');
-            }
-        });
+                } catch(e) {
+                    console.error(e);
+                }
+            }, ms(bantime));
+        } else button.reply('Tempban cancelled.');
     }
 };

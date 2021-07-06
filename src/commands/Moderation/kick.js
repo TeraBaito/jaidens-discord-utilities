@@ -1,7 +1,7 @@
-const { Message, MessageEmbed, Permissions: { FLAGS: { KICK_MEMBERS } } } = require('discord.js');
+const { Message, MessageEmbed, MessageButton, Permissions: { FLAGS: { KICK_MEMBERS } } } = require('discord.js');
 const Bot = require('../../../Bot');
 const colors = require('../../../colors.json');
-const { promptMessage, getMember } = require('../../handlers/functions');
+const { promptButtons, getMember } = require('../../handlers/functions');
     
 
 module.exports = {
@@ -64,25 +64,26 @@ module.exports = {
             .setFooter('This verification becomes invalid after 30 seconds')
             .setDescription(`Do you want to kick ${toKick}?`);
 
+        const components = [[
+            new MessageButton()
+                .setCustomId('y')
+                .setLabel('Yes')
+                .setStyle('SUCCESS'),
+            new MessageButton()
+                .setCustomId('n')
+                .setLabel('No')
+                .setStyle('DANGER')
+        ]];
+    
+        const msg = await message.channel.send({ embeds: [promptEmbed], components });
+        const button = await promptButtons(msg, message.author.id, 30);
 
-        message.channel.send({ embeds: [promptEmbed] }).then(async msg => {
-            const emoji = await promptMessage(msg, message.author, 30, '✅', '❌');
+        if (button.customId == 'y') {
+            toKick.kick(args.slice(1).join(' '))
+                .catch(__ => button.reply({ content: 'Well... something went wrong', ephemeral: true }));
             
-            if (emoji === '✅') {
-                msg.delete();
-
-                toKick.kick(args.slice(1).join(' '))
-                    .catch(err => {
-                        if(err) return message.channel.send('Well... something went wrong');
-                    });
-                    
-                logChannel.send({ embeds: [kEmbed] });
-                message.channel.send(`**${toKick}** has been kicked.`);
-
-            } else if (emoji === '❌') {
-                msg.delete();
-                message.channel.send('Kick cancelled.');
-            }
-        });
+            logChannel.send({ embeds: [kEmbed] });
+            button.reply(`**${toKick}** has been kicked.`);
+        } else button.reply('Kick cancelled.');
     }
 };

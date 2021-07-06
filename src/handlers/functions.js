@@ -1,4 +1,4 @@
-const { Message, Guild, GuildMember, User, MessageEmbed, Permissions: { FLAGS } } = require('discord.js');
+const { Message, Guild, GuildMember, User, MessageEmbed, Permissions: { FLAGS }, MessageComponentInteraction } = require('discord.js');
 const Bot = require('../../index');
 const chalk = require('chalk');
 const { readJSONSync } = require('fs-extra');
@@ -50,28 +50,17 @@ function formatDate(date) {
 }
 
 /**
-* Sends a message (prompt) with X reactions, the bot will take action depending on the chosen reaction.
-* 
-* @param {Message} message The Message object to perform actions using message
-* @param {User|GuildMember} author The author of the message, so that actions only perform based on theirs
-* @param {Number} time Prompt message expiration time in seconds
-* @param {Array} validReactions Array with reactions the bot will listen to
-*/
-async function promptMessage(message, author, time, ...validReactions) {
+ * Makes a buttons collector and returns its interaction
+ * @param {Message} message The message that was just sent (NOT the user's command)
+ * @param {string} authorID The ID of the person who triggered this command
+ * @param {number} time The time in which the collector would be available in seconds
+ */
+async function promptButtons(message, authorID, time) {
     time *= 1000;
 
-    for(const reaction of validReactions) {
-        message.react(reaction);
-        // eslint-disable-next-line no-inner-declarations
-        const d = async () => new Promise(r => setTimeout(r, 1000));
-        await d();
-    }
-
-    const filter = (reaction, user) => validReactions.includes(reaction.emoji.name) && user.id === author.id;
-
-    return message
-        .awaitReactions({ filter, time, max: 1 })
-        .then(collected => collected.first() && collected.first().emoji.name);
+    return await message.awaitMessageComponent({
+        filter: i => i.user.id == authorID, time
+    });
 }
 
 /**
@@ -268,7 +257,7 @@ async function publishInteractions(bot) {
 module.exports = {
     getMember,
     formatDate,
-    promptMessage,
+    promptButtons,
     checkStaff,
     blacklistProcess,
     unhoistOne,
