@@ -1,6 +1,6 @@
-const { Message, MessageEmbed } = require('discord.js');
+const { Message, MessageEmbed, MessageButton } = require('discord.js');
 const Bot = require('../../../Bot');
-const { nicknameProcess, promptMessage } = require('../../handlers/functions');
+const { nicknameProcess, promptButtons } = require('../../handlers/functions');
 
 module.exports = {
     name: 'unhoist',
@@ -22,12 +22,25 @@ module.exports = {
                 .setTitle('HOLD UP!')
                 .setDescription('Using this command will query server members by their nicknames, and then **mass unhoist** them. This might take a while, and it sends big requests to the API. This command has a cooldown of 2 minutes. Please use it only when strictly necessary.\nAre you sure you want to do this?')
         ];
-        const m = await message.channel.send({ embeds });
-        const emoji = await promptMessage(m, message.member, 30, '✅', '❌');
-        if (emoji == '✅') {
+
+        const components = [[
+            new MessageButton()
+                .setCustomId('y')
+                .setLabel('Yes')
+                .setStyle('SUCCESS'),
+            new MessageButton()
+                .setCustomId('n')
+                .setLabel('No')
+                .setStyle('DANGER')
+        ]];
+        
+        const m = await message.channel.send({ embeds, components });
+        const button = await promptButtons(m, message.author.id, 30);
+
+        if (button.customId == 'y') {
             const count = await nicknameProcess(message.guild);
-            if (!count) return message.channel.send('There wasn\'t anyone to remove the hoisting to <:AkaneShrug:774128813037715506>');
-            message.channel.send(`Successfully removed nickname hoisting from \`${count}\` members.`);
-        } else if (emoji == '❌') return message.channel.send('Cancelled.');
+            if (!count) return button.reply({ content: 'There wasn\'t anyone to remove the hoisting to <:AkaneShrug:774128813037715506>', ephemeral: true});
+            button.reply(`Successfully removed nickname hoisting from \`${count}\` members.`);
+        } else button.reply('Cancelled.');
     }
 };

@@ -1,7 +1,7 @@
-const { Message, MessageEmbed, Permissions: { FLAGS: { BAN_MEMBERS } } } = require('discord.js');
+const { Message, MessageEmbed, MessageButton, Permissions: { FLAGS: { BAN_MEMBERS } } } = require('discord.js');
 const Bot = require('../../../Bot');
 const colors = require('../../../colors.json');
-const { promptMessage, getMember } = require('../../handlers/functions');
+const { promptButtons, getMember } = require('../../handlers/functions');
 
 module.exports = {
     name: 'ban',
@@ -67,23 +67,25 @@ module.exports = {
             .setFooter('This verification becomes invalid after 30 seconds')
             .setDescription(`Do you want to ban ${toBan}?`); 
 
-        message.channel.send({ embeds: [promptEmbed]}).then(async msg => {
-            const emoji = await promptMessage(msg, message.author, 30, '✅', '❌');
-            
-            if (emoji === '✅') {
-                msg.delete();
+        const components = [[
+            new MessageButton()
+                .setCustomId('y')
+                .setLabel('Yes')
+                .setStyle('SUCCESS'),
+            new MessageButton()
+                .setCustomId('n')
+                .setLabel('No')
+                .setStyle('DANGER')
+        ]];
 
-                toBan.ban({ reason: args.slice(1).join(' ')})
-                    .catch(err => {
-                        if(err) return message.channel.send('Well... something went wrong');
-                    });
-                logChannel.send({ embeds: [bEmbed] });
-                message.channel.send(`**${toBan}** has been banned.`);
-
-            } else if (emoji === '❌') {
-                msg.delete();
-                message.channel.send('Ban cancelled.');
-            }
-        });
+        const msg = await message.channel.send({ embeds: [promptEmbed], components });
+        const button = await promptButtons(msg, message.author.id, 30);
+        
+        if (button.customId == 'y') {
+            toBan.ban({ reason: args.slice(1).join(' ') })
+                .catch(__ => button.reply({ content: 'Well... something went wrong', ephemeral: true }));
+            logChannel.send({ embeds: [bEmbed] });
+            button.reply(`**${toBan}** has been banned.`);
+        } else button.reply('Ban cancelled.');
     }
 };

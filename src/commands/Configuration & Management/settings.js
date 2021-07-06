@@ -1,9 +1,9 @@
 const { stripIndents } = require('common-tags');
-const { Message, MessageEmbed } = require('discord.js');
+const { Message, MessageEmbed, MessageButton } = require('discord.js');
 const Bot = require('../../../Bot');
 const { readJSONSync, writeJSONSync } = require('fs-extra');
 const colors = require('../../../colors.json');
-const { promptMessage } = require('../../handlers/functions');
+const { promptButtons } = require('../../handlers/functions');
 
 module.exports = {
     name: 'settings',
@@ -164,11 +164,23 @@ module.exports = {
                 const embeds = [ new MessageEmbed()
                     .setColor(colors.Red)
                     .setTitle('HOLD UP!')
-                    .setDescription('This command will show **all** the blacklisted words **without censor**, and will then delete it after **30 seconds**. Don\'t use this carelessly. If you\'re sure what you\'re doing, react with the check.')
+                    .setDescription('This command will show **all** the blacklisted words **without censor**, and will then delete it after **30 seconds**. Don\'t use this carelessly. Are you sure you want to do this?.')
                     .setFooter('You have 30s to react') ];
-                const msg = await message.channel.send({ embeds });
-                const emoji = await promptMessage(msg, message.author, 30, '✅', '❌');
-                if (emoji == '✅') {
+
+                const components = [[
+                    new MessageButton()
+                        .setCustomId('y')
+                        .setLabel('Yes')
+                        .setStyle('SUCCESS'),
+                    new MessageButton()
+                        .setCustomId('n')
+                        .setLabel('No')
+                        .setStyle('DANGER')
+                ]];
+                
+                const msg = await message.channel.send({ embeds, components });
+                const button = await promptButtons(msg, message.author.id, 30);
+                if (button.customId == 'y') {
                     const words = readJSONSync('./src/handlers/blacklisted-words.json', 'utf-8');
                     const format = (ws) => {
                         return ws.map(w => {
@@ -187,9 +199,9 @@ module.exports = {
                     ${format(words.offensive)}
                     \`\`\``;
 
-                    message.channel.send(res)
-                        .then(m => setTimeout(() => m.delete(), 30000));
-                } else if (emoji == '❌') return message.channel.send('Cancelled.');
+                    await button.reply(res);
+                    setTimeout(() => button.deleteReply(), 30000);
+                } else button.reply({ content: 'Cancelled', ephemeral: true });
                 break;
             }
 
