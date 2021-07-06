@@ -103,7 +103,7 @@ module.exports = async (bot, message) => {
     if (!message.guild) return; // No DMs n stuff
     if (!message.member || message.member.partial) message.member = await message.guild.members.fetch(message);
     if (cmd.length === 0) return; // Come on
-    
+
     // Command handler
     let command = bot.commands.get(cmd);
     if(!command) command = bot.commands.get(bot.aliases.get(cmd));

@@ -1,5 +1,6 @@
 const Bot = require('../../../Bot');
 const chalk = require('chalk');
+const { publishInteractions } = require('../../handlers/functions');
 
 /**
  * `ready` event.
@@ -8,7 +9,8 @@ const chalk = require('chalk');
  * 
  * @param {Bot} bot 
  */
-module.exports = bot => {
+module.exports = async bot => {
     bot.user.setActivity('you', { type: 'WATCHING' });
-    console.info(`${chalk.green('[Info]')} - ${bot.user.username} online!`);
+    if (process.argv.includes('-i')) await publishInteractions(bot); 
+    console.info(`${chalk.green('[Info]')} - ${bot.user.username} online!`); 
 };

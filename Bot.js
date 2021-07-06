@@ -15,6 +15,7 @@ const Bot = class extends Client {
         });
 
         this.commands = new Collection();
+        this.interactions = new Collection();
         this.aliases = new Collection();
         this.afk = new Collection();
         this.categories = readdirSync('./src/commands');

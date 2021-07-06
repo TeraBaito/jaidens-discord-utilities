@@ -2,10 +2,8 @@ const Bot = require('../../index');
 const ascii = require('ascii-table');
 const { readdirSync } = require('fs');
 
-
 let table = new ascii();
-table.setHeading('Command', 'Load Status');
-
+table.setHeading('Command', 'Status');
 
 /**
  * Checks if a command has all what's needed for it to have. Return one string if it does, return other if it doesn't

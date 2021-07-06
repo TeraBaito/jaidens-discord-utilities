@@ -3,6 +3,7 @@ const Bot = require('../../index');
 const chalk = require('chalk');
 const { readJSONSync } = require('fs-extra');
 const { FireBrick } = require('../../colors.json');
+const { jaidenServerID } = require('../../config.json');
 
 /**
 * Finds and returns member object by ID, mention, displayName, username or tag (respectively)
@@ -71,16 +72,6 @@ async function promptMessage(message, author, time, ...validReactions) {
     return message
         .awaitReactions({ filter, time, max: 1 })
         .then(collected => collected.first() && collected.first().emoji.name);
-}
-
-/**
-* Gives a random number between 0 and number parameter, use Math.floor(randomizePercentage()) to get a natural number.
-* 
-* @param {number} number Max number to randomize
-* @returns {number}
-*/
-function randomizePercentage(number) {
-    return Math.random() * number;
 }
 
 /**
@@ -247,13 +238,40 @@ async function nicknameProcess(guild) {
     return members.size;
 }
 
+/**
+ * Uses the `bot.interactions` Collection to recursively add command data to the main server
+ * It also adds staff only permissions if `staffOnly` exists in the interaction object, 
+ * or custom permissions through a `permissions` property
+ * @param {Bot} bot 
+ */
+async function publishInteractions(bot) {
+    try {
+        for (let interaction of bot.interactions.array()) {
+            const command = await bot.guilds.cache.get(jaidenServerID).commands.create(interaction.data);
+
+            // a thing to know: add staffOnly AND set data.defaultPermission to false
+            if (interaction.staffOnly) command.permissions.add({ permissions: [
+                { id: '756585204344291409', type: 'ROLE', permission: true }, // Staff
+                { id: '775665978813054986', type: 'ROLE', permission: true }, // Helpers
+                { id: '755094113358970900', type: 'ROLE', permission: true }, // Moderators
+                { id: '755093779282657342', type: 'ROLE', permission: true }, // Administrators
+                { id: '558264504736153600', type: 'USER', permission: true }  // Me
+            ]});
+            else if (interaction.permissions) command.permissions.add({ permissions: interaction.permissions });
+        }
+        console.info(chalk.green('[Info]'), 'Commands\' data has been republished');
+    } catch (e) {
+        console.error(e);
+    }  
+}
+
 module.exports = {
     getMember,
     formatDate,
     promptMessage,
-    randomizePercentage,
     checkStaff,
     blacklistProcess,
     unhoistOne,
-    nicknameProcess
+    nicknameProcess,
+    publishInteractions
 };
