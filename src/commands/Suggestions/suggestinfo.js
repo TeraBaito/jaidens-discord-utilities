@@ -55,10 +55,10 @@ module.exports = {
             );
         if (suggestion.status != 'Pending') embed.addField('Reason', suggestion.reason);
         embed.addFields(
-            { name: 'Created by', value: `${user}`, inline: true },
+            { name: 'Created by', value: user.toString(), inline: true },
             { name: 'Created at', value: formatDate(suggestion.createdAt) },
-            { name: 'Upvotes', value: upvotes, inline: true },
-            { name: 'Downvotes', value: downvotes, inline: true },
+            { name: 'Upvotes', value: upvotes.toString(), inline: true },
+            { name: 'Downvotes', value: downvotes.toString(), inline: true },
             { name: 'Ratio', value: ratios(), inline: true }
         );
         message.channel.send({ embeds: [embed] });

@@ -48,8 +48,7 @@ module.exports = {
         // DMs the user that their suggestion was approved, error message if unable
         const dmEmbed = new MessageEmbed()
             .setColor(Red)
-            .setDescription(`Your suggestion (#${suggestion.id}) has been denied.\n\n[Message Link]`+
-            `(https://discord.com/channels/${jaidenServerID}/${suggestionsChannel}/${suggestion.message_id})`);
+            .setDescription(`Your suggestion [(#${suggestion.id})](https://discord.com/channels/${jaidenServerID}/${suggestionsChannel}/${suggestion.message_id}) has been denied.`);
         user.send({ embeds: [dmEmbed] })
             .catch(() => message.channel.send(`Couldn't send an information message to **${user.tag}**!`));
         

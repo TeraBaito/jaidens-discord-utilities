@@ -21,7 +21,7 @@ module.exports = {
         const id = parseInt(args[0]);
         if (!args[0] || isNaN(id)) return message.channel.send('Please specify a valid suggestion ID.');
         const reason = args.slice(1).join(' ');
-
+        
         // Gets the suggestion data by its ID
         let suggestion = await bot.suggestions.findOne({ where: { id } });
         if (!suggestion) return message.channel.send(`There's no suggestion with the ID \`${id}\``);
@@ -48,10 +48,10 @@ module.exports = {
         // DMs the user that their suggestion was approved, error message if unable
         const dmEmbed = new MessageEmbed()
             .setColor(LightBlue)
-            .setDescription(`Your suggestion (#${suggestion.id}) has been marked unnecessary. This could mean it's duplicated,`+
+            .setDescription(`Your suggestion [(#${suggestion.id})](https://discord.com/channels/${jaidenServerID}/${suggestionsChannel}/${suggestion.message_id})` +
+            ' has been marked unnecessary. This could mean it\'s duplicated,'+
             ' doesn\'t provide proper feedback, or breaks the server\'s or Discord\'s rules. Remember you can\'t suggest'+
-            ' this again, and to always think twice before you do any other suggestion.\n\n[Message Link]'+
-            `(https://discord.com/channels/${jaidenServerID}/${suggestionsChannel}/${suggestion.message_id})`);
+            ' this again, and to always think twice before you do any other suggestion.');
         user.send({ embeds: [dmEmbed] })
             .catch(() => message.channel.send(`Couldn't send an information message to **${user.tag}**!`));
         
