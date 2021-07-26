@@ -4,7 +4,7 @@ const Bot = require('../../Bot');
 module.exports = {
     data: {
         name: 'say',
-        description: 'Echoes the given args',
+        description: 'STAFF ONLY. Echoes the given args',
         options: [{
             name: 'input',
             type: 'STRING',

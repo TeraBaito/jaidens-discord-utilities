@@ -18,6 +18,8 @@ module.exports = {
      * @param {string[]} args 
      */
     run: async(bot, message, args) => {
+        const Discord = require('discord.js');
+
         if (message.author.id !== ownerID) {
             return message.channel.send('No dude. I don\'t want anyone but my master mess with code in the bot...')
                 .then(m => setTimeout(() => { m.delete(); }, 5000));
@@ -29,14 +31,12 @@ module.exports = {
         }
 
         try {
-            if (args.join(' ').toLowerCase().includes('token')) return message.channel.send('oh nononono you\'re not getting the token you\'re NOT GETTING IT IDNFIABGDJDNWIKG');
-
             const toEval = args.join(' ');
             const evaluated = eval(toEval);
             const str = evaluated + '';
 
             if (str.length >= 1024) {
-                console.log(evaluated);
+                console.log(beautify(evaluated, { format: 'js' }));
                 return message.channel.send('Sorry, the evaluated data is too big so I can\'t send the results, instead I logged them into the console.');
             }
             
@@ -46,11 +46,11 @@ module.exports = {
                     .setTimestamp()
                     .setTitle('Eval')
                     .addField('To Evaluate', `\`\`\`js\n${beautify(toEval, { format: 'js' })}\n\`\`\``)
-                    .addField('Evaluated', str)
+                    .addField('Evaluated', str.replace(bot.token, null))
                     .addField('Type of', typeof(evaluated))
                     .setFooter(bot.user.username, bot.user.displayAvatarURL)
             ];
-
+            
             message.channel.send({ embeds });
         } catch (e) {
             let embeds = [

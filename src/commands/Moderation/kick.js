@@ -78,12 +78,12 @@ module.exports = {
         const msg = await message.channel.send({ embeds: [promptEmbed], components });
         const button = await promptButtons(msg, message.author.id, 30);
 
-        if (button.customId == 'y') {
+        if (button?.customId == 'y') {
             toKick.kick(args.slice(1).join(' '))
-                .catch(__ => button.reply({ content: 'Well... something went wrong', ephemeral: true }));
+                .catch(__ => button?.reply({ content: 'Well... something went wrong', ephemeral: true }));
             
             logChannel.send({ embeds: [kEmbed] });
-            button.reply(`**${toKick}** has been kicked.`);
-        } else button.reply('Kick cancelled.');
+            button?.reply(`**${toKick}** has been kicked.`);
+        } else button?.reply('Kick cancelled.');
     }
 };
