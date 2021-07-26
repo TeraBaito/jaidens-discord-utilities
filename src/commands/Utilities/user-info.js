@@ -15,39 +15,37 @@ module.exports = {
      * @param {string[]} args 
      */
     run: async (bot, message, args) => {
+        if (!args[0]) return message.channel.send('Please specify a user!');
+
         const member = await getMember(message, args.join(' '));
-
-        // Information Variables
-
-        // Profile Picture
-        const uIcon = member.user.displayAvatarURL();
+        if (!member) return message.channel.send('Couldn\'t find such member.');
 
         // Roles as strings
-        let uRoles = member.roles
-            .cache.filter(r => r.id !== message.guild.id)
-            .map(r => r)
-            .join(' ')  || 'none';
+        let roles = member.roles.cache
+            .filter(r => r.id !== message.guild.id)
+            .array()
+            .join(' ')  || 'None';
             
-        // Discord creation and server join date
-        const uCreated = formatDate(member.user.createdAt);
-        const sJoined = formatDate(member.joinedAt);
-        
         // If the embed is more than 1024 chars it will error
-        if (uRoles.length > 650) uRoles = 'Too much roles to show!';
+        if (roles.length > 650) roles = 'Too much roles to show!';
+
+        // Discord creation and server join date
+        const created = formatDate(member.user.createdAt),
+            joined = formatDate(member.joinedAt);
         
         // Embed
         const embeds = [ new MessageEmbed()
             .setDescription('**User Information**')
-            .setFooter(member.displayName, uIcon)
-            .setThumbnail(uIcon)
+            .setFooter(member.displayName)
+            .setThumbnail(member.user.displayAvatarURL())
             .setColor(colors.PaleBlue)
             .addField('Display Name', member.displayName)
             .addField('Username', member.user.tag)
             .addField('User ID', member.user.id)
-            .addField('Joined Discord On', uCreated)
-            .addField('Joined Server On', sJoined)
-            .addField('Roles Count', member.roles.cache.size)
-            .addField('Roles', uRoles, true)
+            .addField('Joined Discord On', created)
+            .addField('Joined Server On', joined)
+            .addField('Roles Count', member.roles.cache.size.toString())
+            .addField('Roles', roles, true)
             .setTimestamp() ];
 
         message.channel.send({ embeds });

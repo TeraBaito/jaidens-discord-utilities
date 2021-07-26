@@ -8,7 +8,7 @@ module.exports = {
     usage: 'suggest [suggestion]',
     description: 'Submit a suggestion for the server. Please be sure of what you suggest before doing so.',
     aliases: ['suggestion', 'addsuggestion', 'add-suggestion'],
-    cooldown: 600,
+    cooldown: 20,
 
     /** 
      * @param {Bot} bot 
