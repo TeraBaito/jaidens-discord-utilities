@@ -60,7 +60,7 @@ async function promptButtons(message, authorID, time) {
 
     return await message.awaitMessageComponent({
         filter: i => i.user.id == authorID, time
-    });
+    }).catch(() => {});
 }
 
 /**

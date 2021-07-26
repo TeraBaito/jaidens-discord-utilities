@@ -84,11 +84,11 @@ module.exports = {
         const msg = await message.channel.send({ embeds: [promptEmbed], components });
         const button = await promptButtons(msg, message.author.id, 30);
 
-        if (button.customId == 'y') {
+        if (button?.customId == 'y') {
             toTempban.ban({ reason: args.slice(1).join(' ') })
-                .catch(__ => button.reply({ content: 'Well... something went wrong', ephemeral: true }));
+                .catch(__ => button?.reply({ content: 'Well... something went wrong', ephemeral: true }));
             logChannel.send({ embeds: [bEmbed] });
-            button.reply(`**${toTempban}** has been banned for ${ms(ms(bantime))}.`);
+            button?.reply(`**${toTempban}** has been banned for ${ms(ms(bantime))}.`);
 
             setTimeout(() => {
                 try {
@@ -98,6 +98,6 @@ module.exports = {
                     console.error(e);
                 }
             }, ms(bantime));
-        } else button.reply('Tempban cancelled.');
+        } else button?.reply('Tempban cancelled.');
     }
 };

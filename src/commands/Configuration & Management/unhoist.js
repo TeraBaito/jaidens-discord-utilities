@@ -37,10 +37,10 @@ module.exports = {
         const m = await message.channel.send({ embeds, components });
         const button = await promptButtons(m, message.author.id, 30);
 
-        if (button.customId == 'y') {
+        if (button?.customId == 'y') {
             const count = await nicknameProcess(message.guild);
-            if (!count) return button.reply({ content: 'There wasn\'t anyone to remove the hoisting to <:AkaneShrug:774128813037715506>', ephemeral: true});
-            button.reply(`Successfully removed nickname hoisting from \`${count}\` members.`);
-        } else button.reply('Cancelled.');
+            if (!count) return button?.reply({ content: 'There wasn\'t anyone to remove the hoisting to <:AkaneShrug:774128813037715506>', ephemeral: true});
+            button?.reply(`Successfully removed nickname hoisting from \`${count}\` members.`);
+        } else button?.reply('Cancelled.');
     }
 };

@@ -180,7 +180,7 @@ module.exports = {
                 
                 const msg = await message.channel.send({ embeds, components });
                 const button = await promptButtons(msg, message.author.id, 30);
-                if (button.customId == 'y') {
+                if (button?.customId == 'y') {
                     const words = readJSONSync('./src/handlers/blacklisted-words.json', 'utf-8');
                     const format = (ws) => {
                         return ws.map(w => {
@@ -199,9 +199,9 @@ module.exports = {
                     ${format(words.offensive)}
                     \`\`\``;
 
-                    await button.reply(res);
-                    setTimeout(() => button.deleteReply(), 30000);
-                } else button.reply({ content: 'Cancelled', ephemeral: true });
+                    await button?.reply(res);
+                    setTimeout(() => button?.deleteReply(), 30000);
+                } else button?.reply({ content: 'Cancelled', ephemeral: true });
                 break;
             }
 

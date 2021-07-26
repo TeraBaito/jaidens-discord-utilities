@@ -81,11 +81,11 @@ module.exports = {
         const msg = await message.channel.send({ embeds: [promptEmbed], components });
         const button = await promptButtons(msg, message.author.id, 30);
         
-        if (button.customId == 'y') {
+        if (button?.customId == 'y') {
             toBan.ban({ reason: args.slice(1).join(' ') })
-                .catch(__ => button.reply({ content: 'Well... something went wrong', ephemeral: true }));
+                .catch(__ => button?.reply({ content: 'Well... something went wrong', ephemeral: true }));
             logChannel.send({ embeds: [bEmbed] });
-            button.reply(`**${toBan}** has been banned.`);
-        } else button.reply('Ban cancelled.');
+            button?.reply(`**${toBan}** has been banned.`);
+        } else button?.reply('Ban cancelled.');
     }
 };
