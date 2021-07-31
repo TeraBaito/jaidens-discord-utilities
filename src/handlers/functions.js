@@ -1,9 +1,10 @@
-const { Message, Guild, GuildMember, User, MessageEmbed, Permissions: { FLAGS }, MessageComponentInteraction } = require('discord.js');
-const Bot = require('../../index');
+const { Message, Guild, GuildMember, MessageEmbed, Permissions: { FLAGS } } = require('discord.js');
+const Bot = require('../../Bot');
 const chalk = require('chalk');
 const { readJSONSync } = require('fs-extra');
 const { FireBrick } = require('../../colors.json');
 const { jaidenServerID } = require('../../config.json');
+const { disabledInteractions } = require('../../botSettings.json');
 
 /**
 * Finds and returns member object by ID, mention, displayName, username or tag (respectively)
@@ -233,7 +234,8 @@ async function nicknameProcess(guild) {
  */
 async function publishInteractions(bot) {
     try {
-        for (let interaction of bot.interactions.array()) {
+        await bot.guilds.cache.get(jaidenServerID).commands.set([]); // Reset all the command data
+        for (let interaction of bot.interactions.array().filter(({ data: { name } }) => !disabledInteractions.includes(name))) {
             const command = await bot.guilds.cache.get(jaidenServerID).commands.create(interaction.data);
 
             // a thing to know: add staffOnly AND set data.defaultPermission to false
