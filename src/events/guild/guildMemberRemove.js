@@ -26,5 +26,5 @@ module.exports = async (bot, member) => {
     // ok cya
     if (member.guild.id != jaidenServerID) return;
     bot.channels.cache.get(mainChannel).send(`Welps, guess like **${member.displayName}** couldn't stand to be around us, adiós.`);
-    bot.guilds.cache.get(jaidenServerID).channels.cache.find(ch => ch.name == 'new-members').send({ embeds });
+    bot.guilds.cache.get(jaidenServerID).channels.cache.find(ch => ch.name == 'member-logs').send({ embeds });
 };

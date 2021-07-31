@@ -25,6 +25,6 @@ module.exports = async (bot, member) => {
         .addField('Joined Discord', formatDate(member.user.createdAt))
         .setThumbnail(member.user.displayAvatarURL({ format: 'png', dynamic: true })) ];
 
-    bot.guilds.cache.get(jaidenServerID).channels.cache.find(ch => ch.name == 'new-members').send({ embeds });
+    bot.guilds.cache.get(jaidenServerID).channels.cache.find(ch => ch.name == 'member-logs').send({ embeds });
     unhoistOne(member);
 };
