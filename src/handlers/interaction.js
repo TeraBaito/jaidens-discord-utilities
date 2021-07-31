@@ -10,8 +10,8 @@ table.setHeading('Interaction', 'Status');
  */
 function checkData(bot, command, fileName) {
     const 
-        success = '✔   Loaded',  
-        err =    '✖   Missing Data';
+        success = '✔',  
+        err =    '✖';
 
     const { data, run } = command;
     if (
