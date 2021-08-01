@@ -3,7 +3,7 @@ const { readJSONSync } = require('fs-extra');
 const { stripIndents } = require('common-tags');
 const Bot = require('../../../Bot');
 const { unhoistOne } = require('../../handlers/functions');
-const { memberRole, jaidenServerID, mainChannel } = require('../../../config.json');
+const { memberRole,verificationRole, jaidenServerID, mainChannel } = require('../../../config.json');
 const eggs = require('../../handlers/eastereggs.json');
 
 /**
@@ -24,7 +24,7 @@ module.exports = async (bot, oldMember, newMember) => {
     
     if (oldMember.nickname === newMember.nickname) unhoistOne(newMember);
     if (
-        !oldMember.roles.cache.has(memberRole) &&
+        oldMember.roles.cache.has(verificationRole) &&
         newMember.roles.cache.has(memberRole)
     ) {
         const { welcomer } = readJSONSync('./botSettings.json');
