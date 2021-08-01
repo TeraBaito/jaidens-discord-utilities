@@ -25,7 +25,8 @@ module.exports = async (bot, oldMember, newMember) => {
     if (oldMember.nickname === newMember.nickname) unhoistOne(newMember);
     if (
         oldMember.roles.cache.has(verificationRole) &&
-        newMember.roles.cache.has(memberRole)
+        newMember.roles.cache.has(memberRole) &&
+        !newMember.roles.cache.has(verificationRole)
     ) {
         const { welcomer } = readJSONSync('./botSettings.json');
         if (!welcomer) return;
