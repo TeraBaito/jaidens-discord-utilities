@@ -18,13 +18,15 @@ const eggs = require('../../handlers/eastereggs.json');
  */
 module.exports = async (bot, oldMember, newMember) => {
     if (newMember.guild.id !== jaidenServerID) return;
-
-    if (oldMember.partial) oldMember.fetch();
-    if (newMember.partial) newMember.fetch();
-
+    // oldMember is fetched directly to the API because it tends to be unreliable
+    if (oldMember.partial || !oldMember.nickname || oldMember.roles.cache.size == 1) await oldMember.fetch(true); 
+    if (newMember.partial || !newMember.nickname || newMember.roles.cache.size == 1) await newMember.fetch();
+    
     if (oldMember.nickname === newMember.nickname) unhoistOne(newMember);
-
-    if (newMember.roles.cache.get(memberRole)) {
+    if (
+        !oldMember.roles.cache.has(memberRole) &&
+        newMember.roles.cache.has(memberRole)
+    ) {
         const { welcomer } = readJSONSync('./botSettings.json');
         if (!welcomer) return;
 
