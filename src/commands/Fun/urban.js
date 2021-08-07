@@ -22,9 +22,9 @@ module.exports = {
         if (!args[0]) return message.channel.send('Please provide a term tho');
 
         const msg = await message.channel.send('Searching...');
-
-        const query = querystring.stringify({ term: args.join(' ') });
-        const url = `https://api.urbandictionary.com/v0/define?${query}`;
+        
+        const query = new URLSearchParams({ term: 'test' });
+        const url = 'https://api.urbandictionary.com/v0/define?' + query;
 
         try {
             const { list } = await fetch(url).then(r => r.json());
@@ -37,13 +37,13 @@ module.exports = {
                 .setURL(permalink)
                 .addField('Definition', definition)
                 .setFooter(`By ${author}`) ];
-            if (example) embed.addField('Example', example);
+            if (example) embeds[0].addField('Example', example);
+
             message.channel.send({ embeds });
             msg.delete();
         } catch (e) {
             message.channel.send('Something went wrong...');
             console.error(`${chalk.redBright('[Error]')} - ${e.stack}`);
         }
-        
     }
 };
