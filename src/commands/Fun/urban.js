@@ -23,7 +23,7 @@ module.exports = {
 
         const msg = await message.channel.send('Searching...');
         
-        const query = new URLSearchParams({ term: 'test' });
+        const query = new URLSearchParams({ term: args.join(' ') });
         const url = 'https://api.urbandictionary.com/v0/define?' + query;
 
         try {
