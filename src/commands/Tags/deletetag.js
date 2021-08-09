@@ -5,7 +5,7 @@ const { checkStaff } = require('../../handlers/functions');
 module.exports = {
     name: 'deletetag',
     helpName: 'Delete Tag',
-    aliases: ['deltag', 'delete-tag', 'tagdelete', 'tag-delete'],
+    aliases: ['tdelete', 'deltag', 'delete-tag', 'tagdelete', 'tag-delete'],
     usage: 'deletetag [name]',
     description: 'Deletes a tag from the database',
     cooldown: 10,
@@ -21,7 +21,7 @@ module.exports = {
         const tag = await bot.tags.findOne({ where: { name: args[0] } });
         if (!tag) return message.channel.send(`The tag \`${args[0]}\` doesn't exist.`);
 
-        if (!(await checkStaff(message.member)) || tag.username !== message.author.username) return message.channel.send('You can\'t delete this tag.');
+        if (!await checkStaff(message.member) || tag.username !== message.author.username) return message.channel.send('You can\'t delete this tag.');
         await bot.tags.destroy({ where: { name: args[0] }});
         return message.channel.send('Tag deleted.');
     }

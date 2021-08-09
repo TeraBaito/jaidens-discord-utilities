@@ -13,7 +13,7 @@ switch (val) {
     case 'tags':
     case 'tag':
     case 't':
-        tagsDB.sync({ force }).then(() => {
+        tagsDB.sync({ force, alter: true }).then(() => {
             console.log(blue('[DB]'), 'Tags synced',  force ? 'and reset' : '');
             tagsDB.close();
         }).catch(console.error);
@@ -22,7 +22,7 @@ switch (val) {
     case 'suggestion':
     case 'suggest':
     case 's':
-        suggestionsDB.sync({ force }).then(() => {
+        suggestionsDB.sync({ force, alter: true }).then(() => {
             console.log(blue('[DB]'), 'Suggestions synced',  force ? 'and reset' : '');
             suggestionsDB.close();
         }).catch(console.error);
