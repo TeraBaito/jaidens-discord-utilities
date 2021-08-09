@@ -1,18 +1,22 @@
-const { Sequelize } = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 
 /**
  * @param {Sequelize} sequelize 
  */
 module.exports = (sequelize) => sequelize.define('tags', {
     name: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         unique: true,
     },
-    description: Sequelize.TEXT,
-    username: Sequelize.STRING,
+    description: DataTypes.TEXT,
+    username: DataTypes.STRING,
     usage_count: {
-        type: Sequelize.INTEGER,
+        type: DataTypes.INTEGER,
         defaultValue: 0,
         allowNull: false,
     },
+    staff_only: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    }
 });

@@ -7,7 +7,7 @@ const { suggestionsChannel } = require('../../../config.json');
 module.exports = {
     name: 'taginfo',
     helpName: 'Tag Info',
-    aliases: ['tag-info', 'tagdata', 'tag-data'],
+    aliases: ['tinfo', 'tag-info', 'tagdata', 'tag-data'],
     usage: 'taginfo [name]',
     description: 'Displays the information of a tag',
     cooldown: 10,
@@ -25,11 +25,11 @@ module.exports = {
 
         if (tag) {
             const embeds = [ new MessageEmbed()
-                .setTitle(tag.name)
+                .setTitle(`${tag.name}${tag.staff_only ? ' - Staff Only' : ''}`)
                 .setColor(ForestGreen)
                 .addFields(
                     { name: 'Created by', value: tag.username, inline: true },
-                    { name: 'Uses', value: tag.usage_count },
+                    { name: 'Uses', value: tag.usage_count.toString() },
                     { name: 'Created at', value: formatDate(tag.createdAt) }
                 ) ];
             return message.channel.send({ embeds });

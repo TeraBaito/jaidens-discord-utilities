@@ -1,5 +1,6 @@
 const { Message } = require('discord.js');
 const Bot = require('../../../Bot');
+const { checkStaff } = require('../../handlers/functions');
 
 module.exports = {
     name: 'tag',
@@ -19,6 +20,7 @@ module.exports = {
 
         const tag = await bot.tags.findOne({ where: { name: args[0] }});
         if (tag) {
+            if (tag.staff_only && !await checkStaff(message.member)) return message.channel.send('This tag is staff only, you\'re not allowed to view it.');
             tag.increment('usage_count');
             return message.channel.send(tag.get('description'));
         }
