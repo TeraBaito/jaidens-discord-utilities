@@ -4,7 +4,7 @@ Welcome! This is the repository where all the code for the r/JaidenAnimations Di
 ### [Join the server](https://discord.gg/gArXkYz)
 
 ## Description
-Ari Bot is focused on providing the r/JA server and its members an efficient and useful variety of features. Its main focus has been the utility (for so the repository name), being the ying to the yang, Tofu Bot from [MaxTechnics](https://github.com/MaxTechnics) (where he covers the more fun aspect of stuffs)
+Ari Bot is focused on providing the r/JA server and its members an efficient and useful variety of features. Its main focus has been the utility (for so the repository name)
 
 Some of the main features Ari Bot includes are:
 * Information/Util commands (user-info, server-info, avatar)
@@ -14,7 +14,6 @@ Some of the main features Ari Bot includes are:
 * Other miscellaneous and fun features (urban, math, special welcome messages, etc.)
 
 # Acknowledgements
-* MaxTechnics
 * RetainedEdge
 * Acama
 * KiritoTheOneShotter
