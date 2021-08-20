@@ -1,8 +1,9 @@
 const { MessageEmbed, GuildMember } = require('discord.js');
 const Bot = require('../../../Bot');
-const { formatDate, unhoistOne } = require('../../handlers/functions');
+const { unhoistOne } = require('../../handlers/functions');
 const { jaidenServerID } = require('../../../config.json');
 const colors = require('../../../colors.json');
+const { time } = require('@discordjs/builders');
 
 
 /**
@@ -21,8 +22,8 @@ module.exports = async (bot, member) => {
         .setTitle('Member Joined')
         .addField('Name', member.displayName, true)
         .addField('ID', member.id, true)
-        .addField('Joined Server', formatDate(member.joinedAt))
-        .addField('Joined Discord', formatDate(member.user.createdAt))
+        .addField('Joined Server', time(member.joinedAt))
+        .addField('Joined Discord', time(member.user.createdAt))
         .setThumbnail(member.user.displayAvatarURL({ format: 'png', dynamic: true })) ];
 
     bot.guilds.cache.get(jaidenServerID).channels.cache.find(ch => ch.name == 'member-logs').send({ embeds });

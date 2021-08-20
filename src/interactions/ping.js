@@ -13,7 +13,9 @@ module.exports = {
      * @param {CommandInteraction} interaction 
      */
     run: async (bot, interaction) => {
-        await interaction.reply(stripIndents`Pong!
+        const msg = await interaction.deferReply({ fetchReply: true });
+        await interaction.editReply(stripIndents`Pong!
+            Latency: ${Math.floor(msg.createdAt - interaction.createdAt)}ms
             Discord API Latency: ${bot.ws.ping}ms`);
     }
 };

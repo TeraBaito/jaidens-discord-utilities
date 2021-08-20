@@ -20,7 +20,7 @@ module.exports = {
             .then(m => setTimeout(() => { m.delete(); }, 5000));
         
         const logChannel = message.guild.channels.cache.find(c => c.name === 'ari-bot-logs') || message.channel;
-        let reason = args.slice(1).join(' ');
+        let reason = args.slice(1).join(' ') || 'No reason specified';
 
         if(message.deletable) message.delete();
 

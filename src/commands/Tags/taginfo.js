@@ -1,8 +1,7 @@
 const { Message, MessageEmbed } = require('discord.js');
+const { time } = require('@discordjs/builders');
 const { ForestGreen } = require('../../../colors.json');
 const Bot = require('../../../Bot');
-const { formatDate } = require('../../handlers/functions');
-const { suggestionsChannel } = require('../../../config.json');
 
 module.exports = {
     name: 'taginfo',
@@ -30,7 +29,7 @@ module.exports = {
                 .addFields(
                     { name: 'Created by', value: tag.username, inline: true },
                     { name: 'Uses', value: tag.usage_count.toString() },
-                    { name: 'Created at', value: formatDate(tag.createdAt) }
+                    { name: 'Created at', value: time(tag.createdAt) }
                 ) ];
             return message.channel.send({ embeds });
         }

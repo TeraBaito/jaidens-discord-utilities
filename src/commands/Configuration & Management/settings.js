@@ -1,5 +1,5 @@
 const { stripIndents } = require('common-tags');
-const { Message, MessageEmbed, MessageButton } = require('discord.js');
+const { Message, MessageEmbed, MessageButton, MessageActionRow } = require('discord.js');
 const Bot = require('../../../Bot');
 const { readJSONSync, writeJSONSync } = require('fs-extra');
 const colors = require('../../../colors.json');
@@ -9,7 +9,10 @@ module.exports = {
     name: 'settings',
     helpName: 'Bot Core Settings',
     aliases: ['botSettings', 'config', 'botConfig'],
-    usage: 'settings {welcomer, blacklisting, list, reset}\na+settings {enable, disable} [command]\na+settings enable all',
+    usage: `settings (equal to a+settings list)
+a+settings {welcomer, blacklisting, list, reset}
+a+settings {enable, disable} [command]
+a+settings enable all`,
     description: 'Enables and disables core settings of the bot, such as welcomer or specific commands.',
     staffOnly: true,
 
@@ -19,7 +22,7 @@ module.exports = {
     * @param {string[]} args
     */
     run: async(bot, message, args) => {
-        /**  @type {{ welcomer: boolean, blacklisting: boolean, blacklistLogs: boolean disabledCommands: string[] }} */
+        /**  @type {{ welcomer: boolean blacklisting: boolean blacklistLogs: boolean disabledCommands: string[] disabledInteractions: string[] }} */
         const data = readJSONSync('./botSettings.json', 'utf-8');
         let { disabledCommands } = data;
         const input = args[1];
@@ -27,8 +30,7 @@ module.exports = {
         /** @param {boolean} elem */
         const formatBool = (elem) => elem ? 'Enabled' : 'Disabled';
 
-        switch(args[0]) {
-
+        switch(args[0]?.toLowerCase()) {
             case 'welcomer':
             case 'announce':
             case 'welcome': {
@@ -70,7 +72,7 @@ module.exports = {
             case 'autoresponders':
             case 'autoresponder': {
                 data.autoresponders = !data.autoresponders; // Set
-                const embed = [ new MessageEmbed()
+                const embeds = [ new MessageEmbed()
                     .setColor(colors.ForestGreen)
                     .setDescription(`\`${formatBool(data.autoresponders)}\` autoresponders`)
                     .setFooter('It might take some time while changes apply!') ];
@@ -133,7 +135,8 @@ module.exports = {
                 Blacklisting: \`${formatBool(data.blacklisting)}\`
                 Blacklisting logs: \`${formatBool(data.blacklistLogs)}\`
                 Autoresponders: \`${formatBool(data.autoresponders)}\`
-                Disabled commands: \`${data.disabledCommands.length ? data.disabledCommands.join(', ') : 'None'}\``) ];
+                Disabled commands: \`${data.disabledCommands.length ? data.disabledCommands.join(', ') : 'None'}\`
+                Disabled slash commands: \`${data.disabledInteractions.length ? data.disabledInteractions.join(', ') : 'None'}\``) ];
 
                 message.channel.send({ embeds });
                 break;
@@ -145,11 +148,12 @@ module.exports = {
                     blacklisting: true,
                     blacklistLogs: true,
                     autoresponders: true,
-                    disabledCommands: []
+                    disabledCommands: [],
+                    disabledInteractions: []
                 };
                 if (data == defaults) return message.channel.send('The bot is already in its default settings!');
             
-                const embed = [ new MessageEmbed()
+                const embeds = [ new MessageEmbed()
                     .setColor(colors.Maroon)
                     .setDescription('Resetting to defaults')
                     .setFooter('It might take some time while changes apply!') ];
@@ -167,16 +171,17 @@ module.exports = {
                     .setDescription('This command will show **all** the blacklisted words **without censor**, and will then delete it after **30 seconds**. Don\'t use this carelessly. Are you sure you want to do this?.')
                     .setFooter('You have 30s to react') ];
 
-                const components = [[
-                    new MessageButton()
-                        .setCustomId('y')
-                        .setLabel('Yes')
-                        .setStyle('SUCCESS'),
-                    new MessageButton()
-                        .setCustomId('n')
-                        .setLabel('No')
-                        .setStyle('DANGER')
-                ]];
+                const components = [ new MessageActionRow()
+                    .addComponents(
+                        new MessageButton()
+                            .setCustomId('y')
+                            .setLabel('Yes')
+                            .setStyle('SUCCESS'),
+                        new MessageButton()
+                            .setCustomId('n')
+                            .setLabel('No')
+                            .setStyle('DANGER')
+                    ) ];
                 
                 const msg = await message.channel.send({ embeds, components });
                 const button = await promptButtons(msg, message.author.id, 30);

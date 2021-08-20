@@ -8,7 +8,7 @@ module.exports = {
     helpName: 'Remove Blacklisted Word',
     aliases: ['delword', 'remove-word', 'rmword', 'remove-blacklist'],
     usage: 'removeword [{nsfw, offensive}] [word]',
-    description: 'ADMIN COMMAND ONLY\nRemoves a blacklisted word from the word list',
+    description: 'Removes a blacklisted word from the word list',
     staffOnly: true,
 
     /**

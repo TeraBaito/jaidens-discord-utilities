@@ -5,8 +5,13 @@ const ms = require('ms');
 module.exports = {
     name: 'afk',
     aliases: ['away-from-keyboard', 'gn'],
-    usage: 'afk (message)',
-    description: 'Leave an AFK message that will show whenever you\'re pinged. Also one of Tera\'s favorite commands\nPlease note this will not overwrite your client settings, and there will still be notifications unless disabled',
+    usage: 'afk (flags) (message)',
+    description: `Leave an AFK message that will show whenever you're pinged. Also one of Tera's favorite commands.
+Please note this will not overwrite your client settings, and there will still be notifications unless disabled.
+**Flags:**
+\`-u\`: Unbreakable AFK (you can only remove it by using the afk command again)
+\`-n\`: Don't add [AFK] to your nickname
+You can concat the flags (e.g. \`a+afk -un funny\`)`,
     cooldown: 20,
 
     /**
@@ -36,12 +41,12 @@ module.exports = {
             inputFlags = inputFlags.slice(1).split('');
             for (let flag of inputFlags) flags[flag] = true;
         }
-
+        
         function nick(type) {
             const { length } = displayName;
             switch (type) {
                 case 1: // Set
-                    if (length <= 26 && flags.n) {
+                    if (length <= 26 && !flags.n) {
                         message.member.setNickname('[AFK] ' + displayName)
                             .catch(e => {
                                 if (!(e instanceof DiscordAPIError)) throw e;

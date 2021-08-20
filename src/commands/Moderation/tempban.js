@@ -1,4 +1,4 @@
-const { Message, MessageEmbed, MessageButton, Permissions: { FLAGS: { BAN_MEMBERS } } } = require('discord.js');
+const { Message, MessageEmbed, MessageButton, Permissions: { FLAGS: { BAN_MEMBERS } }, MessageActionRow } = require('discord.js');
 const Bot = require('../../../Bot');
 const ms = require('ms');
 const colors = require('../../../colors.json');
@@ -70,16 +70,17 @@ module.exports = {
             .setFooter('This verification becomes invalid after 30 seconds')
             .setDescription(`Do you want to tempban ${toTempban} for ${ms(ms(bantime))}?`);
      
-        const components = [[
-            new MessageButton()
-                .setCustomId('y')
-                .setLabel('Yes')
-                .setStyle('SUCCESS'),
-            new MessageButton()
-                .setCustomId('n')
-                .setLabel('No')
-                .setStyle('DANGER')
-        ]];
+        const components = [ new MessageActionRow()
+            .addComponents(
+                new MessageButton()
+                    .setCustomId('y')
+                    .setLabel('Yes')
+                    .setStyle('SUCCESS'),
+                new MessageButton()
+                    .setCustomId('n')
+                    .setLabel('No')
+                    .setStyle('DANGER')
+            ) ];
     
         const msg = await message.channel.send({ embeds: [promptEmbed], components });
         const button = await promptButtons(msg, message.author.id, 30);

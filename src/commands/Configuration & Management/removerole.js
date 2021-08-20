@@ -41,19 +41,15 @@ module.exports = {
             .then(m => setTimeout(() => { m.delete(); }, 5000));
 
         // No such role found
-        if (!role) {
-            message.channel.send('Didn\'t quite find the role, are you sure you made it?')
-                .then(m => setTimeout(() => { m.delete(); }, 5000));
-        }
+        if (!role) return message.channel.send('Didn\'t quite find the role, are you sure you made it?')
+            .then(m => setTimeout(() => { m.delete(); }, 5000));
 
         // User doesn't have the role
-        if (!toRemoveRole.roles.cache.has(role.id)) {
-            message.channel.send('I\'m not removing a role from someone that doesn\'t have it...')
-                .then(m => setTimeout(() => { m.delete(); }, 5000));
-        }
+        if (!toRemoveRole.roles.cache.has(role.id)) return message.channel.send('I\'m not removing a role from someone that doesn\'t have it...')
+            .then(m => setTimeout(() => { m.delete(); }, 5000));
 
         await toRemoveRole.roles.remove(role.id);
-        message.channel.send(`Succesfully removed the role **${role.name}** from **${toRemoveRole.user.username}**!`);
+        message.channel.send(`Succesfully removed the role **${role.name}** from ${toRemoveRole.user.username}!`);
         logChannel.send({ embeds: [rEmbed] });
     }
 };

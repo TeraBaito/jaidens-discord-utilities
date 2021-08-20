@@ -1,4 +1,4 @@
-const { Message, MessageEmbed, MessageButton, Permissions: { FLAGS: { BAN_MEMBERS } } } = require('discord.js');
+const { Message, MessageEmbed, MessageButton, Permissions: { FLAGS: { BAN_MEMBERS } }, MessageActionRow } = require('discord.js');
 const Bot = require('../../../Bot');
 const colors = require('../../../colors.json');
 const { promptButtons, getMember } = require('../../handlers/functions');
@@ -6,7 +6,7 @@ const { promptButtons, getMember } = require('../../handlers/functions');
 module.exports = {
     name: 'ban',
     aliases: ['b'],
-    usage: 'ban [user]',
+    usage: 'ban [user] (reason)',
     description: 'Bans a member from the current guild',
     staffOnly: true,
 
@@ -67,16 +67,17 @@ module.exports = {
             .setFooter('This verification becomes invalid after 30 seconds')
             .setDescription(`Do you want to ban ${toBan}?`); 
 
-        const components = [[
-            new MessageButton()
-                .setCustomId('y')
-                .setLabel('Yes')
-                .setStyle('SUCCESS'),
-            new MessageButton()
-                .setCustomId('n')
-                .setLabel('No')
-                .setStyle('DANGER')
-        ]];
+        const components = [ new MessageActionRow()
+            .addComponents(
+                new MessageButton()
+                    .setCustomId('y')
+                    .setLabel('Yes')
+                    .setStyle('SUCCESS'),
+                new MessageButton()
+                    .setCustomId('n')
+                    .setLabel('No')
+                    .setStyle('DANGER')
+            ) ];
 
         const msg = await message.channel.send({ embeds: [promptEmbed], components });
         const button = await promptButtons(msg, message.author.id, 30);

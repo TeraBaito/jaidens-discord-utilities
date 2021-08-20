@@ -64,7 +64,7 @@ module.exports = {
         if (message.author.id === toTempmute.id) return message.channel.send('nOOOO don\'t try to mute yourself you\'re better than this :cri:');
 
         // Member to tempmute has permissions to tempmute
-        if (await checkStaff(toTempmute.id) && !message.member.permissions.has(FLAGS.ADMINISTRATOR)) return message.channel.send('You can\'t tempmute a person that can tempmute you too, don\'t even bother...');
+        if (await checkStaff(toTempmute) && !message.member.permissions.has(FLAGS.ADMINISTRATOR)) return message.channel.send('You can\'t tempmute a person that can tempmute you too, don\'t even bother...');
 
         const mEmbed = new MessageEmbed()
             .setColor(colors.Orange)

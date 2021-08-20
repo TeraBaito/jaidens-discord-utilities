@@ -1,6 +1,6 @@
 const { Message, MessageEmbed } = require('discord.js');
 const Bot = require('../../../Bot');
-const { LightBlue } = require('../../../colors.json') ;
+const { Gray } = require('../../../colors.json') ;
 const { jaidenServerID, suggestionsChannel } = require('../../../config.json');
 
 module.exports = {
@@ -36,7 +36,7 @@ module.exports = {
 
         // Edits the suggestion embed
         const embed = new MessageEmbed()
-            .setColor(LightBlue)
+            .setColor(Gray)
             .setAuthor(user.tag, user.displayAvatarURL())
             .setTitle(`Suggestion #${suggestion.id}`)
             .setDescription(suggestion.content)
@@ -47,7 +47,7 @@ module.exports = {
 
         // DMs the user that their suggestion was approved, error message if unable
         const dmEmbed = new MessageEmbed()
-            .setColor(LightBlue)
+            .setColor(Gray)
             .setDescription(`Your suggestion [(#${suggestion.id})](https://discord.com/channels/${jaidenServerID}/${suggestionsChannel}/${suggestion.message_id})` +
             ' has been marked unnecessary. This could mean it\'s duplicated,'+
             ' doesn\'t provide proper feedback, or breaks the server\'s or Discord\'s rules. Remember you can\'t suggest'+

@@ -9,7 +9,7 @@ module.exports = {
     name: 'help',
     aliases: ['commands'],
     usage: 'help (command)',
-    description: 'Shows list of commands',
+    description: 'Shows list of commands, or information about a specific command',
     
     /** 
      * @param {Bot} bot 

@@ -15,7 +15,7 @@ module.exports = {
      * @param {string[]} args 
      */
     run: async(bot, message, args) => {
-        let member = await getMember(message, args.join(' '));
+        let member = args[0] ? await getMember(message, args.join(' ')) : message.member;
         const uIcon = member.user.displayAvatarURL({ format: 'png', size: 4096, dynamic: true });
 
         const embeds = [ new MessageEmbed()

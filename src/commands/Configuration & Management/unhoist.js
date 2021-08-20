@@ -1,4 +1,4 @@
-const { Message, MessageEmbed, MessageButton } = require('discord.js');
+const { Message, MessageEmbed, MessageButton, MessageActionRow } = require('discord.js');
 const Bot = require('../../../Bot');
 const { nicknameProcess, promptButtons } = require('../../handlers/functions');
 
@@ -6,9 +6,9 @@ module.exports = {
     name: 'unhoist',
     helpName: 'Member Nickname Unhoisting',
     usage: 'unhoist',
-    description: 'MOD COMMAND ONLY\nUnhoists all hoisted members by a RegExp pattern.',
+    description: 'Unhoists all hoisted members by a RegExp pattern.',
     staffOnly: true,
-    cooldown: 120,
+    cooldown: 60,
 
     /**
     * @param {Bot} bot
@@ -22,17 +22,17 @@ module.exports = {
                 .setTitle('HOLD UP!')
                 .setDescription('Using this command will query server members by their nicknames, and then **mass unhoist** them. This might take a while, and it sends big requests to the API. This command has a cooldown of 2 minutes. Please use it only when strictly necessary.\nAre you sure you want to do this?')
         ];
-
-        const components = [[
-            new MessageButton()
-                .setCustomId('y')
-                .setLabel('Yes')
-                .setStyle('SUCCESS'),
-            new MessageButton()
-                .setCustomId('n')
-                .setLabel('No')
-                .setStyle('DANGER')
-        ]];
+        const components = [ new MessageActionRow()
+            .addComponents(
+                new MessageButton()
+                    .setCustomId('y')
+                    .setLabel('Yes')
+                    .setStyle('SUCCESS'),
+                new MessageButton()
+                    .setCustomId('n')
+                    .setLabel('No')
+                    .setStyle('DANGER')
+            ) ];
         
         const m = await message.channel.send({ embeds, components });
         const button = await promptButtons(m, message.author.id, 30);
