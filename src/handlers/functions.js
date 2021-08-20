@@ -1,4 +1,5 @@
-const { Message, Guild, GuildMember, MessageEmbed, Permissions: { FLAGS } } = require('discord.js');
+const { Message, Guild, GuildMember, MessageEmbed, Permissions: { FLAGS }, ButtonInteraction } = require('discord.js');
+const { time } = require('@discordjs/builders');
 const Bot = require('../../Bot');
 const chalk = require('chalk');
 const { readJSONSync } = require('fs-extra');
@@ -33,28 +34,11 @@ async function getMember(message, toFind) {
 }
 
 /**
-* Formats a given Date() to be shown in en-US format with "Weekday, Month D, YYYY, HH:MM:SS" display
-* 
-* @param {Date} date 
-* @returns {string}
-*/
-function formatDate(date) {
-    return new Intl.DateTimeFormat('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        weekday: 'long',
-        hour: 'numeric',
-        minute: 'numeric',
-        second: 'numeric'
-    }).format(date);
-}
-
-/**
  * Makes a buttons collector and returns its interaction
  * @param {Message} message The message that was just sent (NOT the user's command)
  * @param {string} authorID The ID of the person who triggered this command
  * @param {number} time The time in which the collector would be available in seconds
+ * @returns {ButtonInteraction}
  */
 async function promptButtons(message, authorID, time) {
     time *= 1000;
@@ -235,7 +219,7 @@ async function nicknameProcess(guild) {
 async function publishInteractions(bot) {
     try {
         await bot.guilds.cache.get(jaidenServerID).commands.set([]); // Reset all the command data
-        for (let interaction of bot.interactions.array().filter(({ data: { name } }) => !disabledInteractions.includes(name))) {
+        for (let interaction of [...bot.interactions.filter(({ data: { name } }) => !disabledInteractions.includes(name)).values()]) {
             const command = await bot.guilds.cache.get(jaidenServerID).commands.create(interaction.data);
 
             // a thing to know: add staffOnly AND set data.defaultPermission to false
@@ -256,7 +240,6 @@ async function publishInteractions(bot) {
 
 module.exports = {
     getMember,
-    formatDate,
     promptButtons,
     checkStaff,
     blacklistProcess,

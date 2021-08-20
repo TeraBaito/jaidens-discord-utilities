@@ -1,8 +1,7 @@
 const { Message, MessageEmbed } = require('discord.js');
+const { time } = require('@discordjs/builders');
 const Bot = require('../../../Bot');
-const { stripIndents } = require('common-tags');
 const colors = require('../../../colors.json');
-const { formatDate } = require('../../handlers/functions');
 
 module.exports = {
     name: 'server',
@@ -24,7 +23,7 @@ module.exports = {
             .setThumbnail(sIcon)
             .addField('Server Name', message.guild.name)
             .addField('Server ID', message.guild.id)
-            .addField('Created On', formatDate(message.guild.createdAt))
+            .addField('Created On', time(message.guild.createdAt))
             .addField('Member Count', `<:totalmembers:742403092217200640>${message.guild.memberCount} Total`)
             .addField('Channel Count', message.guild.channels.cache.size.toString())
             .addField('Server Owner', ownerTag) ];

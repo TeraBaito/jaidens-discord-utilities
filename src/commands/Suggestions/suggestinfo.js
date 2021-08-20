@@ -1,6 +1,6 @@
 const { Message, MessageEmbed, MessageReaction, Collection } = require('discord.js');
+const { time } = require('@discordjs/builders');
 const Bot = require('../../../Bot');
-const { formatDate } = require('../../handlers/functions');
 const { jaidenServerID, suggestionsChannel } = require('../../../config.json');
 const { Orange } = require('../../../colors.json');
 
@@ -56,7 +56,7 @@ module.exports = {
         if (suggestion.status != 'Pending') embed.addField('Reason', suggestion.reason);
         embed.addFields(
             { name: 'Created by', value: user.toString(), inline: true },
-            { name: 'Created at', value: formatDate(suggestion.createdAt) },
+            { name: 'Created at', value: time(suggestion.createdAt) },
             { name: 'Upvotes', value: upvotes.toString(), inline: true },
             { name: 'Downvotes', value: downvotes.toString(), inline: true },
             { name: 'Ratio', value: ratios(), inline: true }

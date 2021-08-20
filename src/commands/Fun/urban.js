@@ -1,7 +1,6 @@
 const { Message, MessageEmbed } = require('discord.js');
 const Bot = require('../../../Bot');
 const fetch = require('node-fetch');
-const querystring = require('querystring');
 const chalk = require('chalk');
 const colors = require('../../../colors.json');
 
@@ -11,7 +10,7 @@ module.exports = {
     helpName: 'Urban Dictionary',
     usage: 'urban [term]',
     description: 'Defines a term using the Urban Dictionary API',
-    cooldown: 20,
+    cooldown: 7,
     
     /** 
      * @param {Bot} bot 

@@ -15,9 +15,13 @@ module.exports = {
      * @param {string[]} args 
      */
     run: async (bot, message, args) => {
+        if (!args[1]) return message.channel.send('Please specify the needed args according to the help command');
+
         let channel = message.mentions.channels.first() ||
-        message.guild.channels.cache.find(c => c.id == args[0]) ||
+        message.guild.channels.cache.get(args[0]) ||
         message.guild.channels.cache.find(c => c.name == args[0]);
+
+        if (!channel) return message.channel.send('The channel provided can\'t be found!');
 
         try {
             let jsonEmbed = JSON.parse(args.slice(1).join(' '));
@@ -28,7 +32,7 @@ module.exports = {
             const errEmbed = new MessageEmbed()
                 .setColor(colors.Red)
                 .setTitle('Error')
-                .setDescription(e)
+                .setDescription(e.toString())
                 .setFooter(bot.user.username, bot.user.displayAvatarURL);
             
             message.channel.send({ embeds: [errEmbed] });

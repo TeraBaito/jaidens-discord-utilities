@@ -5,7 +5,7 @@ module.exports = {
     name: 'bean',
     usage: 'bean ({@user, id, whatever else})',
     description: 'Get some beans for yourself or throw beans to others! Featuring everyone can use it, no more mod authority :bwobble:',
-    cooldown: 20,
+    cooldown: 5,
 
     /** 
      * @param {Bot} bot 

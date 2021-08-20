@@ -8,7 +8,7 @@ module.exports = {
     usage: 'tag [name]',
     description: 'Gets the content of a tag',
     aliases: ['t', 'gettag'],
-    cooldown: 10,
+    cooldown: 5,
 
     /** 
      * @param {Bot} bot 

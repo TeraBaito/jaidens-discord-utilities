@@ -8,7 +8,7 @@ module.exports = {
     helpName: 'Add Blacklisted Word',
     aliases: ['add-word', 'add-blacklist'],
     usage: 'addword [{nsfw, offensive}] [word]',
-    description: 'ADMIN COMMAND ONLY\nAdds a blacklisted word to the word list',
+    description: 'Adds a blacklisted word to the word list',
     staffOnly: true,
 
     /**

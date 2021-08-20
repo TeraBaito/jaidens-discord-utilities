@@ -1,6 +1,7 @@
 const { Message, MessageEmbed } = require('discord.js');
+const { time } = require('@discordjs/builders');
 const Bot = require('../../../Bot');
-const { getMember, formatDate } = require('../../handlers/functions.js');
+const { getMember } = require('../../handlers/functions.js');
 const colors = require('../../../colors.json');
 
 module.exports = {
@@ -15,23 +16,22 @@ module.exports = {
      * @param {string[]} args 
      */
     run: async (bot, message, args) => {
-        if (!args[0]) return message.channel.send('Please specify a user!');
-
-        const member = await getMember(message, args.join(' '));
+        const member = args[0] ? await getMember(message, args.join(' ')) : message.member;
         if (!member) return message.channel.send('Couldn\'t find such member.');
 
         // Roles as strings
-        let roles = member.roles.cache
-            .filter(r => r.id !== message.guild.id)
-            .array()
-            .join(' ')  || 'None';
+        let roles = [
+            ...member.roles.cache
+                .filter(r => r.id !== message.guild.id)
+                .values()
+        ].join(' ')  || 'None';
             
         // If the embed is more than 1024 chars it will error
         if (roles.length > 650) roles = 'Too much roles to show!';
 
         // Discord creation and server join date
-        const created = formatDate(member.user.createdAt),
-            joined = formatDate(member.joinedAt);
+        const created = time(member.user.createdAt),
+            joined = time(member.joinedAt);
         
         // Embed
         const embeds = [ new MessageEmbed()

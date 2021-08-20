@@ -15,6 +15,8 @@ module.exports = {
      * @param {string[]} args 
      */
     run: async(bot, message, args) => {
+        if (!args[1]) return message.channel.send('Please provided the required args according to the help command!');
+        
         let channel = message.mentions.channels.first() ||
         message.guild.channels.cache.find(c => c.id == args[0]) ||
         message.guild.channels.cache.find(c => c.name == args[0]);

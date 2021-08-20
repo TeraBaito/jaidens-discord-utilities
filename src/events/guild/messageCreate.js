@@ -125,7 +125,10 @@ module.exports = async (bot, message) => {
 
         if (command.staffOnly && !await checkStaff(message.member)) return message.channel.send('You\'re not allowed to run this command, you\'re not staff!');
         if (!allowedServers.includes(message.guild.id)) return message.channel.send('Sorry, this bot is private and this server is not included in the allowed servers list.');
-        if (disabledCommands.includes(command.name)) return message.channel.send('Sorry, this command is temporarily disabled. Want some choccy milk instead?', { files: ['https://media.discordapp.net/attachments/601435709261348895/801884062226186310/iu.png?width=461&height=473']});
+        if (disabledCommands.includes(command.name)) return message.channel.send({ 
+            content: 'Sorry, this command is temporarily disabled. Want some choccy milk instead?',
+            files: ['https://media.discordapp.net/attachments/601435709261348895/801884062226186310/iu.png?width=231&height=237']
+        });
         command.run(bot, message, args);
     }
 };

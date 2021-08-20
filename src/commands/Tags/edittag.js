@@ -8,7 +8,7 @@ module.exports = {
     aliases: ['tedit', 'edit-tag', 'tagedit', 'tag-edit'],
     usage: 'addtag [name] [content]',
     description: 'Edits a tag\'s content',
-    cooldown: 20,
+    cooldown: 10,
 
     /** 
      * @param {Bot} bot 

@@ -15,7 +15,6 @@ module.exports = {
      * @param {string[]} args 
      */
     run: async (bot, message, args) => {
-
         const msg = await message.channel.send('Pinging...');
 
         msg.edit(stripIndents`Pong!

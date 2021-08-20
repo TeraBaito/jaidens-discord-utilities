@@ -1,4 +1,4 @@
-const { Message, MessageEmbed, MessageButton, Permissions: { FLAGS: { KICK_MEMBERS } } } = require('discord.js');
+const { Message, MessageEmbed, MessageButton, Permissions: { FLAGS: { KICK_MEMBERS } }, MessageActionRow } = require('discord.js');
 const Bot = require('../../../Bot');
 const colors = require('../../../colors.json');
 const { promptButtons, getMember } = require('../../handlers/functions');
@@ -64,16 +64,17 @@ module.exports = {
             .setFooter('This verification becomes invalid after 30 seconds')
             .setDescription(`Do you want to kick ${toKick}?`);
 
-        const components = [[
-            new MessageButton()
-                .setCustomId('y')
-                .setLabel('Yes')
-                .setStyle('SUCCESS'),
-            new MessageButton()
-                .setCustomId('n')
-                .setLabel('No')
-                .setStyle('DANGER')
-        ]];
+        const components = [ new MessageActionRow()
+            .addComponents(
+                new MessageButton()
+                    .setCustomId('y')
+                    .setLabel('Yes')
+                    .setStyle('SUCCESS'),
+                new MessageButton()
+                    .setCustomId('n')
+                    .setLabel('No')
+                    .setStyle('DANGER')
+            ) ];
     
         const msg = await message.channel.send({ embeds: [promptEmbed], components });
         const button = await promptButtons(msg, message.author.id, 30);

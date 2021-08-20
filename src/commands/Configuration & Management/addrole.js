@@ -7,7 +7,6 @@ module.exports = {
     name: 'addrole',
     helpName: 'Add Role',
     aliases: ['grant', 'give-role'],
-    // cooldown: ,
     usage: 'addrole [user] [role]',
     description: 'Gives a role to a specified member. Be sure that the role exists so it can be granted!',
     staffOnly: true,

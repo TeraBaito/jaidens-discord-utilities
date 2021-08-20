@@ -37,7 +37,7 @@ module.exports = {
         if (message.author.id === toMute.id) return message.channel.send('nOOOO don\'t try to mute yourself you\'re better than this :cri:');
 
         // Member to mute has permissions to mute
-        if (await checkStaff(toMute.id) && !message.member.permissions.has(FLAGS.ADMINISTRATOR)) return message.channel.send('You can\'t mute a person that can mute you too, don\'t even bother...');
+        if (await checkStaff(toMute) && !message.member.permissions.has(FLAGS.ADMINISTRATOR)) return message.channel.send('You can\'t mute a person that can mute you too, don\'t even bother...');
 
         const mEmbed = new MessageEmbed()
             .setColor(colors.Orange)
