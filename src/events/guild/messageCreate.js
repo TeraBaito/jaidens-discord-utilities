@@ -7,6 +7,7 @@ const autoresponders = require('../../handlers/autoresponders.js');
 const ms = require('ms');
 
 let toggleAR = true;
+let toggleCD;
 
 /**
  * `message` event.
@@ -117,7 +118,15 @@ module.exports = async (bot, message) => {
         if (timestamps.has(message.author.id)) {
             const expire = timestamps.get(message.author.id) + cooldownAmount;
 
-            if (now < expire) return;
+            if (now < expire) {
+                const left = (expire - now) / 1000;
+                if (!toggleCD) {
+                    message.channel.send(`Please run this command in \`${left.toFixed(1)}s\`!`);
+                    toggleCD = false;
+                    setTimeout(() => toggleCD = true, left);
+                    return;
+                } else return;
+            }
         }
 
         timestamps.set(message.author.id, now);
