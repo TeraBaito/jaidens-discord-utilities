@@ -7,9 +7,6 @@ package-lock.json
 # Legacy stuff
 /legacy/
 
-# Linter
-.eslintrc.json
-
 # Token and other secrets
 .env
 
