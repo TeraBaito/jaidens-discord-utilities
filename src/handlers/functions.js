@@ -38,7 +38,7 @@ async function getMember(message, toFind) {
  * @param {Message} message The message that was just sent (NOT the user's command)
  * @param {string} authorID The ID of the person who triggered this command
  * @param {number} time The time in which the collector would be available in seconds
- * @returns {ButtonInteraction}
+ * @returns {Promise<ButtonInteraction>}
  */
 async function promptButtons(message, authorID, time) {
     time *= 1000;

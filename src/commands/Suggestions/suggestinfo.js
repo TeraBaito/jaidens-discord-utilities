@@ -1,4 +1,4 @@
-const { Message, MessageEmbed, MessageReaction, Collection } = require('discord.js');
+const { Message, MessageEmbed, MessageReaction } = require('discord.js');
 const { time } = require('@discordjs/builders');
 const Bot = require('../../../Bot');
 const { jaidenServerID, suggestionsChannel } = require('../../../config.json');
