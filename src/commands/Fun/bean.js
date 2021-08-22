@@ -12,7 +12,7 @@ module.exports = {
      * @param {Message} message 
      * @param {string[]} args 
      */
-    run: async(bot, message, args) => {       
+    run: async(bot, message, args) => {
         if(!args[0] || message.mentions.users.first() === message.author) {
             return message.channel.send('You got some beans and ate them with your rice, ah yes...');
 
