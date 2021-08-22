@@ -1,0 +1,16 @@
+name: ESLint
+on: [push, pull_request, workflow_dispatch] # On push, PR, or manually through the Actions tab
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Installs modules
+      - name: Install ESLint
+        run: npm i -g eslint
+        
+      # ESLint
+      - name: Run ESLint
+        run: eslint . --ext .js,.jsx,.ts,.tsx
