@@ -38,13 +38,12 @@ module.exports = {
             curChars += tag.length;
             if (curChars >= 200) { curChars = 0; splits++; }
         });
-        // The splits shouldn't be zero, instead split no times (by using tags length???)
-        if (splits === 0) splits = tags.length;
 
         // i = 0 | tags = 6 | splits = 3 => push 0, 0+3
         // i = 3 | push 3, 3+3
         let split = [];
-        for (let i = 0; i < tags.length; i += splits) split.push(tags.slice(i, i + splits).join('\n'));
+        if (splits > 0) for (let i = 0; i < tags.length; i += splits) split.push(tags.slice(i, i + splits).join('\n'));
+        else split = [tags.join('\n')];
 
         // Current page (args[0] or 0), if it's less it returns
         let curPage = parseInt(args[0]) - 1 || 0;
