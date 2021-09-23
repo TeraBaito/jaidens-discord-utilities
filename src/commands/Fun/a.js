@@ -21,5 +21,6 @@ module.exports = {
             return message.channel.send('lmao no, this command is only shimp irony idot. good luck next time or not');
 
         if (message.deletable) message.delete();
+        message.channel.send('a');
     }
 };
