@@ -1,6 +1,6 @@
 {
   "name": "jaiden-animations-discord-utilities",
-  "version": "3.6.3",
+  "version": "3.6.4",
   "description": "Discord bot with utilities for r/JaidenAnimations Discord Server",
   "main": "index.js",
   "scripts": {},
