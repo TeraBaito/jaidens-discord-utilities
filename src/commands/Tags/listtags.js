@@ -1,5 +1,5 @@
 const { bold } = require('@discordjs/builders');
-const { Message, MessageEmbed } = require('discord.js');
+const { Message, MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
 const Bot = require('../../../Bot');
 const { SteelBlue } = require('../../../colors.json');
 
@@ -16,6 +16,18 @@ module.exports = {
     * @param {string[]} args
     */
     run: async(bot, message, args) => {
+        const components = [ new MessageActionRow()
+            .addComponents(
+                new MessageButton()
+                    .setCustomId('b')
+                    .setLabel('Back')
+                    .setStyle('PRIMARY'),
+                new MessageButton()
+                    .setCustomId('n')
+                    .setLabel('Next')
+                    .setStyle('PRIMARY')
+            ) ];
+
         // Sorted tags with a "name - by user" format
         const tags = (await bot.tags.findAll({
             attributes: ['name', 'username']
@@ -47,7 +59,7 @@ module.exports = {
         }
 
         // Current page (args[0] or 0), if it's less it returns
-        let curPage = parseInt(args[0]) - 1|| 0;
+        let curPage = parseInt(args[0]) - 1 || 0;
         if (curPage < 0) return message.channel.send('Please put a valid page number!');
         let pages = paginate(tags, 10);
         let embeds = [
@@ -58,6 +70,29 @@ module.exports = {
                 .setColor(SteelBlue)
         ];
 
-        message.channel.send({ embeds });
+        const msg = await message.channel.send({ embeds, components });
+        const collector = msg.createMessageComponentCollector({
+            filter: i => i.user.id == message.author.id,
+            time: 5 * 60 * 1000
+        });
+        collector.on('collect', button => {
+            switch (button.customId) {
+                case 'b': {
+                    if (curPage - 1 < 0) curPage = pages.length - 1;
+                    else curPage--;
+                    break;
+                }
+                case 'n': {
+                    if (curPage + 1 >= pages.length) curPage = 0;
+                    else curPage++;
+                    break;
+                }
+            }
+            embeds[0].setDescription(pages[curPage].join('\n'));
+            embeds[0].setFooter(`Page ${curPage+1} of ${pages.length}`);
+            msg.edit({ embeds });
+            button.reply('.').then(() => button.deleteReply());
+        });
+        
     }
 };
