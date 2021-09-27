@@ -22,7 +22,7 @@ a+settings enable all`,
     * @param {string[]} args
     */
     run: async(bot, message, args) => {
-        /**  @type {{ welcomer: boolean blacklisting: boolean blacklistLogs: boolean disabledCommands: string[] disabledInteractions: string[] }} */
+        /**  @type {{ welcomer: boolean blacklisting: boolean blacklistLogs: boolean disabledCommands: string[] disabledInteractions: string[] shitVerification: boolean }} */
         const data = readJSONSync('./botSettings.json', 'utf-8');
         let { disabledCommands } = data;
         const input = args[1];
@@ -75,6 +75,18 @@ a+settings enable all`,
                 const embeds = [ new MessageEmbed()
                     .setColor(colors.ForestGreen)
                     .setDescription(`\`${formatBool(data.autoresponders)}\` autoresponders`)
+                    .setFooter('It might take some time while changes apply!') ];
+
+                await message.channel.send({ embeds });
+                writeJSONSync('./botSettings.json', data, { spaces: 4 });
+                break;
+            }
+            case 'dc':
+            case 'shitverification': {
+                data.shitVerification = !data.shitVerification; // Set
+                const embeds = [ new MessageEmbed()
+                    .setColor(colors.ForestGreen)
+                    .setDescription(`\`${formatBool(data.shitVerification)}\` the shit verification system's welcomer`)
                     .setFooter('It might take some time while changes apply!') ];
 
                 await message.channel.send({ embeds });
