@@ -21,7 +21,7 @@ module.exports = {
         const tag = await bot.tags.findOne({ where: { name: args[0] } });
         if (!tag) return message.channel.send(`The tag \`${args[0]}\` doesn't exist.`);
 
-        if (!await checkStaff(message.member) || tag.username !== message.author.username) return message.channel.send('You can\'t delete this tag.');
+        if (tag.username !== message.author.username && !await checkStaff(message.member)) return message.channel.send('You can\'t edit this tag.');
         await bot.tags.destroy({ where: { name: args[0] }});
         return message.channel.send('Tag deleted.');
     }
