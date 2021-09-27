@@ -20,7 +20,7 @@ module.exports = {
         if (!args[1]) return message.channel.send('Please specify the new content of the tag.');
 
         const tag = await bot.tags.findOne({ where: { name: args[0] } });
-        if (!await checkStaff(message.member) || tag.username !== message.author.username) return message.channel.send('You can\'t edit this tag.');
+        if (tag.username !== message.author.username && !await checkStaff(message.member)) return message.channel.send('You can\'t edit this tag.');
 
         const affectedRows = await bot.tags.update({ description: args.slice(1).join(' ') }, { where: { name: args[0] } });
         if (affectedRows > 0) {
