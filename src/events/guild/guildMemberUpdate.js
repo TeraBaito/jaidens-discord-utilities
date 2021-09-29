@@ -17,14 +17,14 @@ const eggs = require('../../handlers/eastereggs.json');
  * @param {GuildMember} newMember 
  */
 module.exports = async (bot, oldMember, newMember) => {
-    const { shitVerification, welcomer } = readJSONSync('./botSettings.json');
-    if (welcomer && shitVerification) {
-        if (newMember.guild.id !== jaidenServerID) return;
-        // oldMember is fetched directly to the API because it tends to be unreliable
-        if (oldMember.partial || !oldMember.nickname || oldMember.roles.cache.size == 1) await oldMember.fetch(true); 
-        if (newMember.partial || !newMember.nickname || newMember.roles.cache.size == 1) await newMember.fetch();
+    if (newMember.guild.id !== jaidenServerID) return;
+    // oldMember is fetched directly to the API because it tends to be unreliable
+    if (oldMember.partial || !oldMember.nickname || oldMember.roles.cache.size == 1) await oldMember.fetch(true); 
+    if (newMember.partial || !newMember.nickname || newMember.roles.cache.size == 1) await newMember.fetch();
+    if (oldMember.nickname === newMember.nickname) unhoistOne(newMember);
     
-        if (oldMember.nickname === newMember.nickname) unhoistOne(newMember);
+    const { shitVerification, welcomer } = readJSONSync('./botSettings.json');
+    if (welcomer && shitVerification) {    
         if (
             oldMember.roles.cache.has(verificationRole) &&
             newMember.roles.cache.has(memberRole) &&
