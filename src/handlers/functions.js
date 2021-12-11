@@ -1,5 +1,4 @@
 const { Message, Guild, GuildMember, MessageEmbed, Permissions: { FLAGS }, ButtonInteraction } = require('discord.js');
-const { time } = require('@discordjs/builders');
 const Bot = require('../../Bot');
 const chalk = require('chalk');
 const { readJSONSync } = require('fs-extra');
