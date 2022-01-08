@@ -1,10 +1,14 @@
-const { Message, Guild, GuildMember, MessageEmbed, Permissions: { FLAGS }, ButtonInteraction } = require('discord.js');
+const { Message, Guild, GuildMember, MessageEmbed, Permissions: { FLAGS }, ButtonInteraction, Collection } = require('discord.js');
+const { REST } = require('@discordjs/rest');
+const { Routes } = require('discord-api-types/v9');
 const Bot = require('../../Bot');
 const chalk = require('chalk');
 const { readJSONSync } = require('fs-extra');
 const { FireBrick } = require('../../colors.json');
 const { jaidenServerID } = require('../../config.json');
 const { disabledInteractions } = require('../../botSettings.json');
+
+const rest = new REST({ version: '9' }).setToken(process.env.DISCORD_TOKEN);
 
 /**
 * Finds and returns member object by ID, mention, displayName, username or tag (respectively)
@@ -216,25 +220,53 @@ async function nicknameProcess(guild) {
  * @param {Bot} bot 
  */
 async function publishInteractions(bot) {
+    const commands = []; // command data
+    const permissionsMap = new Collection(); // command permissions
+    const permissionsPacket = []; // mapped command permissions (w/ IDs)
+    
     try {
-        await bot.guilds.cache.get(jaidenServerID).commands.set([]); // Reset all the command data
-        for (let interaction of [...bot.interactions.filter(({ data: { name } }) => !disabledInteractions.includes(name)).values()]) {
-            const command = await bot.guilds.cache.get(jaidenServerID).commands.create(interaction.data);
+        // Filters out disabled slash commands
+        for (let interaction of [...bot.interactions.filter(({ name }) => !disabledInteractions.includes(name)).values()]) {
+            // Pushes the command JSON data to an array for bulk registering
+            commands.push(interaction.toJSON());
 
-            // a thing to know: add staffOnly AND set data.defaultPermission to false
-            if (interaction.staffOnly) command.permissions.add({ permissions: [
-                { id: '756585204344291409', type: 'ROLE', permission: true }, // Staff
-                { id: '775665978813054986', type: 'ROLE', permission: true }, // Helpers
-                { id: '755094113358970900', type: 'ROLE', permission: true }, // Moderators
-                { id: '755093779282657342', type: 'ROLE', permission: true }, // Administrators
-                { id: '558264504736153600', type: 'USER', permission: true }  // Me
-            ]});
-            else if (interaction.permissions) command.permissions.add({ permissions: interaction.permissions });
+            if (interaction.extra?.staffOnly) permissionsMap.set(interaction.name, buildPerms([
+                '756585204344291409', // Staff
+                '775665978813054986', // Helpers
+                '755094113358970900', // Moderators
+                '755093779282657342' // Administrators
+                // and me appended on the function
+            ]));
+            else if (interaction.extra?.permissions) permissionsMap.set(interaction.name, interaction.extra.permissions);
         }
-        console.info(chalk.green('[Info]'), 'Commands\' data has been republished');
-    } catch (e) {
-        console.error(e);
-    }  
+
+        // Makes a PUT request to the interactions route with all the commands' data
+        await rest.put(
+            Routes.applicationGuildCommands(bot.user.id, jaidenServerID),
+            { body: commands }
+        );
+        console.log(chalk.green('[Info]', 'Commands\' data has been republished'));
+        
+        // Fetches all the commands
+        const fetchedCommands = await bot.guilds.cache.get(jaidenServerID).commands.fetch();
+        // Merges the command ID (on fetchedCommands) with its respective permissions (on permissionsMap)
+        // on another bulk update array
+        permissionsMap.each((perms, name) => permissionsPacket.push({ 
+            id: fetchedCommands.find(c => c.name == name).id, 
+            permissions: perms 
+        }));
+        
+        // Bulk updates the permissions of all commands with the formed packet
+        await bot.guilds.cache.get(jaidenServerID).commands.permissions.set({ fullPermissions: permissionsPacket });
+        console.log(chalk.green('[Info]', 'Commands\' permissions have been updated'));
+    } catch (e) { console.error(e); }
+
+    // Maps an array to the { id, type, permission } format and adds the owner user to it
+    function buildPerms(idsArr) {
+        idsArr = idsArr.map(p => ({ id: p, type: 'ROLE', permission: true }));
+        idsArr.push({ id: '558264504736153600', type: 'USER', permission: true });
+        return idsArr;
+    }
 }
 
 module.exports = {

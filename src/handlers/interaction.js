@@ -13,14 +13,13 @@ function checkData(bot, command, fileName) {
         success = '✔',  
         err =    '✖';
 
-    const { data, run } = command;
+    const { name, description, run } = command;
     if (
-        typeof data == 'object' &&
-        typeof data?.name == 'string' &&
-        typeof data?.description == 'string' &&
+        typeof name == 'string' &&
+        typeof description == 'string' &&
         typeof run == 'function'
     ) {
-        bot.interactions.set(command.data.name.toLowerCase(), command);
+        bot.interactions.set(command.name.toLowerCase(), command);
         return table.addRow(fileName, success);
     }
     return table.addRow(fileName, err);

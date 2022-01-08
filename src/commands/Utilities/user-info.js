@@ -45,8 +45,7 @@ module.exports = {
             .addField('Joined Discord On', created)
             .addField('Joined Server On', joined)
             .addField('Roles Count', member.roles.cache.size.toString())
-            .addField('Roles', roles, true)
-            .setTimestamp() ];
+            .addField('Roles', roles, true) ];
 
         message.channel.send({ embeds });
     }
