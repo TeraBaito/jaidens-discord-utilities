@@ -31,10 +31,15 @@ function checkData(bot, command, fileName) {
  * @param {Bot} bot The bot as a Client object
  */
 module.exports = bot => {
-    const commands = readdirSync('./src/interactions/').filter(file => file.endsWith('.js'));
-    for (let file of commands) {
-        let pull = require(`../interactions/${file}`);
-        checkData(bot, pull, file);
+    const dirs = readdirSync('./src/interactions', { withFileTypes: true })
+        .filter(d => d.isDirectory())
+        .map(d => d.name);
+
+    for (const dir of dirs) {
+        for (const file of readdirSync('./src/interactions/' + dir)) {
+            const pull = require(`../interactions/${dir}/${file}`);
+            checkData(bot, pull, file);
+        }
     }
     console.log(table.toString());
 };
