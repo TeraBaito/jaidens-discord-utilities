@@ -22,7 +22,10 @@ module.exports = {
         if (tag) {
             if (tag.staff_only && !await checkStaff(message.member)) return message.channel.send('This tag is staff only, you\'re not allowed to view it.');
             tag.increment('usage_count');
-            return message.channel.send(tag.get('description'));
+            return message.channel.send({
+                content: tag.get('description'),
+                allowedMentions: { parse: [] }
+            });
         }
         return message.channel.send(`Couldn't find tag: \`${args[0]}\``);
     }
