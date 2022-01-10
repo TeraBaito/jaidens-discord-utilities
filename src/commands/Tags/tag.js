@@ -24,7 +24,7 @@ module.exports = {
             tag.increment('usage_count');
             return message.channel.send({
                 content: tag.get('description'),
-                allowedMentions: { parse: [] }
+                allowedMentions: { parse: null }
             });
         }
         return message.channel.send(`Couldn't find tag: \`${args[0]}\``);

@@ -50,7 +50,10 @@ module.exports = {
             .setColor(Green)
             .setDescription(`Your suggestion [(#${suggestion.id})](https://discord.com/channels/${jaidenServerID}/${suggestionsChannel}/${suggestion.message_id}) has been approved!`);
         user.send({ embeds: [dmEmbed] })
-            .catch(() => message.channel.send(`Couldn't send an information message to **${user.tag}**!`));
+            .catch(() => message.channel.send({
+                content: `Couldn't send an information message to **${user.tag}**!`,
+                allowedMentions: { parse: null }
+            }));
         
         if (message.deletable) message.delete();
     }

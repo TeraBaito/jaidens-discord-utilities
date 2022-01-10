@@ -51,7 +51,10 @@ module.exports = {
             .then(m => setTimeout(() => { m.delete(); }, 5000));
         
         await toGiveRole.roles.add(role.id);
-        message.channel.send(`Succesfully gave the role **${role.name}** to ${toGiveRole.user.username}!`);
+        message.channel.send({
+            content: `Succesfully gave the role **${role.name}** to ${toGiveRole.user.username}!`,
+            allowedMentions: { parse: null }
+        });
         logChannel.send({ embeds: [rEmbed] });
     }
 };

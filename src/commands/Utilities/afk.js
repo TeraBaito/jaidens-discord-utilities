@@ -21,7 +21,7 @@ You can concat the flags (e.g. \`a+afk -un funny\`)`,
     */
     run: async(bot, message, args) => {
         const { afk } = bot,
-            { id, displayName } = message.member,
+            { id, displayName, guild: {id: guild} } = message.member,
             timeout = 30000; // ms
 
         /** Flags that can be toggled anywhere on the command
@@ -53,14 +53,18 @@ You can concat the flags (e.g. \`a+afk -un funny\`)`,
                             });
                     }
                     break;
-                case 2: // Remove before
-                    if (length <= 26 && !afk.get(id).flags.n) {
-                        message.member.setNickname(displayName.slice(6))
-                            .catch(e => {
-                                if (!(e instanceof DiscordAPIError)) throw e;
-                            });
-                    }
+                case 2: { // Remove before
+                    const data = afk.get(id);
+                    bot.guilds.cache.get(data.guild).members.fetch(data.userID).then(m => {
+                        if (m.displayName.length <= 26 && !data.flags.n) {
+                            m.setNickname(m.displayName.slice(6))
+                                .catch(e => {
+                                    if (!(e instanceof DiscordAPIError)) throw e;
+                                });
+                        }
+                    });
                     break;
+                }
             }
         }
 
@@ -69,7 +73,6 @@ You can concat the flags (e.g. \`a+afk -un funny\`)`,
         if (afk.get(id)) {
             nick(2);
             afk.delete(id);
-            //message.member.setNickname(message.member.displayName.slice(6));
             return message.channel.send(`Welcome back, <@!${id}>! Your AFK was removed.`);
         }
 
@@ -79,9 +82,10 @@ You can concat the flags (e.g. \`a+afk -un funny\`)`,
             username: displayName,
             message: args.join(' '), // Fun fact: if there's no args it'll just show the codeblock (p cool)
             date: Date.now(),
+            guild,
             flags: flags
         };
-
+        
         // 30s timeout
         setTimeout(() => {
             // Sets all the data to the member ID as key

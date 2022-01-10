@@ -1,4 +1,4 @@
-const { Message, Util: { removeMentions } } = require('discord.js');
+const { Message } = require('discord.js');
 const Bot = require('../../../Bot');
 const { checkStaff } = require('../../handlers/functions');
 
@@ -26,7 +26,7 @@ module.exports = {
         try {
             const tag = await bot.tags.create({
                 name,
-                description: removeMentions(desc),
+                description: desc,
                 username: message.author.username,
                 staff_only: args[0] === 'staff'
             });

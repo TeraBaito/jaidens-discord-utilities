@@ -60,7 +60,10 @@ function getCmd(bot, message, input) {
 
     // If the command isn't found (likely doesn't exist)
     if(!cmd) {
-        return message.channel.send(`**${input.toLowerCase()}** is not a command?`);
+        return message.channel.send({
+            content: `**${input.toLowerCase()}** is not a command?`,
+            allowedMentions: { parse: null }
+        });
     }
 
     // Adds its name based on helpName || uppercase name

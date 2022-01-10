@@ -53,7 +53,10 @@ module.exports = {
             ' doesn\'t provide proper feedback, or breaks the server\'s or Discord\'s rules. Remember you can\'t suggest'+
             ' this again, and to always think twice before you do any other suggestion.');
         user.send({ embeds: [dmEmbed] })
-            .catch(() => message.channel.send(`Couldn't send an information message to **${user.tag}**!`));
+            .catch(() => message.channel.send({
+                content: `Couldn't send an information message to **${user.tag}**!`,
+                allowedMentions: { parse: null }
+            }));
         
         if (message.deletable) message.delete();
     }

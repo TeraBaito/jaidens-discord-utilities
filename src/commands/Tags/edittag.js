@@ -22,7 +22,7 @@ module.exports = {
         const tag = await bot.tags.findOne({ where: { name: args[0] } });
         if (!await checkStaff(message.member) || tag.username !== message.author.username) return message.channel.send('You can\'t edit this tag.');
 
-        const affectedRows = await bot.tags.update({ description: removeMentions(args.slice(1).join(' ')) }, { where: { name: args[0] } });
+        const affectedRows = await bot.tags.update({ description: args.slice(1).join(' ') }, { where: { name: args[0] } });
         if (affectedRows > 0) {
             return message.channel.send(`Tag \`${args[0]}\` was edited.`);
         }

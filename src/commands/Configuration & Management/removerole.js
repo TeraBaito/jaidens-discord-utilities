@@ -49,7 +49,10 @@ module.exports = {
             .then(m => setTimeout(() => { m.delete(); }, 5000));
 
         await toRemoveRole.roles.remove(role.id);
-        message.channel.send(`Succesfully removed the role **${role.name}** from ${toRemoveRole.user.username}!`);
+        message.channel.send({
+            content: `Succesfully removed the role **${role.name}** from ${toRemoveRole.user.username}!`,
+            allowedMentions: { parse: null }
+        });
         logChannel.send({ embeds: [rEmbed] });
     }
 };
