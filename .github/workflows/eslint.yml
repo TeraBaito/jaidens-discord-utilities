@@ -9,7 +9,7 @@ jobs:
 
       # Installs modules
       - name: Install ESLint
-        run: npm i -g eslint
+        run: npm i --save-dev eslint
         
       # ESLint
       - name: Run ESLint
