@@ -1,17 +1,18 @@
-import { defineConfig } from "eslint/config";
+import js from "@eslint/js";
 import globals from "globals";
+import { defineConfig } from "eslint/config";
 
-export default defineConfig([{
+export default defineConfig([
+  {
+    files: ["**/*.{js,mjs,cjs}"],
+    plugins: { js }, extends: ["js/recommended"],
+    languageOptions: { globals: globals.browser }
+  },
+  {
+    files: ["**/*.js"],
     languageOptions: {
-        globals: {
-            ...globals.browser,
-            ...globals.commonjs,
-        },
-
-        ecmaVersion: 11,
-        sourceType: "script",
+      sourceType: "commonjs"
     },
-
     rules: {
         indent: ["error", 4, {
             SwitchCase: 1,
@@ -19,5 +20,5 @@ export default defineConfig([{
 
         quotes: ["error", "single"],
         semi: ["error", "always"],
-    },
-}]);
+    }, },
+]);
